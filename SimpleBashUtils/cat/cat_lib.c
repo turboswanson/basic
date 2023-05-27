@@ -58,10 +58,15 @@ void cat(int z,char *argv[], opt options)
      else
      {
           char c;
-          int count = 0,counter_check = 0;
+          int count = 0,counter_check = 0, flag = 0;
 
           while((c = getc(f)) != EOF)
-          {           
+          {    
+               if((flag == 2) && (options.s) && (c == '\n'))
+               {
+                    continue;
+               }       
+
                if(options.b)
                {
                     if(c != '\n')
@@ -78,6 +83,7 @@ void cat(int z,char *argv[], opt options)
                     {
                          counter_check = 0;
                     }
+                    // printf(" %d ",counter_check);     // print counter_check everytime to see how it works
                }
 
                else if (options.n)
@@ -92,7 +98,42 @@ void cat(int z,char *argv[], opt options)
                     {
                          counter_check = 0;
                     }
+                    // printf(" %d ",counter_check);    // print counter_check everytime to see how it works
                }
+               
+               if((options.t || options.T) && (c == '\t')) //  09 - horizontal tab
+               {
+                    printf("^");
+                    c = 'I';
+               }
+
+
+               if(c == '\n')
+               {
+                    if(options.E || options.e)
+                    {
+                         printf("$");
+                    }
+                    flag++;
+               }
+               else{
+                    if(flag)
+                    {
+                         flag = 0;
+                    }
+               }
+
+               if(options.v)
+               {
+                   if ((c > 127) && (c < 160))
+                   {
+                         printf("M-^");
+                   }
+               //     if ((c < 32 && c != '\n' && c != '\t') || c == 127) printf("^");
+               //     if ((c < 32 || (c > 126 && c < 160)) && c != '\n' && c != '\t') c = c > 126 ? c - 128 + 64 : c + 64;   
+               }
+               
+
                printf("%c",c);
           }
 
