@@ -1,14 +1,15 @@
 #include "cat_lib.h"
 
-void parser(int argc, char *argv[], opt * options)
+int parser(int argc, char *argv[], opt * options)
 {
     int x = 0;
 
-    const char *shorts = "+benstvET";
+    const char *shorts = "benstvET";
     const struct option longs[] = {
         {"number-nonblank",no_argument,NULL,'b'},
         {"number",no_argument,NULL,'n'},
         {"squeeze-blank",no_argument,NULL,'s'},
+        {"help",no_argument,NULL,'h'},
         {NULL,no_argument,NULL,0}
     };
 
@@ -19,39 +20,56 @@ void parser(int argc, char *argv[], opt * options)
         switch(x)
         {
             case 'b' :
-                 options->b = 1;break;
+                 options->b = 1;
+                 break;
             case 'e' :
                  options->e = 1;
-                 options->v = 1; break;
+                 options->v = 1;
+                 break;
             case 'v' :
-                 options->v = 1;break;
+                 options->v = 1;
+                 break;
             case 'n' :
-                 options->n = 1;break;
+                 options->n = 1;
+                 break;
             case 's' :
-                 options->s = 1;break;
+                 options->s = 1;
+                 break;
             case 't' : 
                 options->t = 1;
-                options->v = 1; break;
+                options->v = 1;
+                break;
             case 'E' :
-                 options->E = 1;break;
+                 options->E = 1;
+                 break;
             case 'T' :
-                 options->T = 1;break;
-            default:
-                fprintf(stderr,"cat: invalid option --'%c'\n",x);break;     
+                 options->T = 1;
+                 break;
+            case 'h':
+                 options->h = 1;
+                 break;        
+             default:
+                return 0;     
                     
         }
     }
+
+    return 1;
 }
 
 
 void cat(int z,char *argv[], opt options)
 {
      FILE *f = fopen(argv[z],"r");
-     
-     if(!f)
+     if(options.h)
      {
-          fprintf(stderr,"cat: %s : No such file or directory\n",argv[z]);
+          printf("Go to look somewhere else");
+     
+     }
 
+     else if(!f)
+     {
+          fprintf(stderr,"s21_cat: %s : No such file or directory\n",argv[z]);
           
      }
 
@@ -66,7 +84,7 @@ void cat(int z,char *argv[], opt options)
                {
                     continue;
                }       
-
+               
                if(options.b)
                {
                     if(c != '\n')
@@ -104,7 +122,7 @@ void cat(int z,char *argv[], opt options)
                if((options.t || options.T) && (c == '\t')) //  09 - horizontal tab
                {
                     printf("^");
-                    c = 'I';
+                    c = 'I';  //'\t' + 64;
                }
 
 
@@ -124,13 +142,18 @@ void cat(int z,char *argv[], opt options)
                }
 
                if(options.v)
-               {
-                   if ((c > 127) && (c < 160))
+               {    
+                   if(c >= 0 && c <= 31 && c != '\n' && c != '\t')
                    {
-                         printf("M-^");
+                    printf("^");
+                    c = c + 64;
+                                       
                    }
-               //     if ((c < 32 && c != '\n' && c != '\t') || c == 127) printf("^");
-               //     if ((c < 32 || (c > 126 && c < 160)) && c != '\n' && c != '\t') c = c > 126 ? c - 128 + 64 : c + 64;   
+
+                    // if (c > 127 && c < 160) printf("M-^");
+                    // if ((c < 32 && c != '\n' && c != '\t') || c == 127) printf("^");
+                    // if ((c < 32 || (c > 126 && c < 160)) && c != '\n' && c != '\t') c = c > 126 ? c - 128 + 64 : c + 64;
+                    
                }
                
 
@@ -140,4 +163,3 @@ void cat(int z,char *argv[], opt options)
           fclose(f);
      }
 }
-

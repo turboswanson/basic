@@ -15,9 +15,10 @@ typedef struct opt
     int t;
     int E;
     int T;
+    int h;
 }opt;
 
-void parser(int argc, char *argv[], opt *options);
+int parser(int argc, char *argv[], opt *options);
 
 void cat(int z,char *argv[], opt options);
 
