@@ -1,0 +1,7 @@
+there
+-e - pattern
+-i - ignore uppercase and lowercase
+-v - print all strings except 'sample'
+-c - number of strings includeing 'sample'
+-n - add a number of string to a result of searching (1:there)
+-l - print filenames with matches
