@@ -1,6 +1,7 @@
 #include "s21_grep.h"
 
 int main(int argc, char *argv[]) {
+ 
   opt options = {0};  // options init
   options.num = 1;
   parser(argc, argv, &options);
