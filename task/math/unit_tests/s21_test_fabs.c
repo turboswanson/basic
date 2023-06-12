@@ -1,6 +1,4 @@
 #include "s21_math_test.h"
-#include "/home/mitchelk/code/school21github/task/math/unit_tests/s21_math_test.h"
-
 
 START_TEST(fabs_test1) { ck_assert_ldouble_eq(s21_fabs(1.0), fabs(1.0)); }
 END_TEST

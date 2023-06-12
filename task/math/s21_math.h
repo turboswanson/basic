@@ -1,7 +1,8 @@
-#ifndef S21_MATH
-#define S21_math
+#ifndef S21_MATH_H
+#define S21_MATH_H
 
 #include <stdio.h>
+#include <unistd.h>
 
 #define s21_is_nan __builtin_isnan
 #define s21_is_inf __builtin_isinf
