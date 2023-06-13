@@ -8,8 +8,6 @@ long double res = 0;
 
 if(s21_is_nan(x)){  
     res = S21_NAN;
-} else if(s21_is_inf){
-    res = S21_INF;
 } else if (x == 0.0){
     res = 0.0;
 } else {
