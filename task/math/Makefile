@@ -20,4 +20,4 @@ test:s21_math.a
 	./test
 	
 clean:
-	rm -f *.o *.a *.out		
+	rm -f *.o *.a *.out test
