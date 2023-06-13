@@ -10,6 +10,6 @@ Suite *suite_abs(void);
 Suite *suite_fabs(void);
 
 void run_test(void);
-void run_testcase(Suite *testcase);
+void run_testcase(Suite *testcase,int count);
 
 #endif

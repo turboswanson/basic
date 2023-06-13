@@ -1,7 +1,11 @@
-// Computes an absolute value of an integer value
+//Computes absolute value of floating-point value
 
 #include "s21_math.h"
 
-int abs(int x){
-    return x > 0 ? x : -1*x;
+int s21_abs(int x){
+
+
+return x > 0 ? x : -x;
+
 }
+

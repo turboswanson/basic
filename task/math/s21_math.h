@@ -10,6 +10,7 @@
 #define S21_INF __builtin_inf()
 
 int s21_abs(int x);
+
 long double s21_fabs(double x);
 
 #endif

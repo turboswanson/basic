@@ -2,19 +2,20 @@
 
 void run_test(void){
     Suite *list[] = {
-        suite_fabs(),NULL
+        suite_fabs(),suite_abs(),NULL
     };
 
+    int count = 1;
+
     for(Suite **current_testcase = list;*current_testcase != NULL;current_testcase++){
-        run_testcase(*current_testcase);
+        run_testcase(*current_testcase,count);
+        count++;
     }
 }
 
-void run_testcase(Suite *testcase){
-    int count = 1;
+void run_testcase(Suite *testcase,int count){
 
-    printf("%s%d","CURRENT TEST: ",count);
-    count++;
+    printf("\n%s%d\n","CURRENT TEST: ",count);
 
     SRunner *sr = srunner_create(testcase);
 
@@ -23,6 +24,8 @@ void run_testcase(Suite *testcase){
 
     srunner_free(sr);
 
+    
+    
 }
 
 int main(){
