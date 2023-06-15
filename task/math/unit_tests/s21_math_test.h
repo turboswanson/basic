@@ -11,6 +11,7 @@ Suite *suite_abs(void);
 Suite *suite_fabs(void);
 Suite *suite_fmod(void);
 Suite *suite_ceil(void);
+Suite *suite_floor(void);
 
 void run_test(void);
 void run_testcase(Suite *testcase,int count);
