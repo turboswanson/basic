@@ -2,7 +2,7 @@
 
 void run_test(void){
     Suite *list[] = {
-        suite_fabs(),suite_abs(),suite_fmod(),NULL
+        suite_fabs(),suite_abs(),suite_fmod(),suite_ceil(),NULL
     };
 
     int count = 1;
