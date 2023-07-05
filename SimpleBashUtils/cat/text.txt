@@ -1,8 +1,0 @@
-int getc(
-   FILE *stream
-);
-
-
-wint_t getwc(
-   FILE *stream
-);
