@@ -1,0 +1,120 @@
+MANUAL TESTS
+#######################
+
+1 - Success -n for test_files/test_1_grep.txt test_files/test_2_grep.txt
+2 - Success -n for test_files/test_1_grep.txt
+3 - Fail -n -e ^\} test_files/test_1_grep.txt
+tests.sh: line 64: 1168393 Segmentation fault      (core dumped) "${s21_command[@]}" $param > "${s21_command[@]}".log
+grep: Trailing backslash
+4 - Success -c -e /\ test_files/test_1_grep.txt
+5 - Fail -ce ^int test_files/test_1_grep.txt test_files/test_2_grep.txt
+6 - Success -e ^int test_files/test_1_grep.txt
+7 - Fail -nivh = test_files/test_1_grep.txt test_files/test_2_grep.txt
+tests.sh: line 64: 1168422 Segmentation fault      (core dumped) "${s21_command[@]}" $param > "${s21_command[@]}".log
+Usage: grep [OPTION]... PATTERNS [FILE]...
+Try 'grep --help' for more information.
+8 - Success 
+9 - Success -ie INT test_files/test_5_grep.txt
+10 - Success -echar test_files/test_1_grep.txt test_files/test_2_grep.txt
+11 - Fail -ne = -e out test_files/test_5_grep.txt
+12 - Success -iv int test_files/test_5_grep.txt
+13 - Success -in int test_files/test_5_grep.txt
+14 - Fail -c -l aboba test_files/test_1_grep.txt test_files/test_5_grep.txt
+15 - Fail -v test_files/test_1_grep.txt -e ank
+16 - Fail -noe ) test_files/test_5_grep.txt
+17 - Success -l for test_files/test_1_grep.txt test_files/test_2_grep.txt
+18 - Fail -o -e int test_files/test_4_grep.txt
+19 - Success -e = -e out test_files/test_5_grep.txt
+20 - Fail -noe ing -e as -e the -e not -e is test_files/test_6_grep.txt
+21 - Success -e ing -e as -e the -e not -e is test_files/test_6_grep.txt
+22 - Fail -c -e . test_files/test_1_grep.txt -e '.'
+s21_grep: no_file.txt : No such file or directory
+grep: no_file.txt: No such file or directory
+23 - Fail -l for no_file.txt test_files/test_2_grep.txt
+24 - Fail -e int -si no_file.txt s21_grep.c no_file2.txt s21_grep.h
+./s21_grep: invalid option -- 'f'
+grep: no_pattern.txt: No such file or directory
+25 - Success -si s21_grep.c -f no_pattern.txt
+./s21_grep: invalid option -- 'f'
+26 - Fail -f test_files/test_3_grep.txt test_files/test_5_grep.txt
+
+#######################
+AUTOTESTS
+#######################
+
+=======================
+1 PARAMETER
+=======================
+
+27 - Fail s test_files/test_0_grep.txt -v
+s21_grep: s21_grep.h : No such file or directory
+grep: s21_grep.h: No such file or directory
+28 - Fail for s21_grep.c s21_grep.h Makefile -v
+29 - Success for s21_grep.c -v
+s21_grep: s21_grep.h : No such file or directory
+grep: s21_grep.h: No such file or directory
+30 - Fail -e for -e ^int s21_grep.c s21_grep.h Makefile -v
+31 - Fail -e for -e ^int s21_grep.c -v
+./s21_grep: invalid option -- 'f'
+32 - Fail -e regex -e ^print s21_grep.c -v -f test_files/test_ptrn_grep.txt
+./s21_grep: invalid option -- 'f'
+33 - Fail -e while -e void s21_grep.c Makefile -v -f test_files/test_ptrn_grep.txt
+34 - Fail -e intel -e int -v test_files/test_7_grep.txt
+35 - Fail -e int -e intel -v test_files/test_7_grep.txt
+36 - Success s test_files/test_0_grep.txt -c
+s21_grep: s21_grep.h : No such file or directory
+grep: s21_grep.h: No such file or directory
+37 - Fail for s21_grep.c s21_grep.h Makefile -c
+38 - Fail for s21_grep.c -c
+s21_grep: s21_grep.h : No such file or directory
+grep: s21_grep.h: No such file or directory
+39 - Fail -e for -e ^int s21_grep.c s21_grep.h Makefile -c
+40 - Fail -e for -e ^int s21_grep.c -c
+./s21_grep: invalid option -- 'f'
+41 - Fail -e regex -e ^print s21_grep.c -c -f test_files/test_ptrn_grep.txt
+./s21_grep: invalid option -- 'f'
+42 - Fail -e while -e void s21_grep.c Makefile -c -f test_files/test_ptrn_grep.txt
+43 - Fail -e intel -e int -c test_files/test_7_grep.txt
+44 - Fail -e int -e intel -c test_files/test_7_grep.txt
+45 - Success s test_files/test_0_grep.txt -l
+s21_grep: s21_grep.h : No such file or directory
+grep: s21_grep.h: No such file or directory
+46 - Success for s21_grep.c s21_grep.h Makefile -l
+47 - Success for s21_grep.c -l
+s21_grep: s21_grep.h : No such file or directory
+grep: s21_grep.h: No such file or directory
+48 - Fail -e for -e ^int s21_grep.c s21_grep.h Makefile -l
+49 - Fail -e for -e ^int s21_grep.c -l
+./s21_grep: invalid option -- 'f'
+50 - Fail -e regex -e ^print s21_grep.c -l -f test_files/test_ptrn_grep.txt
+./s21_grep: invalid option -- 'f'
+51 - Fail -e while -e void s21_grep.c Makefile -l -f test_files/test_ptrn_grep.txt
+52 - Fail -e intel -e int -l test_files/test_7_grep.txt
+53 - Fail -e int -e intel -l test_files/test_7_grep.txt
+54 - Success s test_files/test_0_grep.txt -n
+s21_grep: s21_grep.h : No such file or directory
+grep: s21_grep.h: No such file or directory
+55 - Success for s21_grep.c s21_grep.h Makefile -n
+56 - Success for s21_grep.c -n
+s21_grep: s21_grep.h : No such file or directory
+grep: s21_grep.h: No such file or directory
+57 - Fail -e for -e ^int s21_grep.c s21_grep.h Makefile -n
+58 - Fail -e for -e ^int s21_grep.c -n
+./s21_grep: invalid option -- 'f'
+59 - Fail -e regex -e ^print s21_grep.c -n -f test_files/test_ptrn_grep.txt
+./s21_grep: invalid option -- 'f'
+60 - Fail -e while -e void s21_grep.c Makefile -n -f test_files/test_ptrn_grep.txt
+61 - Fail -e intel -e int -n test_files/test_7_grep.txt
+62 - Fail -e int -e intel -n test_files/test_7_grep.txt
+63 - Success s test_files/test_0_grep.txt -h
+s21_grep: s21_grep.h : No such file or directory
+grep: s21_grep.h: No such file or directory
+64 - Success for s21_grep.c s21_grep.h Makefile -h
+65 - Success for s21_grep.c -h
+s21_grep: s21_grep.h : No such file or directory
+grep: s21_grep.h: No such file or directory
+66 - Success -e for -e ^int s21_grep.c s21_grep.h Makefile -h
+67 - Success -e for -e ^int s21_grep.c -h
+./s21_grep: invalid option -- 'f'
+68 - Fail -e regex -e ^print s21_grep.c -h -f test_files/test_ptrn_grep.txt
+./s21_grep: invalid option -- 'f'
