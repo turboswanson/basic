@@ -13,6 +13,8 @@ ${OBJ}:${SRC}
 test:s21_string.a
 	checkmk clean_mode=1 test.check > test.c 
 	$(CC) $(CFLAGS) test.c $< $(LIBS) -o test 
-	./test	
+	./test
+foo:clean
+	$(CC) -g $(CFLAGS) main.c $(wildcard s21_*.c)		
 clean:
-	rm -rf *.o s21_string.a test		
+	rm -rf *.o s21_string.a test a.out		
