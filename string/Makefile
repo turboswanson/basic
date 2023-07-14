@@ -17,4 +17,4 @@ test:s21_string.a
 foo:clean
 	$(CC) -g $(CFLAGS) main.c $(wildcard s21_*.c)		
 clean:
-	rm -rf *.o s21_string.a test a.out		
+	rm -rf *.o s21_string.a test test.c a.out		
