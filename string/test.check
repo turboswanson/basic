@@ -12,7 +12,7 @@ const char f[] = "\n\0";
 const char g[] = "\0";
 
 
-#test test_s21_memchr
+#test s21_memchr_test
 ck_assert_ptr_eq(memchr(a, 'e', 4), s21_memchr(a, 'e', 4));
 ck_assert_ptr_eq(memchr(a, 'd', 4), s21_memchr(a, 'd', 4));
 ck_assert_ptr_eq(memchr(e, 'd', 1), s21_memchr(e, 'd', 1));
@@ -37,7 +37,7 @@ ck_assert_ptr_eq(s21_memchr(s2, '3', 10), memchr(s2, '3', 10));
 ck_assert_ptr_eq(s21_memchr(s2, '3', 20), memchr(s2, '3', 20));
 
 
-#test test_s21_memcmp
+#test s21_memcmp_test
 ck_assert_int_eq(memcmp(a, b, 10),s21_memcmp(a, b, 10));
 ck_assert_int_eq(memcmp(b, b, 3),s21_memcmp(b, b, 3));
 ck_assert_int_eq(memcmp(c, c, 1),s21_memcmp(c, c, 1));
@@ -49,6 +49,47 @@ ck_assert_int_eq(memcmp(s1,s2,36),s21_memcmp(s1,s2,36));
 char s3[] = "111111111111111111112312312312312312434524563567adsfe 4rafa ewfseASDASD";
 char s4[] = "111111111111111111112312312312312312434524563567adsfe 4rafa ewfseASDASD";
 ck_assert_int_eq(memcmp(s3,s4,71),s21_memcmp(s3,s4,71));
+
+#test s21_memcpy_test
+
+char b1[50] = {0};
+char b2[50] = {0};
+char b3[50] = {0};
+char b4[50] = {0};
+ck_assert_str_eq(memcpy(b1, a, 5), s21_memcpy(b2, a, 5));
+ck_assert_str_eq(memcpy(b3, e, 1), s21_memcpy(b4, e, 1));
+
+char *src1 = "schesrdsfdsfdsfesr";
+
+char dest1[100] = {0};
+char dest2[100] = {0};
+char dest3[100] = {0};
+char dest4[100] = {0};
+char dest5[100] = {0};
+char dest6[100] = {0};
+char dest7[100] = {0};
+char dest8[100] = {0};
+char dest9[100] = {0};
+char dest10[100] = {0};
+
+s21_memcpy(dest1, src1, 1);
+memcpy(dest2, src1, 1);
+s21_memcpy(dest3, src1, 5);
+memcpy(dest4, src1, 5);
+s21_memcpy(dest5, src1, 0);
+memcpy(dest6, src1, 0);
+s21_memcpy(dest7, src1, 20);
+memcpy(dest8, src1, 20);
+s21_memcpy(dest9, src1, 1);
+memcpy(dest10, src1, 1);
+
+ck_assert_str_eq(dest1, dest2);
+ck_assert_str_eq(dest3, dest4);
+ck_assert_str_eq(dest5, dest6);
+ck_assert_str_eq(dest7, dest8);
+ck_assert_str_eq(dest9, dest10);
+
+
 
 
 
