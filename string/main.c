@@ -3,13 +3,12 @@
 #include <string.h>
 
 int main(void){
-    char *s = "string";
-    char dest[256]={0};
-    
-    s21_memcpy(dest,s,3);
-
-    printf("%s",dest);
-
-    return 0;
+   char str[] = "string";
+   
+   s21_memset(str,'$',3);
+   
+   printf("%s",str);
+   
+   return 0;
 }
 

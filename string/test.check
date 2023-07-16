@@ -89,6 +89,13 @@ ck_assert_str_eq(dest5, dest6);
 ck_assert_str_eq(dest7, dest8);
 ck_assert_str_eq(dest9, dest10);
 
+#test s21_memset_test
+
+char b1[50] = "lolkek";
+char b2[50] = "lolkek";
+ck_assert_str_eq(memset(b1, '*', 8), s21_memset(b2, '*', 8));
+ck_assert_str_eq(memset(b1, '#', 3), s21_memset(b2, '#', 3));
+ck_assert_str_eq(memset(b1, '|', 1), s21_memset(b2, '|', 1));
 
 
 
