@@ -9,13 +9,12 @@ char *s21_strcat(char *dest, const char *src){
     int i = 0;
 
     while(i < len_s){
-        dest[len_d] = src[i];
-        len_d++;
+        dest[len_d+i] = src[i];
         i++;
          
     }
 
-    dest[len_d] = '\0';
+    dest[len_d+i] = '\0';
 
     return dest;
 }

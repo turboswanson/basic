@@ -6,7 +6,7 @@ int main(void){
    char str[] = "string";
    char s[] = "STRING";
    
-   s21_strcat(str,s);
+   s21_strncat(str,s,3);
 
    printf("%s",str);
    

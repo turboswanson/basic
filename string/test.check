@@ -133,6 +133,16 @@ s21_strcat(str1, str4);
 ck_assert_msg(!memcmp(str1, "TEST strcat function", 21),
               "5th strcat test failed");
 
+#test s21_strncat_test
+#test test_s21_strncat
+
+char b1[20] = "a";
+char b2[20] = "a";
+char b3[50] = "lolkek";
+char b4[50] = "lolkek";
+ck_assert_str_eq(strncat(b1, a, 5), s21_strncat(b2, a, 5));
+ck_assert_str_eq(strncat(b3, "cheburek", 4), s21_strncat(b4, "cheburek", 4));
+
 
 
 
