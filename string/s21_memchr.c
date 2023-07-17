@@ -1,5 +1,7 @@
 #include "s21_string.h"
 
+// returns a pointer to a first apperance of character in N elements of a string or NULL
+
 void *s21_memchr(const void *str,int c,size_t n){
   const char *s = (const char *)str;
   int match = 0;

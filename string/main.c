@@ -4,9 +4,10 @@
 
 int main(void){
    char str[] = "string";
+   char s[] = "STRING";
    
-   s21_memset(str,'$',3);
-   
+   s21_strcat(str,s);
+
    printf("%s",str);
    
    return 0;

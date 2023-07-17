@@ -97,6 +97,42 @@ ck_assert_str_eq(memset(b1, '*', 8), s21_memset(b2, '*', 8));
 ck_assert_str_eq(memset(b1, '#', 3), s21_memset(b2, '#', 3));
 ck_assert_str_eq(memset(b1, '|', 1), s21_memset(b2, '|', 1));
 
+#test s21_strlen_test
+
+ck_assert_uint_eq(strlen(a), s21_strlen(a));
+ck_assert_uint_eq(strlen(b), s21_strlen(b));
+ck_assert_uint_eq(strlen(c), s21_strlen(c));
+ck_assert_uint_eq(strlen(d), s21_strlen(d));
+ck_assert_uint_eq(strlen(e), s21_strlen(e));
+ck_assert_uint_eq(strlen(f), s21_strlen(f));
+ck_assert_uint_eq(strlen(g), s21_strlen(g));
+
+#test s21_strcat_test
+
+char b1[20] = "a";
+char b2[20] = "a";
+char b3[50] = "lolkek";
+char b4[50] = "lolkek";
+ck_assert_str_eq(strcat(b1, a), s21_strcat(b2, a));
+ck_assert_str_eq(strcat(b3, "cheburek"), s21_strcat(b4, "cheburek"));
+char str1[21] = "TEST";
+char str2[8] = "strcat";
+char str3[9] = "function";
+char str4[1] = "";
+char str5[2] = " ";
+s21_strcat(str1, str5);
+ck_assert_msg(!memcmp(str1, "TEST ", 6), "1st strcat test failed");
+s21_strcat(str1, str2);
+ck_assert_msg(!memcmp(str1, "TEST strcat", 12), "2nd strcat test failed");
+s21_strcat(str1, str5);
+ck_assert_msg(!memcmp(str1, "TEST strcat ", 13), "3rd strcat test failed");
+s21_strcat(str1, str3);
+ck_assert_msg(!memcmp(str1, "TEST strcat function", 21),
+              "4rth strcat test failed");
+s21_strcat(str1, str4);
+ck_assert_msg(!memcmp(str1, "TEST strcat function", 21),
+              "5th strcat test failed");
+
 
 
 
