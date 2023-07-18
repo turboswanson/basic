@@ -156,5 +156,12 @@ ck_assert_str_eq(strchr(a,'\0'),s21_strchr(a, '\0'));
 ck_assert_str_eq(strchr(g, '\0'), s21_strchr(g, '\0'));
 ck_assert_str_eq(strchr(e, ' '), s21_strchr(e, ' '));
 
+#test s21_strcmp_test
+
+ck_assert(s21_strcmp(a, a) == 0);
+ck_assert(s21_strcmp(a, b) < 0);
+ck_assert(s21_strcmp(c, a) > 0);
+ck_assert(s21_strcmp(f, g) > 0);
+
 
 
