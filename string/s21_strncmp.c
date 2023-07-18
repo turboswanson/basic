@@ -1,5 +1,7 @@
 #include "s21_string.h"
 
+//compares n bytes of two strings
+
 int s21_strncmp(const char *str1, const char *str2, size_t n){
     char *s1 = (char *)str1;
     char *s2 = (char *)str2;

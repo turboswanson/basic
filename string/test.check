@@ -170,5 +170,14 @@ ck_assert(s21_strncmp(a, c, 3) < 0);
 ck_assert(s21_strncmp(c, a, 3) > 0);
 ck_assert(s21_strncmp(f, g, 1) > 0);
 
+#test s21_strcpy_test
+
+char b1[20];
+char b2[20];
+char b3[] = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
+char b4[] = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
+ck_assert_str_eq(strcpy(b1, a), s21_strcpy(b2, a));
+ck_assert_str_eq(strcpy(b3, a), s21_strcpy(b4, a));
+
 
 

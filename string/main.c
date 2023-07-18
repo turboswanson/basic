@@ -3,11 +3,14 @@
 #include <string.h>
 
 int main(void){
-  char *str1 = "hellO";
-  char *str2 = "hello";
+  char *src = "hellO";
+  char dest[256] = "aaaaaaaaa";
+  s21_strcpy(dest,src);
 
-  printf("%d",s21_strncmp(str1,str2,10));
+  printf("%s",dest);
    
    return 0;
 }
+
+
 
