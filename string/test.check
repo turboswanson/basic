@@ -179,5 +179,25 @@ char b4[] = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
 ck_assert_str_eq(strcpy(b1, a), s21_strcpy(b2, a));
 ck_assert_str_eq(strcpy(b3, a), s21_strcpy(b4, a));
 
+#test s21_strncpy_test
+
+char src[] = "";
+char res[] = "";
+char exp[] = "";
+size_t n = 0;
+ck_assert_str_eq(strncpy(exp,src,n),s21_strncpy(res,src,n));
+char b1[60] = "lolkek";
+char b2[60] = "lolkek";
+char src1[60] = "penis";
+ck_assert_str_eq(strncpy(b1, src1, 15), s21_strncpy(b2, src1, 15));
+char b3[60] = "lolkek";
+char b4[60] = "lolkek";
+ck_assert_str_eq(strncpy(b3, c,3), s21_strncpy(b4, c, 3));
+char b5[60] = "lolkek";
+char b6[60] = "lolkek";
+ck_assert_str_eq(strncpy(b5, d,3), s21_strncpy(b6, d, 3));
+
+
+
 
 

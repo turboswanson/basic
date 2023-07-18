@@ -3,9 +3,9 @@
 #include <string.h>
 
 int main(void){
-  char *src = "hellO";
-  char dest[256] = "aaaaaaaaa";
-  s21_strcpy(dest,src);
+  const char c[] = "a\n\0";
+  char dest[256] = "lolkek";
+  s21_strncpy(dest,c,3);
 
   printf("%s",dest);
    
