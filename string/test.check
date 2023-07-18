@@ -197,6 +197,13 @@ char b5[60] = "lolkek";
 char b6[60] = "lolkek";
 ck_assert_str_eq(strncpy(b5, d,3), s21_strncpy(b6, d, 3));
 
+#test s21_strcspn_test
+
+ck_assert_int_eq(strcspn(a, "Hel"), s21_strcspn(a, "Hel"));
+ck_assert_int_eq(strcspn(a, "llo"), s21_strcspn(a, "llo"));
+ck_assert_int_eq(strcspn(a, a), s21_strcspn(a, a));
+ck_assert_int_eq(strcspn(a, e), s21_strcspn(a, e));
+
 
 
 

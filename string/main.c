@@ -3,12 +3,12 @@
 #include <string.h>
 
 int main(void){
-  const char c[] = "a\n\0";
-  char dest[256] = "lolkek";
-  s21_strncpy(dest,c,3);
-
-  printf("%s",dest);
-   
+  const char *s = "strsstring";
+  char *reject = "xyz";
+  
+  printf("%ld\n",s21_strcspn(s,reject));
+  printf("%ld",strcspn(s,reject));
+ 
    return 0;
 }
 

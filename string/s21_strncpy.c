@@ -1,4 +1,5 @@
 #include "s21_string.h"
+// copies up to n characters from src string to a dest string
 
 char *s21_strncpy(char *dest, const char *src, size_t n){
     char *res = (char *)dest;
