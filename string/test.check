@@ -163,5 +163,12 @@ ck_assert(s21_strcmp(a, b) < 0);
 ck_assert(s21_strcmp(c, a) > 0);
 ck_assert(s21_strcmp(f, g) > 0);
 
+#test s21_strncmp_test
+
+ck_assert(s21_strncmp(a, a, 10) == 0);
+ck_assert(s21_strncmp(a, c, 3) < 0);
+ck_assert(s21_strncmp(c, a, 3) > 0);
+ck_assert(s21_strncmp(f, g, 1) > 0);
+
 
 

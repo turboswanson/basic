@@ -3,10 +3,10 @@
 #include <string.h>
 
 int main(void){
-  const char *str = "\0";
-   char *res = s21_strchr(str,'\0');
+  char *str1 = "hellO";
+  char *str2 = "hello";
 
-   printf("%s",res);
+  printf("%d",s21_strncmp(str1,str2,10));
    
    return 0;
 }
