@@ -21,6 +21,10 @@ ck_assert_ptr_eq(memchr(b, 'd', 12), s21_memchr(b, 'd', 12));
 ck_assert_ptr_eq(memchr(c, 'a', 1), s21_memchr(c, 'a', 1));
 ck_assert_ptr_eq(memchr(d, 'd', 3), s21_memchr(d, 'd', 3));
 ck_assert_ptr_eq(memchr(e, ' ', 1), s21_memchr(e, ' ', 1));
+ck_assert_str_eq(memchr(a, 'l',5), s21_memchr(a, 'l',5));
+ck_assert(s21_memchr(a, 'n',5) == NULL);
+ck_assert(s21_memchr(a, '\n',5) == NULL);
+ck_assert_str_eq(memchr(e, ' ',2), s21_memchr(e, ' ',2));
 
 char *s1 = "This is a s21_memchr test";
 ck_assert_ptr_eq(s21_memchr(s1, 's', 0), memchr(s1, 's', 0));
@@ -134,7 +138,6 @@ ck_assert_msg(!memcmp(str1, "TEST strcat function", 21),
               "5th strcat test failed");
 
 #test s21_strncat_test
-#test test_s21_strncat
 
 char b1[20] = "a";
 char b2[20] = "a";
@@ -143,6 +146,15 @@ char b4[50] = "lolkek";
 ck_assert_str_eq(strncat(b1, a, 5), s21_strncat(b2, a, 5));
 ck_assert_str_eq(strncat(b3, "cheburek", 4), s21_strncat(b4, "cheburek", 4));
 
+#test s21_strchr_test
+
+#test test_s21_strchr
+ck_assert_str_eq(strchr(a, 'l'), s21_strchr(a, 'l'));
+ck_assert(s21_strchr(a, 'n') == NULL);
+ck_assert(s21_strchr(a, '\n') == NULL);
+ck_assert_str_eq(strchr(a,'\0'),s21_strchr(a, '\0'));
+ck_assert_str_eq(strchr(g, '\0'), s21_strchr(g, '\0'));
+ck_assert_str_eq(strchr(e, ' '), s21_strchr(e, ' '));
 
 
 

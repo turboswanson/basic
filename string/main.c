@@ -3,12 +3,10 @@
 #include <string.h>
 
 int main(void){
-   char str[] = "string";
-   char s[] = "STRING";
-   
-   s21_strncat(str,s,3);
+  const char *str = "\0";
+   char *res = s21_strchr(str,'\0');
 
-   printf("%s",str);
+   printf("%s",res);
    
    return 0;
 }
