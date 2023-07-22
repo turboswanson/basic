@@ -204,6 +204,13 @@ ck_assert_int_eq(strcspn(a, "llo"), s21_strcspn(a, "llo"));
 ck_assert_int_eq(strcspn(a, a), s21_strcspn(a, a));
 ck_assert_int_eq(strcspn(a, e), s21_strcspn(a, e));
 
+#test s21_strpbrk_test
+
+ck_assert_str_eq(strpbrk(a, "llo"), s21_strpbrk(a, "llo"));
+ck_assert_str_eq(strpbrk(a, "aeiou"), s21_strpbrk(a, "aeiou"));
+ck_assert_str_eq(strpbrk(a, "et"), s21_strpbrk(a, "et"));
+ck_assert_ptr_eq(strpbrk(e, "abc"),s21_strpbrk(e, "abc"));
+
 
 
 

@@ -3,11 +3,12 @@
 #include <string.h>
 
 int main(void){
-  const char *s = "strsstring";
-  char *reject = "xyz";
+  const char *s = "string";
+  char *accept = "i";
   
-  printf("%ld\n",s21_strcspn(s,reject));
-  printf("%ld",strcspn(s,reject));
+  printf("%s\n",strpbrk(s,accept));
+
+  // printf("%ld",strcspn(s,reject));
  
    return 0;
 }
