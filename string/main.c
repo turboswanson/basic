@@ -3,10 +3,9 @@
 #include <string.h>
 
 int main(void){
-  const char *s = "string";
-  char *accept = "i";
-  
-  printf("%s\n",strpbrk(s,accept));
+  const char *s = " \0";
+  const char *e = ""; 
+  printf("%s",s21_strrchr(s,' '));
 
   // printf("%ld",strcspn(s,reject));
  

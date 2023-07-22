@@ -211,6 +211,14 @@ ck_assert_str_eq(strpbrk(a, "aeiou"), s21_strpbrk(a, "aeiou"));
 ck_assert_str_eq(strpbrk(a, "et"), s21_strpbrk(a, "et"));
 ck_assert_ptr_eq(strpbrk(e, "abc"),s21_strpbrk(e, "abc"));
 
+#test s21_strrchr_test
+
+ck_assert_str_eq(strrchr(a, 'l'), s21_strrchr(a, 'l'));
+ck_assert(s21_strrchr(a, 'n') == NULL);
+ck_assert(s21_strrchr(a, '\n') == NULL);
+//ck_assert_str_eq(strrchr(b, '\0'), s21_strrchr(b, '\0'));
+//ck_assert_str_eq(strrchr(g, '\0'), s21_strrchr(g, '\0'));
+ck_assert_str_eq(strrchr(e, ' '), s21_strrchr(e, ' '));
 
 
 

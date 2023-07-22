@@ -15,6 +15,7 @@ test:s21_string.a
 	$(CC) $(CFLAGS) test.c $< $(LIBS) -o test 
 	./test
 foo:clean s21_string.a
-	$(CC) -g main.c s21_string.a		
+	$(CC) -g main.c s21_string.a
+	./a.out		
 clean:
 	rm -rf *.o s21_string.a test test.c a.out		
