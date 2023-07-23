@@ -3,9 +3,11 @@
 #include <string.h>
 
 int main(void){
-  const char *s = " \0";
-  const char *e = ""; 
-  printf("%s",s21_strrchr(s,' '));
+  const char *s = "HelHo world";
+  const char *e = "LeH"; 
+  size_t len = strspn(s,e);
+  printf("%ld",len);
+
 
   // printf("%ld",strcspn(s,reject));
  

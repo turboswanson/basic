@@ -146,8 +146,6 @@ char b4[50] = "lolkek";
 ck_assert_str_eq(strncat(b1, a, 5), s21_strncat(b2, a, 5));
 ck_assert_str_eq(strncat(b3, "cheburek", 4), s21_strncat(b4, "cheburek", 4));
 
-#test s21_strchr_test
-
 #test test_s21_strchr
 ck_assert_str_eq(strchr(a, 'l'), s21_strchr(a, 'l'));
 ck_assert(s21_strchr(a, 'n') == NULL);
@@ -216,9 +214,15 @@ ck_assert_ptr_eq(strpbrk(e, "abc"),s21_strpbrk(e, "abc"));
 ck_assert_str_eq(strrchr(a, 'l'), s21_strrchr(a, 'l'));
 ck_assert(s21_strrchr(a, 'n') == NULL);
 ck_assert(s21_strrchr(a, '\n') == NULL);
-//ck_assert_str_eq(strrchr(b, '\0'), s21_strrchr(b, '\0'));
-//ck_assert_str_eq(strrchr(g, '\0'), s21_strrchr(g, '\0'));
+ck_assert_str_eq(strrchr(b, '\0'), s21_strrchr(b, '\0'));
+ck_assert_str_eq(strrchr(g, '\0'), s21_strrchr(g, '\0'));
 ck_assert_str_eq(strrchr(e, ' '), s21_strrchr(e, ' '));
+
+#test s21_strspn_test
+ck_assert_int_eq(strspn(a, "Hel"), s21_strspn(a, "Hel"));
+ck_assert_int_eq(strspn(a, "llo"), s21_strspn(a, "llo"));
+ck_assert_int_eq(strspn(a, a), s21_strspn(a, a));
+ck_assert_int_eq(strspn(a, e), s21_strspn(a, e));
 
 
 
