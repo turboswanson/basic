@@ -4,9 +4,8 @@
 
 int main(void){
   const char *s = "HelHo world";
-  const char *e = "LeH"; 
-  size_t len = strspn(s,e);
-  printf("%ld",len);
+  const char *e = "wor"; 
+  printf("%s",s21_strstr(s,e));
 
 
   // printf("%ld",strcspn(s,reject));

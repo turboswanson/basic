@@ -224,6 +224,14 @@ ck_assert_int_eq(strspn(a, "llo"), s21_strspn(a, "llo"));
 ck_assert_int_eq(strspn(a, a), s21_strspn(a, a));
 ck_assert_int_eq(strspn(a, e), s21_strspn(a, e));
 
+#test s21_strstr_test
+
+ck_assert_str_eq(strstr(a, "llo"), s21_strstr(a, "llo"));
+ck_assert(s21_strstr(a, "word") == NULL);
+ck_assert(s21_strstr(a, "\n") == NULL);
+ck_assert_ptr_eq(strstr(e, "abc"),
+                 s21_strstr(e, "abc"));  // must fail, so ptr_eq
+
 
 
 
