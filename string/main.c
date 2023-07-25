@@ -3,15 +3,10 @@
 #include <string.h>
 
 int main(void){
-  const char *s = "HelHo world";
-  const char *e = "wor"; 
-  printf("%s",s21_strstr(s,e));
-
-
-  // printf("%ld",strcspn(s,reject));
- 
-   return 0;
+char *str = "test1/test2/test3/test4";
+char *res = s21_strtok(str,"!");
+printf("%s",res);
+return 0;
 }
-
 
 
