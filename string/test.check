@@ -146,8 +146,6 @@ char b4[50] = "lolkek";
 ck_assert_str_eq(strncat(b1, a, 5), s21_strncat(b2, a, 5));
 ck_assert_str_eq(strncat(b3, "cheburek", 4), s21_strncat(b4, "cheburek", 4));
 
-#test s21_strchr_test
-
 #test test_s21_strchr
 ck_assert_str_eq(strchr(a, 'l'), s21_strchr(a, 'l'));
 ck_assert(s21_strchr(a, 'n') == NULL);
@@ -211,6 +209,38 @@ ck_assert_str_eq(strpbrk(a, "aeiou"), s21_strpbrk(a, "aeiou"));
 ck_assert_str_eq(strpbrk(a, "et"), s21_strpbrk(a, "et"));
 ck_assert_ptr_eq(strpbrk(e, "abc"),s21_strpbrk(e, "abc"));
 
+#test s21_strrchr_test
+
+ck_assert_str_eq(strrchr(a, 'l'), s21_strrchr(a, 'l'));
+ck_assert(s21_strrchr(a, 'n') == NULL);
+ck_assert(s21_strrchr(a, '\n') == NULL);
+//ck_assert_str_eq(strrchr(b, '\0'), s21_strrchr(b, '\0'));
+//ck_assert_str_eq(strrchr(g, '\0'), s21_strrchr(g, '\0'));
+ck_assert_str_eq(strrchr(e, ' '), s21_strrchr(e, ' '));
+
+#test s21_strspn_test
+ck_assert_int_eq(strspn(a, "Hel"), s21_strspn(a, "Hel"));
+ck_assert_int_eq(strspn(a, "llo"), s21_strspn(a, "llo"));
+ck_assert_int_eq(strspn(a, a), s21_strspn(a, a));
+ck_assert_int_eq(strspn(a, e), s21_strspn(a, e));
+
+#test s21_strstr_test
+
+ck_assert_str_eq(strstr(a, "llo"), s21_strstr(a, "llo"));
+ck_assert(s21_strstr(a, "word") == NULL);
+ck_assert(s21_strstr(a, "\n") == NULL);
+ck_assert_ptr_eq(strstr(e, "abc"), s21_strstr(e, "abc"));
+
+#test s21_strtok_test
+
+char b1[25] = "test1/test2/test3/test4";
+char b2[25] = "test1/test2/test3/test4";
+char b3[24] = {'\0'};
+char b4[24] = {'\0'};
+ck_assert_str_eq(strtok(b1, "/"), s21_strtok(b2, "/"));
+ck_assert_str_eq(strtok(NULL, "/"), s21_strtok(NULL, "/"));
+ck_assert_str_eq(strtok(b1, "!"), s21_strtok(b2, "!"));
+ck_assert_ptr_eq(strtok(b3, "!"), s21_strtok(b4, "!")); 
 
 
 
