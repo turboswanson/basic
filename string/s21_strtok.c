@@ -9,15 +9,13 @@ char *s21_strtok(char *str, const char *delim){
   if (str) mem = str;
 
   if (mem) {
-    str = mem + s21_strspn(mem, delim);
-    mem = str + s21_strcspn(str, delim);
-    if (*mem != '\0') {
-      *mem = '\0';
-      ++mem;
+    str = mem + s21_strspn(mem, delim);// if the strig starts with a delim we should shift it to the first not-matching element
+    mem = str + s21_strcspn(str, delim);//shift to the delim
+    if (*mem != '\0') { // if it isn't the end of a string we should make it ending with '\0'
+      *mem = '\0'; 
+      mem++;
     }
   }
-
-  // if (*str == '\0') mem = s21_NULL;
 
   return *str != '\0' ? str : NULL; 
   }

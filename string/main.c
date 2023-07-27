@@ -3,8 +3,8 @@
 #include <string.h>
 
 int main(void){
-char *str = "test1/test2/test3/test4";
-char *res = s21_strtok(str,"!");
+char *str = "Hello world\0";
+char *res = s21_strrchr(str,'\0');
 printf("%s",res);
 return 0;
 }

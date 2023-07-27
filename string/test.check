@@ -214,8 +214,8 @@ ck_assert_ptr_eq(strpbrk(e, "abc"),s21_strpbrk(e, "abc"));
 ck_assert_str_eq(strrchr(a, 'l'), s21_strrchr(a, 'l'));
 ck_assert(s21_strrchr(a, 'n') == NULL);
 ck_assert(s21_strrchr(a, '\n') == NULL);
-//ck_assert_str_eq(strrchr(b, '\0'), s21_strrchr(b, '\0'));
-//ck_assert_str_eq(strrchr(g, '\0'), s21_strrchr(g, '\0'));
+ck_assert_str_eq(strrchr(b, '\0'), s21_strrchr(b, '\0'));
+ck_assert_str_eq(strrchr(g, '\0'), s21_strrchr(g, '\0'));
 ck_assert_str_eq(strrchr(e, ' '), s21_strrchr(e, ' '));
 
 #test s21_strspn_test
@@ -240,8 +240,44 @@ char b4[24] = {'\0'};
 ck_assert_str_eq(strtok(b1, "/"), s21_strtok(b2, "/"));
 ck_assert_str_eq(strtok(NULL, "/"), s21_strtok(NULL, "/"));
 ck_assert_str_eq(strtok(b1, "!"), s21_strtok(b2, "!"));
-ck_assert_ptr_eq(strtok(b3, "!"), s21_strtok(b4, "!")); 
+ck_assert_ptr_eq(strtok(b3, "!"), s21_strtok(b4, "!"));
 
 
+char str1[] = "Aboba++Floppa_! Kotya====!Shleppa";
+char str2[] = "Aboba++Floppa_! Kotya====!Shleppa";
+const char delims[] = "+_! =";
 
+char *got = s21_strtok(str1, delims);
+char *expected = strtok(str2, delims);
+
+ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+ck_assert_str_eq(got, expected);
+
+got = s21_strtok(NULL, delims);
+expected = strtok(NULL, delims);
+
+ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+
+got = s21_strtok(NULL, delims);
+expected = strtok(NULL, delims);
+
+ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+
+got = s21_strtok(NULL, delims);
+expected = strtok(NULL, delims);
+
+ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+
+
+char str3[] = "++Aboba++Floppa_! Kotya===!Shleppa+++ A +";
+char str4[] = "++Aboba++Floppa_! Kotya===!Shleppa+++ A +";
+const char delims1[] = "+_! =";
+
+char *got1 = s21_strtok(str3, delims1);
+char *expected1 = strtok(str4, delims1);
+ck_assert_str_eq(got1, expected1);
+
+got1 = s21_strtok(NULL, delims1);
+expected1 = strtok(NULL, delims1);
+ck_assert_str_eq(got1, expected1);
 

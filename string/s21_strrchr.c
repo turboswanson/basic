@@ -3,20 +3,18 @@
 //returns a pointer to the last apperance of the symbol
 
 char *s21_strrchr(const char *str, int c){
-    char *res = (char *)str;
+  const char* ptr = str;
+  int flag = 0;
 
-    size_t i = 0;
-    int index = 0;
-    int match = 0;
-
-    for(;i < s21_strlen(res);i++){
-        if(res[i] == c){
-            index = i;
-            match ++;
-        }
+  while (*str) {
+    str++;
+  }
+  while (str >= ptr) {
+    if (*str == (char)c) {
+      flag = 1;
+      break;
     }
-
-       
-
-    return match ? (char *)(res + index) : NULL;
+    str--;
+  }
+  return flag ? (char*)str : NULL;
 }
