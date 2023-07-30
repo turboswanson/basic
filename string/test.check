@@ -281,3 +281,16 @@ got1 = s21_strtok(NULL, delims1);
 expected1 = strtok(NULL, delims1);
 ck_assert_str_eq(got1, expected1);
 
+#test test_s21_strerror
+#ifdef __APPLE__
+for (int i = 0; i != 108; i++) {
+  ck_assert_str_eq(strerror(i), s21_strerror(i));
+}
+#elif __linux__
+for (int i = 0; i != 134; i++) {
+ck_assert_str_eq(strerror(i), s21_strerror(i));
+}
+
+
+#endif
+

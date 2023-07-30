@@ -3,9 +3,10 @@
 #include <string.h>
 
 int main(void){
-char *str = "Hello world\0";
-char *res = s21_strrchr(str,'\0');
-printf("%s",res);
+for(int i = 0; i != 134;i++){
+    printf("%s\n",s21_strerror(i));
+}
+
 return 0;
 }
 
