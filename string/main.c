@@ -3,10 +3,8 @@
 #include <string.h>
 
 int main(void){
-for(int i = 0; i != 134;i++){
-    printf("%s\n",s21_strerror(i));
-}
-
+char str[100] = {0};
+printf("%d",sprintf(str,"%s %s %d","string","string",70));
 return 0;
 }
 
