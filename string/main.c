@@ -4,7 +4,7 @@
 
 int main(void){
 char str[100] = {0};
-printf("%d",sprintf(str,"%s %s %d","string","string",70));
+printf("%d",s21_sprintf(str,"string"));
 return 0;
 }
 
