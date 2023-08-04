@@ -51,7 +51,7 @@ typedef struct specs{
 }specs;
 
 int check_flag(const char *format,flags *f);
-int check_spec(const char *format,specs *s);
+int parser(const char *format,specs *s);
 
 
 int s21_sprintf(char *buf,const char *format, ...){
@@ -79,7 +79,8 @@ int s21_sprintf(char *buf,const char *format, ...){
                 format++;
             }
 
-            check_spec(format,&s); // find out what specifier is
+            parser(format,&s); // find out what specifier is
+            
                          
 
         }
@@ -105,7 +106,7 @@ int check_flag(const char *format,flags *f){
     return flag;
 }
 
-int check_spec(const char *format,specs *s){
+int parser(const char *format,specs *s){
     int flag = 0;
     switch(*format){
         case 'c': s->c = 1;flag = 1;break;
