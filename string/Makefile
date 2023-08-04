@@ -17,8 +17,8 @@ test:s21_string.a
 	checkmk clean_mode=1 test.check > test.c 
 	$(CC) $(CFLAGS) $(GCOV_FLAGS) test.c $< $(LIBS) -o test 
 	./test
-foo:clean s21_string.a
-	$(CC) -g main.c s21_string.a
+foo:clean
+	$(CC) -g main.c ${SRC}
 	./a.out
 gcov_report:test
 	gcovr --html -o report.html
