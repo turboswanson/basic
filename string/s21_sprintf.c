@@ -33,6 +33,7 @@ example s21_sprintf(buf,"string1 %.5dstring2 %5.5f string3 %c",45,3.14567843,'$'
 
 #include "s21_string.h"
 
+
 typedef struct flags{
     int space;
     int minus;
@@ -52,11 +53,18 @@ typedef struct specs{
 
 int check_flag(const char *format,flags *f);
 int parser(const char *format,specs *s);
+char *s21_itoa(int num, char *str,int base);
+void reverse(char str[], int lenght);
+
+
 
 
 int s21_sprintf(char *buf,const char *format, ...){
     flags f = {0};
     specs s = {0};
+    
+    va_list factor; 
+    va_start(factor,format);  // va_start(va_list param, last explicit param)
 
     while(*format){
         if(*format != '%'){
@@ -81,11 +89,18 @@ int s21_sprintf(char *buf,const char *format, ...){
 
             parser(format,&s); // find out what specifier is
             
-                         
+            if(s.d){
+                int d;
+                d = va_arg(factor,int);
+                char str[20] = {'\0'};
+            //     s21_itoa(d,str,10);
+            //     s21_strcat(buf,str);
+            }             
 
         }
     }
 
+    va_end(factor);
     return s21_strlen(buf);
 }
 
@@ -109,11 +124,55 @@ int check_flag(const char *format,flags *f){
 int parser(const char *format,specs *s){
     int flag = 0;
     switch(*format){
-        case 'c': s->c = 1;flag = 1;break;
-        case 'd' : s->d = 1;flag = 1; break;
-        case 'i' : s->i = 1;flag = 1; break;
-        case 'f' : s->f = 1;flag = 1; break;
-        case 's' : s->s = 1; flag = 1; break;
-        case 'u' : s->u = 1; flag = 1;break;
+        case 'c' : s->c = 1;flag = 1;break;
+        case 'd' : s->d = 1;flag = 1;break;
+        case 'i' : s->i = 1;flag = 1;break;
+        case 'f' : s->f = 1;flag = 1;break;
+        case 's' : s->s = 1;flag = 1;break;
+        case 'u' : s->u = 1;flag = 1;break;
     }
+}
+
+
+void reverse(char str[], int lenght){
+    int start = 0;
+    int end = lenght - 1;
+    while(start < end){
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+        start++;
+        end--;
+    }
+}
+
+char *s21_itoa(int num, char *str,int base){
+    int i = 0;
+    int isneg = 0;
+
+     if (num == 0){
+        str[i++] = '0';
+        str[i] = '\0';
+        return str;
+     }
+
+     if(num < 0 && base == 10){
+        isneg = 1;
+        num = - num;
+     }
+
+     while(num != 0){
+        int rem = num % base;
+        str[i++] = (rem > 9) ? (rem - 10) + 'a': rem + '0';
+        num = num / base;
+     }
+
+     if(isneg){
+        str[i++] = '-';
+     }
+
+     str[i] = '\0';
+     reverse(str,i);
+
+     return str;
 }
