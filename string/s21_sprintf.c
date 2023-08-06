@@ -55,6 +55,8 @@ int check_flag(const char *format,flags *f);
 int parser(const char *format,specs *s);
 char *s21_itoa(int num, char *str,int base);
 void reverse(char str[], int lenght);
+void processing_d(const char *format, char *str,specs *s, va_list factor);
+
 
 
 
@@ -89,13 +91,12 @@ int s21_sprintf(char *buf,const char *format, ...){
 
             parser(format,&s); // find out what specifier is
             
-            if(s.d){
-                int d;
-                d = va_arg(factor,int);
-                char str[20] = {'\0'};
-            //     s21_itoa(d,str,10);
-            //     s21_strcat(buf,str);
-            }             
+            char str_tmp[20] = {'\0'};  // create a string for va_arg
+
+            if(s.d) processing_d(format,str_tmp,&s,factor);
+            //str_tmp = "45" here       
+
+            format++;             
 
         }
     }
@@ -131,6 +132,7 @@ int parser(const char *format,specs *s){
         case 's' : s->s = 1;flag = 1;break;
         case 'u' : s->u = 1;flag = 1;break;
     }
+    
 }
 
 
@@ -175,4 +177,10 @@ char *s21_itoa(int num, char *str,int base){
      reverse(str,i);
 
      return str;
+}
+
+void processing_d(const char *format,char *str,specs *s,va_list factor){
+    int d = 0; 
+    d = va_arg(factor,int); 
+    str = s21_itoa(d,str,10);
 }
