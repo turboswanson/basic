@@ -34,33 +34,6 @@ example s21_sprintf(buf,"string1 %.5dstring2 %5.5f string3 %c",45,3.14567843,'$'
 #include "s21_string.h"
 
 
-typedef struct flags{
-    int space;
-    int minus;
-    int plus;
-    int dot;
-    int num;
-}flags;
-
-typedef struct specs{
-    int c;
-    int d;
-    int i;
-    int f;
-    int s;
-    int u;
-}specs;
-
-int check_flag(const char *format,flags *f);
-int parser(const char *format,specs *s);
-char *s21_itoa(int num, char *str,int base);
-void reverse(char str[], int lenght);
-void processing_d(const char *format, char *str,specs *s, va_list factor);
-
-
-
-
-
 int s21_sprintf(char *buf,const char *format, ...){
     flags f = {0};
     specs s = {0};
@@ -70,7 +43,7 @@ int s21_sprintf(char *buf,const char *format, ...){
 
     while(*format){
         if(*format != '%'){
-            char c[1] = {'\0'};
+            char c[2] = {'\0'};
             c[0] = *format;
             s21_strcat(buf,c);
             format++;
@@ -93,8 +66,17 @@ int s21_sprintf(char *buf,const char *format, ...){
             
             char str_tmp[20] = {'\0'};  // create a string for va_arg
 
-            if(s.d) processing_d(format,str_tmp,&s,factor);
-            //str_tmp = "45" here       
+            if(s.d){
+                processing_d(format,str_tmp,&s,factor);  //str_tmp = "45" here       
+                s21_strcat(buf,str_tmp);
+                s.d = 0;
+            }
+
+            if(s.f){
+                processing_f(format,str_tmp,&s,factor);       
+                s21_strcat(buf,str_tmp);
+                s.f = 0;
+            }
 
             format++;             
 
@@ -148,39 +130,31 @@ void reverse(char str[], int lenght){
     }
 }
 
-char *s21_itoa(int num, char *str,int base){
-    int i = 0;
-    int isneg = 0;
-
-     if (num == 0){
-        str[i++] = '0';
-        str[i] = '\0';
-        return str;
-     }
-
-     if(num < 0 && base == 10){
-        isneg = 1;
-        num = - num;
-     }
-
-     while(num != 0){
-        int rem = num % base;
-        str[i++] = (rem > 9) ? (rem - 10) + 'a': rem + '0';
-        num = num / base;
-     }
-
-     if(isneg){
-        str[i++] = '-';
-     }
-
-     str[i] = '\0';
-     reverse(str,i);
-
-     return str;
-}
-
 void processing_d(const char *format,char *str,specs *s,va_list factor){
     int d = 0; 
     d = va_arg(factor,int); 
     str = s21_itoa(d,str,10);
+}
+
+void processing_f(const char *format,char *str,specs *s, va_list factor){
+    double f = 0;
+    f = va_arg(factor,double);
+    ftochar(str,f);
+}
+
+char *ftochar(char *str,double num){
+    double i;
+    double f;
+    f = modf(num,&i); // num = 3.14464
+    // i = 3.000000
+    //f = 0.14464
+    int x = (int)i; //x = 3
+    f = f*10000;
+    int y = (int)f; // y = 14464
+
+    s21_itoa(x,str,10);
+    s21_strcat(str,".");
+    char rem[256] = {'\0'};
+    s21_itoa(y,rem,10);
+    s21_strcat(str,rem);        
 }
