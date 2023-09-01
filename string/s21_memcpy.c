@@ -1,20 +1,14 @@
 #include "s21_string.h"
 
-//returns a pointer to a copy n elements-string of the original string
+// returns a pointer to a copy n elements-string of the original string
 
-void *s21_memcpy(void *dest, const void *src, size_t n){
-    char *dest_ptr = (char *)dest;
-    char *src_ptr = (char *)src;
+void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
+  unsigned char *dest_ptr = (unsigned char *)dest;
+  const unsigned char *src_ptr = (const unsigned char *)src;
 
-    size_t i = 0;
+  for (s21_size_t i = 0; i < n; i++) {
+    dest_ptr[i] = src_ptr[i];
+  }
 
-    while(i < n){
-        *dest_ptr = *src_ptr;
-        dest_ptr++;
-        src_ptr++;
-        i++;
-    }    
-    *(dest_ptr+i) = '\0';
-    
-    return dest;
+  return dest;
 }
