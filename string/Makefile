@@ -42,7 +42,7 @@ valgrind: clean
 check:
 	clang-format $(STYLE_BASE) -n *.c *.h
 fix:
-	clang-format $(STYLE_BASE) -i *.c *.h			
+	clang-format $(STYLE_BASE) -i *.c *.h
 
 clean:
 	rm -rf *.o s21_string.a test test.c a.out report *.info *.gcda *.gcno *.html		

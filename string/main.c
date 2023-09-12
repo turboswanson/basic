@@ -1,16 +1,16 @@
 #include <stdio.h>
-#include <string.h>
 
 #include "s21_string.h"
 
 void display(char *format, ...);
-void example(char *buf, const char *format, ...);
 
 int main(void) {
-  char *buf = s21_NULL;
+  char buf[1024] = {'\0'};
 
-  sprintf(buf,"%s","HUY!!!!!!");
-  printf("%s",buf);
+  int r2 = s21_sprintf(buf, "%*d", 5, -76);  // 04d,77
+
+  printf("%s", buf);
+
   return 0;
 }
 
@@ -53,50 +53,5 @@ void display(char *format, ...) {
         printf("%c", *c);
     }
   }
-  va_end(factor);
-}
-
-void example(
-    char *buf, const char *format,
-    ...) {  // int count = example(buf,"%s",res); //example("$","%c",&x);
-  va_list factor;
-
-  va_start(factor, format);
-  char *c = NULL;
-  int *d = 0;
-  char *str = NULL;
-
-  int step = 0;
-
-  while (*format) {
-    if (*format == '%') {
-      format++;
-    }
-
-    if (*format == 'c') {
-      c = va_arg(factor, char *);
-
-      *c = buf[step];
-      step += 1;
-    }
-
-    if (*format == 'd') {
-      d = va_arg(factor, int *);
-    }
-
-    if (*format == 's') {
-      str = va_arg(factor, char *);
-
-      int i = 0;
-
-      for (i; buf[i] != 32; i++) {
-        str[i] = buf[i];
-      }
-
-      buf = buf + i;
-    }
-    format++;
-  }
-
   va_end(factor);
 }

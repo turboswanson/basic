@@ -30,23 +30,44 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
 
   // return tmp;
 
-  if (src == s21_NULL || str == s21_NULL || s21_strlen(src) < start_index ||
-      start_index < 0) {
+  // if (src == s21_NULL || str == s21_NULL || s21_strlen(src) < start_index ||
+  //     start_index < 0) {
+  //   return s21_NULL;
+  // }
+
+  // s21_size_t src_len = s21_strlen(src);
+  // s21_size_t str_len = s21_strlen(str);
+
+  // char *result = (char *)calloc(src_len + str_len + 1, sizeof(char));
+
+  // if (result != s21_NULL) {  // if memory actually allocated
+  //   s21_strncpy(result, (char *)src, start_index);
+  //   s21_strncat(result, str, str_len);
+  //   s21_strncat(result, &src[start_index], src_len - start_index);
+
+  //   return (void *)result;
+  // } else {
+  //   return s21_NULL;
+  // }
+
+  if (src == s21_NULL || str == s21_NULL) {
     return s21_NULL;
   }
 
-  s21_size_t src_len = s21_strlen(src);
-  s21_size_t str_len = s21_strlen(str);
-
-  char *result = (char *)calloc(src_len + str_len + 1, sizeof(char));
-
-  if (result != s21_NULL) {  // if memory actually allocated
-    s21_strncpy(result, (char *)src, start_index);
-    s21_strncat(result, str, str_len);
-    s21_strncat(result, &src[start_index], src_len - start_index);
-
-    return (void *)result;
-  } else {
+  if (start_index > s21_strlen(src)) {
     return s21_NULL;
   }
+
+  char *result = malloc(s21_strlen(src) + s21_strlen(str) + 1);
+
+  if (!result) {
+    return s21_NULL;
+  }
+
+  s21_strncpy(result, src, start_index);
+  result[start_index] = '\0';
+  s21_strcat(result, str);
+  s21_strcat(result, src + start_index);
+
+  return (void *)result;
 }
