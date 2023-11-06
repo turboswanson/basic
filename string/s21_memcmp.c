@@ -1,17 +1,16 @@
 #include "s21_string.h"
 
-// returns a difference between N elements of two strings
+int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
+  const unsigned char *s1 = str1, *s2 = str2;
+  int result = 0;
 
-int s21_memcmp(const void *str1, const void *str2,size_t n){
-    size_t i = 0;
-    const char *s1 = (const char*)str1;
-    const char *s2 = (const char*)str2;
-
-    while(*s1 == *s2 && i < n){
-        s1++;
-        s2++;
-        i++;
+  for (s21_size_t i = 0; i < n; i++) {
+    if (s1[i] != s2[i]) {
+      // result = (s1[i] < s2[i]) ? -1 : 1;
+      result = s1[i] - s2[i];
+      break;
     }
+  }
 
-    return *s1 - *s2;
+  return result;
 }

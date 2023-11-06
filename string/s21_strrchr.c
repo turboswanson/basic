@@ -1,9 +1,9 @@
 #include "s21_string.h"
 
-//returns a pointer to the last apperance of the symbol
+// returns a pointer to the last apperance of the symbol
 
-char *s21_strrchr(const char *str, int c){
-  const char* ptr = str;
+char *s21_strrchr(const char *str, int c) {
+  const char *ptr = str;
   int flag = 0;
 
   while (*str) {
@@ -16,5 +16,5 @@ char *s21_strrchr(const char *str, int c){
     }
     str--;
   }
-  return flag ? (char*)str : NULL;
+  return flag ? (char *)str : s21_NULL;
 }
