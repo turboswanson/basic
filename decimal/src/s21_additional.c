@@ -3,7 +3,7 @@
 int s21_negate(s21_decimal value, s21_decimal *result) {
   int error = 0;
 
-  if (!result) {
+  if (result == NULL) {
     error = 1;
   } else {
     *result = value;
@@ -21,67 +21,70 @@ int s21_negate(s21_decimal value, s21_decimal *result) {
 int s21_truncate(s21_decimal value, s21_decimal *result) {
   int error = 0;
 
-  if (!result) {
+  if (result == NULL) {
     error = 1;
+
   } else {
-    // int scale = s21_get_scale(value);
-    // int sign = s21_get_sign(value);
-
-    // s21_long_decimal tmp = {0};
-
-    // s21_short_to_long_decimal(value, &tmp);
-
-    // s21_long_decimal ten = {{10, 0, 0, 0, 0, 0, 0, 0}};
-    // s21_long_decimal remainder = {0};
-
-    // for (int i = 0; i < scale; i++) {
-    //   // s21_div_long_int(tmp, ten, &tmp);
-    //   // tmp = division(tmp,ten,&remainder);
-    // }
-    // (void)remainder;
-
-    // s21_long_to_short_decimal(tmp, result);
-
-    // if (sign) {
-    //   s21_set_sign(result);
-    // }
-
-    // if (scale) {
-    //   s21_set_scale(result, 0);
-    // }
-
     s21_zero_decimal(result);
 
-    float diff = 0;
+    int scale = s21_get_scale(value);
+    int sign = s21_get_sign(value);
 
-    if (s21_get_scale(value)) {  // 12345.6
-      long double tmp = 0.0;
-      s21_from_decimal_to_double(value, &tmp);
-      tmp = trunc(tmp);  // 12345
+    s21_long_decimal tmp = {0};
 
-      if (tmp < 0) {
-        tmp = -tmp;
-        s21_set_sign(result);
-      }
+    s21_short_to_long_decimal(value, &tmp);
 
-      for (int i = 0; tmp >= 1 && i < 96; i++) {
-        tmp = floor(tmp) / 2;  // if even diff = 0, if odd diff > 0
+    s21_long_decimal ten = {{10, 0, 0, 0}};
 
-        diff = tmp - floor(tmp);
+    for (int i = 0; i < scale; i++) {
+      s21_div_long_int(tmp, ten, &tmp);
 
-        if (diff > 0) {
-          s21_set_bit(result, i, 1);
-        } else {
-          s21_set_bit(result, i, 0);
-        }
-      }
-
-      s21_set_scale(result, 0);
-    } else {
-      for (int i = 0; i < 4; i++) {
-        result->bits[i] = value.bits[i];
+      if (tmp.bits[0] < 10 && (scale - i) > 1) {
+        s21_zero_long(&tmp);
+        break;
       }
     }
+
+    s21_long_to_short_decimal(tmp, result);
+
+    if (sign) {
+      s21_set_sign(result);
+    }
+
+    if (scale) {
+      s21_set_scale(result, 0);
+    }
+
+    // float diff = 0;
+
+    // if (s21_get_scale(value)) {  // 12345.6
+    //   long double tmp = 0.0;
+    //   s21_from_decimal_to_double(value, &tmp);
+    //   tmp = trunc(tmp);  // 12345
+
+    //   if (tmp < 0) {
+    //     tmp = -tmp;
+    //     s21_set_sign(result);
+    //   }
+
+    //   for (int i = 0; tmp >= 1 && i < 96; i++) {
+    //     tmp = floor(tmp) / 2;  // if even diff = 0, if odd diff > 0
+
+    //     diff = tmp - floor(tmp);
+
+    //     if (diff > 0) {
+    //       s21_set_bit(result, i, 1);
+    //     } else {
+    //       s21_set_bit(result, i, 0);
+    //     }
+    //   }
+
+    //   s21_set_scale(result, 0);
+    // } else {
+    //   for (int i = 0; i < 4; i++) {
+    //     result->bits[i] = value.bits[i];
+    //   }
+    // }
   }
 
   return error;
@@ -89,59 +92,61 @@ int s21_truncate(s21_decimal value, s21_decimal *result) {
 
 int s21_round(s21_decimal value, s21_decimal *result) {
   int error = 0;
-
-  if (!result) {
+  // 3.5 -> 4.0  -3.5 -> -4.0
+  if (result == NULL) {
     error = 1;
+
   } else {
-    // int sign = s21_get_sign(value);
-
-    // s21_decimal unsigned_value = value;
-    // if (sign) s21_set_bit(&unsigned_value, 127, 0);
-
-    // s21_decimal truncated = {0};
-
-    // s21_truncate(unsigned_value, &truncated);
-
-    // s21_decimal fract = {0};
-
-    // s21_sub(unsigned_value, truncated, &fract);
-
-    // s21_decimal zero_five = {{5, 0, 0, 0}};
-    // s21_set_scale(&zero_five, 1);
-
-    // s21_decimal one = {{1, 0, 0, 0}};
-
-    // if (s21_is_greater_or_equal(fract, zero_five)) {
-    //   s21_add(truncated, one, result);
-    // } else {
-    //   *result = truncated;
-    // }
-
-    // if (sign) s21_set_sign(result);
     s21_zero_decimal(result);
 
-    long double tmp = 0;
-    long double diff = 0;
-    s21_from_decimal_to_double(value, &tmp);
-    tmp = round(tmp);
+    int sign = s21_get_sign(value);
 
-    if (tmp < 0) {
-      s21_set_sign(result);
-      tmp = -tmp;
+    s21_decimal unsigned_value = value;
+    if (sign) s21_set_bit(&unsigned_value, 127, 0);
+
+    s21_decimal truncated = {0};
+
+    s21_truncate(unsigned_value, &truncated);
+
+    s21_decimal fract = {0};
+
+    s21_sub(unsigned_value, truncated, &fract);
+
+    s21_decimal zero_five = {{5, 0, 0, 0}};
+    s21_set_scale(&zero_five, 1);
+
+    s21_decimal one = {{1, 0, 0, 0}};
+
+    if (s21_is_greater_or_equal(fract, zero_five)) {
+      s21_add(truncated, one, result);
+    } else {
+      *result = truncated;
     }
 
-    for (int i = 0; tmp >= 1 && i < 96; i++) {
-      tmp = floor(tmp) / 2;
-      diff = tmp - floor(tmp);
+    if (sign) s21_set_sign(result);
 
-      if (diff > 0) {
-        s21_set_bit(result, i, 1);
-      } else {
-        s21_set_bit(result, i, 0);
-      }
-    }
+    // long double tmp = 0;
+    // long double diff = 0;
+    // s21_from_decimal_to_double(value, &tmp);
+    // tmp = round(tmp);
 
-    s21_set_scale(result, 0);
+    // if (tmp < 0) {
+    //   s21_set_sign(result);
+    //   tmp = -tmp;
+    // }
+
+    // for (int i = 0; tmp >= 1 && i < 96; i++) {
+    //   tmp = floor(tmp) / 2;
+    //   diff = tmp - floor(tmp);
+
+    //   if (diff > 0) {
+    //     s21_set_bit(result, i, 1);
+    //   } else {
+    //     s21_set_bit(result, i, 0);
+    //   }
+    // }
+
+    // s21_set_scale(result, 0);
   }
 
   return error;
@@ -152,7 +157,7 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
   //-3.8 -> 4.0
   int error = 0;
 
-  if (!result) {
+  if (result == NULL) {
     error = 1;
   } else {
     // s21_zero_decimal(result);

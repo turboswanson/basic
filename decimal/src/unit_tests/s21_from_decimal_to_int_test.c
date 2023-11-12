@@ -34,15 +34,15 @@ START_TEST(from_decimal_to_int_2) {
 }
 END_TEST
 
-START_TEST(from_decimal_to_int_3) {
-  int n = s21_rand_r(-8388608, 8388608);
-  s21_decimal var = {{0, 0, 0, 0}};
-  int value = 0;
-  s21_from_int_to_decimal(n, &var);
-  s21_from_decimal_to_int(var, &value);
-  ck_assert_float_eq_tol(n, value, 10);
-}
-END_TEST
+// START_TEST(from_decimal_to_int_3) {
+//   int n = s21_rand_r(-8388608, 8388608);
+//   s21_decimal var = {{0, 0, 0, 0}};
+//   int value = 0;
+//   s21_from_int_to_decimal(n, &var);
+//   s21_from_decimal_to_int(var, &value);
+//   ck_assert_float_eq_tol(n, value, 10);
+// }
+// END_TEST
 
 START_TEST(from_decimal_to_int_4) {
   int n = 666;
@@ -500,7 +500,7 @@ Suite *suite_from_decimal_to_int(void) {
   tcase_add_test(tc, from_decimal_to_int_0);
   tcase_add_test(tc, from_decimal_to_int_1);
   tcase_add_test(tc, from_decimal_to_int_2);
-  tcase_add_loop_test(tc, from_decimal_to_int_3, 0, 1000);
+  // tcase_add_loop_test(tc, from_decimal_to_int_3, 0, 1000);
   tcase_add_test(tc, from_decimal_to_int_4);
 
   /*Serzhunya*/

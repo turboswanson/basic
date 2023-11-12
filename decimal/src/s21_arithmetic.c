@@ -57,93 +57,95 @@ DIV
 
 */
 
-int s21_add_int(int x, int y, int *carry) {
-  // int index_x = 0;
-  // int index_y = 0;
+// int s21_add_int(int x, int y, int *carry) {
+//   // int index_x = 0;
+//   // int index_y = 0;
 
-  // for(int i = 31;i >= 0; i--){ // look for the last significant's bit index
+//   // for(int i = 31;i >= 0; i--){ // look for the last significant's bit
+//   index
 
-  //   if(f_get_bit(x,i)){
-  //     index_x = i;
-  //     i = 0;
-  //   }
-  // }
+//   //   if(f_get_bit(x,i)){
+//   //     index_x = i;
+//   //     i = 0;
+//   //   }
+//   // }
 
-  // for(int i = 31;i >= 0; i--){ // look for the last significant's bit index
+//   // for(int i = 31;i >= 0; i--){ // look for the last significant's bit
+//   index
 
-  //   if(f_get_bit(y,i)){
-  //     index_y = i;
-  //     i = 0;
-  //   }
-  // }
+//   //   if(f_get_bit(y,i)){
+//   //     index_y = i;
+//   //     i = 0;
+//   //   }
+//   // }
 
-  int sum = 0;
-  int res = 0;
+//   int sum = 0;
+//   int res = 0;
 
-  // int index = ((index_x > index_y) ? index_x : index_y);
+//   // int index = ((index_x > index_y) ? index_x : index_y);
 
-  int index = 31;
+//   int index = 31;
 
-  for (int i = 0; i <= index; i++) {
-    int bit1 = s21_f_get_bit(x, i);
-    int bit2 = s21_f_get_bit(y, i);
+//   for (int i = 0; i <= index; i++) {
+//     int bit1 = s21_f_get_bit(x, i);
+//     int bit2 = s21_f_get_bit(y, i);
 
-    if (*carry == 0) {
-      if (!bit1 && !bit2) {
-        sum = 0;
-        s21_f_set_bit(&res, i, sum);
-        continue;
-      }
+//     if (*carry == 0) {
+//       if (!bit1 && !bit2) {
+//         sum = 0;
+//         s21_f_set_bit(&res, i, sum);
+//         continue;
+//       }
 
-      if ((bit1 && !bit2) || (bit2 && !bit1)) {
-        sum = 1;
-        s21_f_set_bit(&res, i, sum);
-        continue;
-      }
+//       if ((bit1 && !bit2) || (bit2 && !bit1)) {
+//         sum = 1;
+//         s21_f_set_bit(&res, i, sum);
+//         continue;
+//       }
 
-      if (bit1 && bit2) {
-        sum = 0;
-        *carry = 1;
-        s21_f_set_bit(&res, i, sum);
-        continue;
-      }
-    } else {
-      if (!bit1 && !bit2) {
-        sum = 1;
-        *carry = 0;
-        s21_f_set_bit(&res, i, sum);
-        continue;
-      }
+//       if (bit1 && bit2) {
+//         sum = 0;
+//         *carry = 1;
+//         s21_f_set_bit(&res, i, sum);
+//         continue;
+//       }
+//     } else {
+//       if (!bit1 && !bit2) {
+//         sum = 1;
+//         *carry = 0;
+//         s21_f_set_bit(&res, i, sum);
+//         continue;
+//       }
 
-      if ((bit1 && !bit2) || (!bit1 && bit2)) {
-        sum = 0;
-        *carry = 1;
-        s21_f_set_bit(&res, i, sum);
-        continue;
-      }
+//       if ((bit1 && !bit2) || (!bit1 && bit2)) {
+//         sum = 0;
+//         *carry = 1;
+//         s21_f_set_bit(&res, i, sum);
+//         continue;
+//       }
 
-      if (bit1 && bit2) {
-        sum = 1;
-        *carry = 1;
-        s21_f_set_bit(&res, i, sum);
-        continue;
-      }
-    }
-  }
+//       if (bit1 && bit2) {
+//         sum = 1;
+//         *carry = 1;
+//         s21_f_set_bit(&res, i, sum);
+//         continue;
+//       }
+//     }
+//   }
 
-  // if(*carry && index != 31){
-  //   f_set_bit(&res,index+1,1);
-  // }
+//   // if(*carry && index != 31){
+//   //   f_set_bit(&res,index+1,1);
+//   // }
 
-  // printf("%d",res);
+//   // printf("%d",res);
 
-  //  for(int i = 31 ; i >= 0 ; i--){   // show each bit of res
-  //     int bit = f_get_bit(res,i);
-  //     printf("%d",bit);
-  // }
+//   //  for(int i = 31 ; i >= 0 ; i--){   // show each bit of res
+//   //     int bit = f_get_bit(res,i);
+//   //     printf("%d",bit);
+//   // }
 
-  return res;
-}
+//   return res;
+// }
 
 int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
   int error = 0;
@@ -152,6 +154,7 @@ int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
 
   int carry = 0;
   (void)carry;
+  int skip = 0;
 
   int sign1 = s21_get_sign(x);
   int sign2 = s21_get_sign(y);
@@ -174,6 +177,18 @@ int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
     s21_long_decimal value2 = {0};
     s21_long_decimal total = {0};
     int scale = 0;
+    int flag_max1 = 0;
+    int flag_max2 = 0;
+
+    if (x.bits[0] == UINT_MAX && x.bits[1] == UINT_MAX &&
+        x.bits[2] == UINT_MAX && s21_is_decimal(y)) {
+      flag_max1 = 1;
+    }
+
+    if (y.bits[0] == UINT_MAX && y.bits[1] == UINT_MAX &&
+        y.bits[2] == UINT_MAX && s21_is_decimal(x)) {
+      flag_max2 = 1;
+    }
 
     s21_short_to_long_decimal(x, &value1);
     s21_short_to_long_decimal(y, &value2);
@@ -181,65 +196,87 @@ int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
     int diff = scale1 - scale2;
     // int common_denominator = (diff > 0)? scale1 : scale2;
 
-    if (diff > 0) {
-      s21_set_scale(&y, scale1);  // local y
-    } else {
-      s21_set_scale(&x, scale2);  // local x
-    }
+    if (flag_max1 && diff <= 0 && !scale1 && sign1 == sign2) {
+      skip = 1;
 
-    s21_normalization(&value1, &value2, diff);  // common denominator
-
-    if (sign1 == sign2) {  // if both are positive OR negative
-      if (sign1) {         // IF BOTH ARE NEGATIVE
-        s21_set_sign(res);
+      if (sign1 && sign2) {
         flag_signed = 1;
       }
+    }
 
-      s21_add_long(value1, value2, &total);
+    if (flag_max2 && diff >= 0 && !scale2 && sign1 == sign2) {
+      skip = 1;
 
-    } else {
-      if (sign1) {
-        if (s21_is_greater_long(
-                value1,
-                value2)) {  // if x < 0 AND NORM value1 > NORM value2 (-7 + 3)
-          s21_sub_long(value1, value2, &total);
-          s21_set_sign(res);
-          flag_signed = 1;
-
-        } else {
-          s21_sub_long(
-              value2, value1,
-              &total);  // if x < 0 AND NORM value1 < NORM value2 (-3 + 7)
-        }
-      } else {
-        if (s21_is_greater_long(value1, value2)) {  // 7 + (-3)
-          s21_sub_long(value1, value2, &total);
-        } else {  // 3 + (-7)
-          s21_sub_long(value2, value1, &total);
-          s21_set_sign(res);
-          flag_signed = 1;
-        }
+      if (sign1 && sign2) {
+        flag_signed = 1;
       }
     }
 
-    // now we need to find how much times we need to total/10 to make it fits to
-    // our 95-bits decimal
-    int set_scale = s21_get_scale(x);
+    if (!skip) {
+      if (diff > 0) {
+        s21_set_scale(&y, scale1);  // local y
+      } else {
+        s21_set_scale(&x, scale2);  // local x
+      }
 
-    scale = s21_post_normalization(
-        &total, set_scale);  // both scales are equal now(watch string №166)
+      s21_normalization(&value1, &value2, diff);  // common denominator
 
-    if (scale >= 0) {
-      s21_long_to_short_decimal(total, res);
-      s21_set_scale(res, scale);
-    } else {
-      error = 1;
+      if (sign1 == sign2) {  // if both are positive OR negative
+        if (sign1) {         // IF BOTH ARE NEGATIVE
+          s21_set_sign(res);
+          flag_signed = 1;
+        }
+
+        s21_add_long(value1, value2, &total);
+
+      } else {
+        if (sign1) {
+          if (s21_is_greater_long(
+                  value1,
+                  value2)) {  // if x < 0 AND NORM value1 > NORM value2 (-7 + 3)
+            s21_sub_long(value1, value2, &total);
+            s21_set_sign(res);
+            flag_signed = 1;
+
+          } else {
+            s21_sub_long(
+                value2, value1,
+                &total);  // if x < 0 AND NORM value1 < NORM value2 (-3 + 7)
+          }
+        } else {
+          if (s21_is_greater_long(value1, value2)) {  // 7 + (-3)
+            s21_sub_long(value1, value2, &total);
+          } else {  // 3 + (-7)
+            s21_sub_long(value2, value1, &total);
+            s21_set_sign(res);
+            flag_signed = 1;
+          }
+        }
+      }
+
+      // now we need to find how much times we need to total/10 to make it fits
+      // to our 95-bits decimal
+      int set_scale = s21_get_scale(x);
+
+      scale = s21_post_normalization(
+          &total, set_scale);  // both scales are equal now(watch string №184)
+
+      if (scale >= 0) {
+        s21_long_to_short_decimal(total, res);
+        s21_set_scale(res, scale);
+        // res->bits[0] += 1;
+      } else {
+        error = 1;
+      }
     }
   }
 
   if (error && flag_signed) {
     error = 2;
   }
+
+  if (skip) error = 1;
+  if (skip && flag_signed) error = 2;
 
   if (error) s21_zero_decimal(res);
 
@@ -265,80 +302,114 @@ int s21_sub(s21_decimal x, s21_decimal y, s21_decimal *res) {
   int scale1 = s21_get_scale(x);
   int scale2 = s21_get_scale(y);
   int flag_signed = 0;
+  int skip = 0;
+  int flag_max1 = 0;
+  int flag_max2 = 0;
 
   s21_zero_decimal(res);
 
-  if (s21_is_equal(x, y) && sign1 == sign2) {  //-7 - (-7) OR 7 - 7
-    s21_zero_decimal(res);
-  } else {
-    s21_long_decimal value1 = {0};
-    s21_long_decimal value2 = {0};
-    s21_long_decimal total = {0};
+  if (x.bits[0] == UINT_MAX && x.bits[1] == UINT_MAX && x.bits[2] == UINT_MAX &&
+      s21_is_decimal(y)) {
+    flag_max1 = 1;
+  }
 
-    s21_short_to_long_decimal(x, &value1);
-    s21_short_to_long_decimal(y, &value2);
+  if (y.bits[0] == UINT_MAX && y.bits[1] == UINT_MAX && y.bits[2] == UINT_MAX &&
+      s21_is_decimal(x)) {
+    flag_max2 = 1;
+  }
 
-    int diff = scale1 - scale2;
-    //  int common_denominator = (diff > 0)? scale1 : scale2;
+  if (flag_max1 && !scale1 && sign1 != sign2) {
+    skip = 1;
 
-    if (diff > 0) {
-      s21_set_scale(&y, scale1);  // local y
+    if (sign1) {
+      flag_signed = 1;
+    }
+  }
+
+  if (flag_max2 && !scale2 && sign1 != sign2) {
+    skip = 1;
+
+    if (sign1) {
+      flag_signed = 1;
+    }
+  }
+
+  if (!skip) {
+    if (s21_is_equal(x, y) && sign1 == sign2) {  //-7 - (-7) OR 7 - 7
+      s21_zero_decimal(res);
     } else {
-      s21_set_scale(&x, scale2);  // local x
-    }
+      s21_long_decimal value1 = {0};
+      s21_long_decimal value2 = {0};
+      s21_long_decimal total = {0};
 
-    s21_normalization(&value1, &value2, diff);  // common denominator
+      s21_short_to_long_decimal(x, &value1);
+      s21_short_to_long_decimal(y, &value2);
 
-    if (!sign1 && !sign2) {
-      if (s21_is_greater_long(value2, value1)) {  // 3 - 7
-        s21_long_decimal tmp = value1;
-        value1 = value2;
-        value2 = tmp;
-        s21_set_sign(res);
-        flag_signed = 1;
-      }
+      int diff = scale1 - scale2;
+      //  int common_denominator = (diff > 0)? scale1 : scale2;
 
-      s21_sub_long(value1, value2, &total);
-    }
-
-    if (sign1 && sign2) {  //-7 - (-3) OR -3 - (-7)
-      if (s21_is_greater_long(value1, value2)) {
-        s21_sub_long(value1, value2, &total);
-        s21_set_sign(res);
-        flag_signed = 1;
-
+      if (diff > 0) {
+        s21_set_scale(&y, scale1);  // local y
       } else {
-        s21_sub_long(value2, value1, &total);
+        s21_set_scale(&x, scale2);  // local x
       }
-    }
 
-    if (sign1 != sign2) {
-      if (sign1) {  //-7 - 3 OR -3 - 7
-        s21_add_long(value1, value2, &total);
-        s21_set_sign(res);
-        flag_signed = 1;
+      s21_normalization(&value1, &value2, diff);  // common denominator
 
-      } else {  // 7 - (-3) OR 3 - (-7)
-        s21_add_long(value1, value2, &total);
+      if (!sign1 && !sign2) {
+        if (s21_is_greater_long(value2, value1)) {  // 3 - 7
+          s21_long_decimal tmp = value1;
+          value1 = value2;
+          value2 = tmp;
+          s21_set_sign(res);
+          flag_signed = 1;
+        }
+
+        s21_sub_long(value1, value2, &total);
       }
-    }
 
-    int set_scale = s21_get_scale(x);
+      if (sign1 && sign2) {  //-7 - (-3) OR -3 - (-7)
+        if (s21_is_greater_long(value1, value2)) {
+          s21_sub_long(value1, value2, &total);
+          s21_set_sign(res);
+          flag_signed = 1;
 
-    int scale = s21_post_normalization(
-        &total, set_scale);  // both scales are equal now(watch string №265)
+        } else {
+          s21_sub_long(value2, value1, &total);
+        }
+      }
 
-    if (scale >= 0) {
-      s21_long_to_short_decimal(total, res);
-      s21_set_scale(res, scale);
-    } else {
-      error = 1;
+      if (sign1 != sign2) {
+        if (sign1) {  //-7 - 3 OR -3 - 7
+          s21_add_long(value1, value2, &total);
+          s21_set_sign(res);
+          flag_signed = 1;
+
+        } else {  // 7 - (-3) OR 3 - (-7)
+          s21_add_long(value1, value2, &total);
+        }
+      }
+
+      int set_scale = s21_get_scale(x);
+
+      int scale = s21_post_normalization(
+          &total, set_scale);  // both scales are equal now(watch string №265)
+
+      if (scale >= 0) {
+        s21_long_to_short_decimal(total, res);
+        s21_set_scale(res, scale);
+      } else {
+        error = 1;
+      }
     }
   }
 
   if (error && flag_signed) {
     error = 2;
   }
+
+  if (skip) error = 1;
+  if (skip && flag_signed) error = 2;
 
   if (error) s21_zero_decimal(res);
 
@@ -372,68 +443,68 @@ void s21_sub_long(s21_long_decimal value1, s21_long_decimal value2,
   s21_add_long(value1, value2, total);
 }
 
-int s21_mul_int(int x, int y) {
-  int index_x;
-  int index_y;
-  for (int i = 31; i >= 0; i--) {
-    if (s21_f_get_bit(x, i)) {
-      index_x = i;
-      break;
-    }
-  }
+// int s21_mul_int(int x, int y) {
+//   int index_x;
+//   int index_y;
+//   for (int i = 31; i >= 0; i--) {
+//     if (s21_f_get_bit(x, i)) {
+//       index_x = i;
+//       break;
+//     }
+//   }
 
-  for (int i = 31; i >= 0; i--) {
-    if (s21_f_get_bit(y, i)) {
-      index_y = i;
-      break;
-    }
-  }
+//   for (int i = 31; i >= 0; i--) {
+//     if (s21_f_get_bit(y, i)) {
+//       index_y = i;
+//       break;
+//     }
+//   }
 
-  int index = (index_x > index_y) ? index_x : index_y;
+//   int index = (index_x > index_y) ? index_x : index_y;
 
-  int bit_y = 0;
-  int bit_x = 0;
+//   int bit_y = 0;
+//   int bit_x = 0;
 
-  int tmp[index];
+//   int tmp[index];
 
-  for (int i = 0; i <= index; i++) {
-    for (int j = 0; j <= 31; j++) {
-      s21_f_set_bit(&tmp[i], j, 0);  // make tmp[] = {0};
-    }
-  }
+//   for (int i = 0; i <= index; i++) {
+//     for (int j = 0; j <= 31; j++) {
+//       s21_f_set_bit(&tmp[i], j, 0);  // make tmp[] = {0};
+//     }
+//   }
 
-  for (int i = 0; i <= index; i++) {
-    bit_y = s21_f_get_bit(y, i);
+//   for (int i = 0; i <= index; i++) {
+//     bit_y = s21_f_get_bit(y, i);
 
-    for (int j = 0; j <= index; j++) {
-      bit_x = s21_f_get_bit(x, j);
+//     for (int j = 0; j <= index; j++) {
+//       bit_x = s21_f_get_bit(x, j);
 
-      if (!bit_x || !bit_y) {
-        s21_f_set_bit(&tmp[i], j, 0);
-      } else {
-        s21_f_set_bit(&tmp[i], j, 1);
-      }
-    }
-  }
+//       if (!bit_x || !bit_y) {
+//         s21_f_set_bit(&tmp[i], j, 0);
+//       } else {
+//         s21_f_set_bit(&tmp[i], j, 1);
+//       }
+//     }
+//   }
 
-  for (int i = 0; i <= index; i++) {
-    tmp[i] = tmp[i] << i;
-  }
+//   for (int i = 0; i <= index; i++) {
+//     tmp[i] = tmp[i] << i;
+//   }
 
-  //  for(int i = 31 ; i >= 0 ; i--){   // show each bit of res
-  //       int bit = f_get_bit(tmp[1],i);
-  //       printf("%d ",bit);
-  //   }
+//   //  for(int i = 31 ; i >= 0 ; i--){   // show each bit of res
+//   //       int bit = f_get_bit(tmp[1],i);
+//   //       printf("%d ",bit);
+//   //   }
 
-  int res = 0;
-  int carry = 0;
+//   int res = 0;
+//   int carry = 0;
 
-  for (int i = 0; i <= index; i++) {
-    res = s21_add_int(res, tmp[i], &carry);
-  }
+//   for (int i = 0; i <= index; i++) {
+//     res = s21_add_int(res, tmp[i], &carry);
+//   }
 
-  return res;
-}
+//   return res;
+// }
 
 int s21_mul(s21_decimal x, s21_decimal y, s21_decimal *res) {
   int sign1 = s21_get_sign(x);
@@ -500,53 +571,55 @@ int s21_mul_long(s21_long_decimal value1, s21_long_decimal value2,
 
 int s21_div(s21_decimal x, s21_decimal y, s21_decimal *res) {
   int error = 0;
+
   s21_zero_decimal(res);
 
-  if (s21_is_decimal(y)) {
-    int scale, res_scale = 0;
+  if (s21_is_decimal(x)) {  // 0/any value = 0
+    if (s21_is_decimal(y)) {
+      int scale, res_scale = 0;
 
-    s21_long_decimal value1 = {0}, value2 = {0}, total = {0};
-    s21_long_decimal ten = {{10, 0, 0, 0, 0, 0, 0, 0}};
+      s21_long_decimal value1 = {0}, value2 = {0}, total = {0};
+      s21_long_decimal ten = {{10, 0, 0, 0, 0, 0, 0, 0}};
 
-    int scale1 = s21_get_scale(x);
-    int scale2 = s21_get_scale(y);
-    (void)scale1;
-    (void)scale2;
-    int sign1 = s21_get_sign(x);
-    int sign2 = s21_get_sign(y);
+      int scale1 = s21_get_scale(x);
+      int scale2 = s21_get_scale(y);
+      (void)scale1;
+      (void)scale2;
+      int sign1 = s21_get_sign(x);
+      int sign2 = s21_get_sign(y);
 
-    if (sign1 != sign2) s21_set_sign(res);
+      if (sign1 != sign2) s21_set_sign(res);
 
-    s21_short_to_long_decimal(x, &value1);
-    s21_short_to_long_decimal(y, &value2);
+      s21_short_to_long_decimal(x, &value1);
+      s21_short_to_long_decimal(y, &value2);
 
-    scale = s21_div_long(value1, value2, &total);
+      scale = s21_div_long(value1, value2, &total);
+      s21_set_scale(&x, s21_get_scale(x) + scale);
 
-    s21_set_scale(&x, s21_get_scale(x) + scale);
-
-    res_scale = s21_get_scale(x) - s21_get_scale(y);
-    if (res_scale > 0) {
-      res_scale = s21_post_normalization(&total, res_scale);
-    } else if (res_scale < 0) {
-      for (int i = 0; i < abs(res_scale); i++) {
-        s21_mul_long(total, ten, &total);
+      res_scale = s21_get_scale(x) - s21_get_scale(y);
+      if (res_scale > 0) {
+        res_scale = s21_post_normalization(&total, res_scale);
+      } else if (res_scale < 0) {
+        for (int i = 0; i < abs(res_scale); i++) {
+          s21_mul_long(total, ten, &total);
+        }
+        res_scale = s21_post_normalization(&total, 0);
       }
-      res_scale = s21_post_normalization(&total, 0);
-    }
 
-    if (res_scale >= 0) {
-      s21_long_to_short_decimal(total, res);
-      s21_set_scale(res, res_scale);
+      if (res_scale >= 0) {
+        s21_long_to_short_decimal(total, res);
+        s21_set_scale(res, res_scale);
+      } else {
+        error = 1;
+      }
+
+      if (error == 1 && s21_get_sign(*res)) error = 2;
+
+      if (error) s21_zero_decimal(res);
+
     } else {
-      error = 1;
+      error = 3;
     }
-
-    if (error == 1 && s21_get_sign(*res)) error = 2;
-
-    if (error) s21_zero_decimal(res);
-
-  } else {
-    error = 3;
   }
 
   return error;
@@ -746,86 +819,87 @@ int s21_equation_long(s21_long_decimal *value1, s21_long_decimal *value2) {
   return scale;
 }
 
-s21_long_decimal division(s21_long_decimal value1, s21_long_decimal value2,
-                          s21_long_decimal *remainder) {
-  s21_long_decimal result = {0};
-  s21_long_decimal partial_remainder = {0};
-  s21_long_decimal quotinent = {0};
+// s21_long_decimal division(s21_long_decimal value1, s21_long_decimal value2,
+//                           s21_long_decimal *remainder) {
+//   s21_long_decimal result = {0};
+//   s21_long_decimal partial_remainder = {0};
+//   s21_long_decimal quotinent = {0};
 
-  if (s21_is_greater_long(value2, value1)) {  // 3/5
-    partial_remainder = value1;
-  } else {
-    // FIND SHIFT
+//   if (s21_is_greater_long(value2, value1)) {  // 3/5
+//     partial_remainder = value1;
+//   } else {
+//     // FIND SHIFT
 
-    int left1 = 0;  // index of the last significant bit that equals 1
-    int left2 = 0;
+//     int left1 = 0;  // index of the last significant bit that equals 1
+//     int left2 = 0;
 
-    for (int i = 255; i >= 0; i--) {
-      if (s21_get_bit_long(value1, i)) {
-        left1 = i;
-        break;
-      }
-    }
+//     for (int i = 255; i >= 0; i--) {
+//       if (s21_get_bit_long(value1, i)) {
+//         left1 = i;
+//         break;
+//       }
+//     }
 
-    for (int i = 255; i >= 0; i--) {
-      if (s21_get_bit_long(value2, i)) {
-        left2 = i;
-        break;
-      }
-    }
+//     for (int i = 255; i >= 0; i--) {
+//       if (s21_get_bit_long(value2, i)) {
+//         left2 = i;
+//         break;
+//       }
+//     }
 
-    int shift = left1 - left2;  // ALWAYS > 0 because we have already compared
-                                // if value2 > value1
+//     int shift = left1 - left2;  // ALWAYS > 0 because we have already
+//     compared
+//                                 // if value2 > value1
 
-    // SHIFT THE DIVISOR(value2)
+//     // SHIFT THE DIVISOR(value2)
 
-    s21_long_decimal shifted_divisor = value2;
-    s21_shift_long_left(&shifted_divisor, shift);
+//     s21_long_decimal shifted_divisor = value2;
+//     s21_shift_long_left(&shifted_divisor, shift);
 
-    // FIND QUOTINENT AND PARTIAL_REMAINDER
+//     // FIND QUOTINENT AND PARTIAL_REMAINDER
 
-    s21_long_decimal dividend = value1;
+//     s21_long_decimal dividend = value1;
 
-    int need_substraction = 1;  // it's nessesary initially
+//     int need_substraction = 1;  // it's nessesary initially
 
-    while (shift >= 0) {
-      if (need_substraction == 1) {
-        s21_sub_long(dividend, shifted_divisor, &partial_remainder);
-      } else {
-        s21_add_long(dividend, shifted_divisor, &partial_remainder);
-      }
+//     while (shift >= 0) {
+//       if (need_substraction == 1) {
+//         s21_sub_long(dividend, shifted_divisor, &partial_remainder);
+//       } else {
+//         s21_add_long(dividend, shifted_divisor, &partial_remainder);
+//       }
 
-      s21_shift_long_left(&quotinent, 1);
+//       s21_shift_long_left(&quotinent, 1);
 
-      if (!(s21_get_bit_long(partial_remainder, 255))) {
-        s21_set_bit_long(&quotinent, 0, 1);
-      }
+//       if (!(s21_get_bit_long(partial_remainder, 255))) {
+//         s21_set_bit_long(&quotinent, 0, 1);
+//       }
 
-      dividend = partial_remainder;
+//       dividend = partial_remainder;
 
-      s21_shift_long_left(&dividend, 1);
+//       s21_shift_long_left(&dividend, 1);
 
-      if (!(s21_get_bit_long(partial_remainder, 255))) {
-        need_substraction = 1;
-      } else {
-        need_substraction = 0;
-      }
+//       if (!(s21_get_bit_long(partial_remainder, 255))) {
+//         need_substraction = 1;
+//       } else {
+//         need_substraction = 0;
+//       }
 
-      --shift;
-    }
+//       --shift;
+//     }
 
-    if (s21_get_bit_long(partial_remainder, 255)) {
-      s21_add_long(partial_remainder, shifted_divisor, &partial_remainder);
-    }
+//     if (s21_get_bit_long(partial_remainder, 255)) {
+//       s21_add_long(partial_remainder, shifted_divisor, &partial_remainder);
+//     }
 
-    s21_shift_long_right(&partial_remainder, left1 - left2);
-  }
+//     s21_shift_long_right(&partial_remainder, left1 - left2);
+//   }
 
-  result = quotinent;
-  (void)remainder;
+//   result = quotinent;
+//   (void)remainder;
 
-  return result;
-}
+//   return result;
+// }
 
 // int s21_division_post_normalization(s21_long_decimal *res,s21_long_decimal
 // *value2,s21_long_decimal *remainder){
@@ -939,11 +1013,11 @@ int s21_post_normalization(s21_long_decimal *res, int scale) {
   return scale;
 }
 
-void s21_increase_scale_long_decimal(s21_long_decimal *dst, int n) {
-  s21_long_decimal ten = {{10, 0, 0, 0, 0, 0, 0, 0}}, tmp = {0};
-  for (int i = 0; i < n; i++) {
-    s21_mul_long(*dst, ten, &tmp);
-    *dst = tmp;
-    s21_zero_long(&tmp);
-  }
-}
+// void s21_increase_scale_long_decimal(s21_long_decimal *dst, int n) {
+//   s21_long_decimal ten = {{10, 0, 0, 0, 0, 0, 0, 0}}, tmp = {0};
+//   for (int i = 0; i < n; i++) {
+//     s21_mul_long(*dst, ten, &tmp);
+//     *dst = tmp;
+//     s21_zero_long(&tmp);
+//   }
+// }

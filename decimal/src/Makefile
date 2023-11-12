@@ -23,9 +23,9 @@ test: s21_decimal.a
 gcov_rep:test
 	mkdir report
 	$(GCOVR_PATH) -r . --html --html-details -o $(REPORT)
-	xdg-open $(REPORT)	
+	xdg-open $(REPORT)
 gcov_report:test
-	gcovr --html --html-details -o report.html
+	gcovr -r . --html --html-details -o report.html
 	xdg-open report.html
 lcov_report:test
 	lcov -t "test" -o s21_test.info -c -d .

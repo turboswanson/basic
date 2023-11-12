@@ -7,23 +7,12 @@
 #define EXPONENT_PLUS_1 65536
 
 int main(void) {
-  float a = 50;
-  float b = 0.7;
-
-  s21_decimal x = {0};
-  s21_decimal y = {0};
-  s21_decimal res = {0};
-
-  s21_from_float_to_decimal(a, &x);
-  s21_from_float_to_decimal(b, &y);
-
-  s21_div(x, y, &res);
-
-  float num = 0;
-  s21_from_decimal_to_float(res, &num);
-  printf("%f", num);
-
-  // printf("%d \n %d",res.bits[0],s21_get_scale(res));
+  s21_decimal src1 = {{UINT_MAX, UINT_MAX, UINT_MAX, ~(INT_MAX)}};
+  s21_decimal src2 = {0};
+  float a = -0.01448;
+  s21_from_float_to_decimal(a, &src2);
+  s21_decimal res_dec = {0};
+  s21_add(src1, src2, &res_dec);
   // for(int i = 31; i >= 0;i--){
   //     int bit = s21_f_get_bit(a,i);
   //     printf("%d",bit);
@@ -35,21 +24,21 @@ int main(void) {
 
   // }
 
-  // for(int i = 127; i >= 0;i--){
-  //     int bit = s21_get_bit(result,i);
-  //     printf("%d",bit);
+  for (int i = 127; i >= 0; i--) {
+    int bit = s21_get_bit(src2, i);
+    printf("%d", bit);
 
-  //     if(i == 96 || i == 64 || i == 32)printf(" ");//bits
-  //     if(i == 127)printf(" "); // sign
-  //     if(i == 120)printf(" "); // 0
-  //     if(i == 112)printf(" "); //pow
-
-  // }
+    if (i == 96 || i == 64 || i == 32) printf(" ");  // bits
+    if (i == 127) printf(" ");                       // sign
+    if (i == 120) printf(" ");                       // 0
+    if (i == 112) printf(" ");                       // pow
+  }
+  // printf("%d",s21_is_equal(tmp,result[13]));
 
   // printf("\n");
 
   // for(int i = 127; i >= 0;i--){
-  //     int bit = s21_get_bit(origin,i);
+  //     int bit = s21_get_bit(num2,i);
   //     printf("%d",bit);
 
   //     if(i == 96 || i == 64 || i == 32)printf(" ");//bits
@@ -59,13 +48,13 @@ int main(void) {
 
   // }
 
-  // for(int i = 255; i >= 0;i--){
-  //   int bit = s21_get_bit_long(res,i);
-  //   printf("%d",bit);
+  //   for(int i = 255; i >= 0;i--){
+  //     int bit = s21_get_bit_long(tmp,i);
+  //     printf("%d",bit);
 
-  //   if(i % 32 == 0) printf(" ");
+  //     if(i % 32 == 0) printf(" ");
 
-  // }
+  //   }
 
   return 0;
 }
