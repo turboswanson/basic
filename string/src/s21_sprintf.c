@@ -64,7 +64,7 @@ int s21_sprintf(char *buf, const char *format, ...) {
 
   *buf = '\0';
 
-  va_end(factor);
+   va_end(factor);
 
   return buf - start;
 }
@@ -547,4 +547,5 @@ void ftostring(long double num, char *buf_tmp, options f) {
   }
 
   flag = 0;
+
 }
