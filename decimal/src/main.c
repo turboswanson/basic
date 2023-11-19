@@ -7,12 +7,23 @@
 #define EXPONENT_PLUS_1 65536
 
 int main(void) {
-  s21_decimal src1 = {{UINT_MAX, UINT_MAX, UINT_MAX, ~(INT_MAX)}};
-  s21_decimal src2 = {0};
-  float a = -0.01448;
-  s21_from_float_to_decimal(a, &src2);
-  s21_decimal res_dec = {0};
-  s21_add(src1, src2, &res_dec);
+  s21_decimal num1 = {{0, 0, 0, 0}};
+  s21_decimal num2 = {{0, 0, 0, 0}};
+  // s21_set_scale(&num2,1);
+  s21_decimal tmp;
+  printf("%d\n", s21_round(num1, &tmp));
+  printf("%d\n", s21_truncate(num1, &tmp));
+  printf("%d\n", s21_floor(num1, &tmp));
+  printf("%d\n", s21_negate(num1, &tmp));
+  printf("%d\n", s21_add(num1, num2, &tmp));
+  printf("%d\n", s21_sub(num1, num2, &tmp));
+  printf("%d\n", s21_mul(num1, num2, &tmp));
+  printf("%d", s21_div(num1, num2, &tmp));
+
+  // for (int i = 0; i < 80; i++) {
+  //   s21_round(arr[i],&tmp);
+  //   printf("%d - %d\n",i,s21_is_equal(tmp,result[i]));
+  // }
   // for(int i = 31; i >= 0;i--){
   //     int bit = s21_f_get_bit(a,i);
   //     printf("%d",bit);
@@ -24,21 +35,21 @@ int main(void) {
 
   // }
 
-  for (int i = 127; i >= 0; i--) {
-    int bit = s21_get_bit(src2, i);
-    printf("%d", bit);
+  // for (int i = 127; i >= 0; i--) {
+  //   int bit = s21_get_bit(tmp, i);
+  //   printf("%d", bit);
 
-    if (i == 96 || i == 64 || i == 32) printf(" ");  // bits
-    if (i == 127) printf(" ");                       // sign
-    if (i == 120) printf(" ");                       // 0
-    if (i == 112) printf(" ");                       // pow
-  }
-  // printf("%d",s21_is_equal(tmp,result[13]));
+  //   if (i == 96 || i == 64 || i == 32) printf(" ");  // bits
+  //   if (i == 127) printf(" ");                       // sign
+  //   if (i == 120) printf(" ");                       // 0
+  //   if (i == 112) printf(" ");                       // pow
+  // }
+  // // printf("%d",s21_is_equal(tmp,result[13]));
 
   // printf("\n");
 
   // for(int i = 127; i >= 0;i--){
-  //     int bit = s21_get_bit(num2,i);
+  //     int bit = s21_get_bit(num2[29],i);
   //     printf("%d",bit);
 
   //     if(i == 96 || i == 64 || i == 32)printf(" ");//bits

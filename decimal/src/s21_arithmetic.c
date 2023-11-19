@@ -574,7 +574,9 @@ int s21_div(s21_decimal x, s21_decimal y, s21_decimal *res) {
 
   s21_zero_decimal(res);
 
-  if (s21_is_decimal(x)) {  // 0/any value = 0
+  if (!s21_is_decimal(x) && !s21_is_decimal(y)) {
+    error = 3;
+  } else if (s21_is_decimal(x)) {  // 0/any value = 0
     if (s21_is_decimal(y)) {
       int scale, res_scale = 0;
 
@@ -731,7 +733,7 @@ int s21_div_long(s21_long_decimal value1, s21_long_decimal value2,
 }
 
 void s21_div_long_int(s21_long_decimal value1, s21_long_decimal value2,
-                      s21_long_decimal *total) {
+                      s21_long_decimal *total, int *remainder) {
   int left1 = 0;
   int left2 = 0;
   int scale = 0;
@@ -740,65 +742,69 @@ void s21_div_long_int(s21_long_decimal value1, s21_long_decimal value2,
 
   s21_zero_long(total);
 
-  // s21_long_decimal ten = {{10,0,0,0,0,0,0,0}};
-  s21_long_decimal tmp = {0};
+  if (!s21_equals_zero_long(value1)) {
+    // s21_long_decimal ten = {{10,0,0,0,0,0,0,0}};
+    s21_long_decimal tmp = {0};
 
-  for (int i = 255; i >= 0 && (!left1 || !left2); i--) {
-    if (left1 == 0 && s21_get_bit_long(value1, i)) {
-      left1 = i;
+    for (int i = 255; i >= 0 && (!left1 || !left2); i--) {
+      if (left1 == 0 && s21_get_bit_long(value1, i)) {
+        left1 = i;
+      }
+
+      if (left2 == 0 && s21_get_bit_long(value2, i)) {
+        left2 = i;
+      }
     }
 
-    if (left2 == 0 && s21_get_bit_long(value2, i)) {
-      left2 = i;
+    bit2 = left2;  // the highest bit of value2 before all moves
+
+    scale = s21_equation_long(
+        &value1, &value2);  // how much we need to shift to the left or (MUL *
+                            // 10) each number to be able to sub it
+
+    save_scale += scale;
+
+    left1 = left2 = 0;
+
+    for (int i = 255; i >= 0 && (!left1 || !left2);
+         i--) {  // find lefts after equation
+      if (left1 == 0 && s21_get_bit_long(value1, i)) {
+        left1 = i;
+      }
+
+      if (left2 == 0 && s21_get_bit_long(value2, i)) {
+        left2 = i;
+      }
     }
+
+    int diff = left2 - bit2;  // how much value2 was left-shifted
+
+    if (diff < 0) diff = 0;
+
+    for (; diff >= 0 && s21_is_long_decimal(value1);) {
+      if (s21_is_greater_long(value2, value1)) {
+        s21_set_bit_long(&tmp, 0, 0);
+      } else {
+        s21_sub_long(value1, value2, &value1);
+        s21_set_bit_long(&tmp, 0, 1);
+      }
+
+      diff--;
+
+      if (diff >= 0) s21_shift_long_right(&value2, 1);
+
+      s21_shift_long_left(&tmp, 1);
+    }
+
+    if (diff >= 0) s21_shift_long_left(&tmp, diff + 1);
+
+    s21_shift_long_right(&tmp, 1);
+
+    s21_add_long(*total, tmp, total);
+    s21_zero_long(&tmp);
+
+    *remainder = value1.bits[0];
   }
-
-  bit2 = left2;  // the highest bit of value2 before all moves
-
-  scale = s21_equation_long(
-      &value1, &value2);  // how much we need to shift to the left or (MUL * 10)
-                          // each number to be able to sub it
-
-  save_scale += scale;
-
-  left1 = left2 = 0;
-
-  for (int i = 255; i >= 0 && (!left1 || !left2);
-       i--) {  // find lefts after equation
-    if (left1 == 0 && s21_get_bit_long(value1, i)) {
-      left1 = i;
-    }
-
-    if (left2 == 0 && s21_get_bit_long(value2, i)) {
-      left2 = i;
-    }
-  }
-
-  int diff = left2 - bit2;  // how much value2 was left-shifted
-
-  if (diff < 0) diff = 0;
-
-  for (; diff >= 0 && s21_is_long_decimal(value1);) {
-    if (s21_is_greater_long(value2, value1)) {
-      s21_set_bit_long(&tmp, 0, 0);
-    } else {
-      s21_sub_long(value1, value2, &value1);
-      s21_set_bit_long(&tmp, 0, 1);
-    }
-
-    diff--;
-
-    if (diff >= 0) s21_shift_long_right(&value2, 1);
-
-    s21_shift_long_left(&tmp, 1);
-  }
-
-  if (diff >= 0) s21_shift_long_left(&tmp, diff + 1);
-
-  s21_shift_long_right(&tmp, 1);
-
-  s21_add_long(*total, tmp, total);
-  s21_zero_long(&tmp);
 }
 
 int s21_equation_long(s21_long_decimal *value1, s21_long_decimal *value2) {
@@ -985,12 +991,13 @@ void s21_normalization(s21_long_decimal *value1, s21_long_decimal *value2,
 int s21_post_normalization(s21_long_decimal *res, int scale) {
   int flag = 0;
   s21_long_decimal ten = {{10, 0, 0, 0, 0, 0, 0, 0}};
+  int remainder = 0;
 
   while ((res->bits[3] || res->bits[4] || res->bits[5] || res->bits[6] ||
           res->bits[7]) &&
          scale > 0) {  //
-    s21_div_long_int(*res, ten, res);
-    // quo = 3 rem = 14
+
+    s21_div_long_int(*res, ten, res, &remainder);
 
     if (res->bits[3] && scale == 1) {
       flag = 1;
@@ -1000,9 +1007,16 @@ int s21_post_normalization(s21_long_decimal *res, int scale) {
               // make scale--(10^x x--) OR x/10^5 : 1/10 == 10x/10^5 == x/10^4
   }
 
-  if (flag && scale == 0 && res->bits[3] == 0 &&
-      s21_get_bit_long(*res, 0)) {  // making res = res - 1
-    s21_set_bit_long(res, 0, 0);
+  // printf("%d\n",remainder);
+
+  // if (flag && scale == 0 && res->bits[3] == 0 &&
+  //     s21_get_bit_long(*res, 0)) {  // making res = res - 1
+  //   s21_set_bit_long(res, 0, 0);
+  // }
+  (void)flag;
+  s21_long_decimal one = {{1, 0, 0, 0, 0, 0, 0, 0}};
+  if (remainder >= 5) {
+    s21_add_long(*res, one, res);
   }
 
   if ((res->bits[3] || res->bits[4] || res->bits[5] || res->bits[6] ||

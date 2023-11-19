@@ -72,7 +72,7 @@ int s21_division_post_normalization(s21_long_decimal *res,
 int s21_div_long(s21_long_decimal value1, s21_long_decimal value2,
                  s21_long_decimal *total);
 void s21_div_long_int(s21_long_decimal value1, s21_long_decimal value2,
-                      s21_long_decimal *total);
+                      s21_long_decimal *total, int *remainder);
 int s21_equation_long(s21_long_decimal *value1, s21_long_decimal *value2);
 s21_long_decimal division(s21_long_decimal value1, s21_long_decimal value2,
                           s21_long_decimal *remainder);

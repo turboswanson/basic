@@ -35,9 +35,10 @@ int s21_truncate(s21_decimal value, s21_decimal *result) {
     s21_short_to_long_decimal(value, &tmp);
 
     s21_long_decimal ten = {{10, 0, 0, 0}};
+    int remainder = 0;
 
     for (int i = 0; i < scale; i++) {
-      s21_div_long_int(tmp, ten, &tmp);
+      s21_div_long_int(tmp, ten, &tmp, &remainder);
 
       if (tmp.bits[0] < 10 && (scale - i) > 1) {
         s21_zero_long(&tmp);
