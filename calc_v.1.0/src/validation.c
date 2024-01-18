@@ -1,49 +1,166 @@
 #include "calc.h"
 
+static int check_symbol(char c, char symbol){
+  int res = 0;
+
+  if(c == symbol){
+    res = 1;
+  }
+
+  return res;
+}
+
+static int is_operator(char c){
+
+int res = 0;
+
+ if((c == '+' || c == '-' || c == '*' || c == '/' || c == '^')){
+    res = 1;
+ }
+
+  return res;
+}
+
+
 int validation(char *str) {
   int error = 0;
-  char buffer[1024] = {0};
+  int count_open_brackets = 0;
+  int count_closing_brackets = 0;
+
+  char buffer[256] = {0};
   strncpy(buffer, str, sizeof(buffer) - 1);
   buffer[sizeof(buffer) - 1] = '\0';
+
   size_t len = strlen(buffer);
+
   if (len == 0) error++;
-  for (size_t i = 0; i < len; i++) {
-    if (buffer[i] == '(') error++;
-    if (buffer[i] == ')') error--;
-    if ((((buffer[i] == 's' && buffer[i + 1] != 'q' && buffer[i - 1] != 'o') ||
-          buffer[i] == 'c' || (buffer[i] == 't' && buffer[i - 1] != 'r')) &&
-         buffer[i - 1] != 'a') &&
-        buffer[i + 3] != '(')
+ 
+  for (size_t i = 0; (!error && (i < len)); i++) {
+
+    if(check_symbol(buffer[i],'(')){
+      count_open_brackets++;
+    }
+
+    if(check_symbol(buffer[i],')')){
+      count_closing_brackets++;
+    }
+
+    if(check_symbol(buffer[i],'n') && !check_symbol(buffer[i+1],'(')){
       error++;
-    if ((buffer[i] == 'a' && buffer[i - 1] != 't') && buffer[i + 4] != '(')
+    }
+
+    if(check_symbol(buffer[i],'g') && !check_symbol(buffer[i+1],'(')){
       error++;
-    if (buffer[i] == '+' || buffer[i] == '-' || buffer[i] == '*' ||
-        buffer[i] == '/' || buffer[i] == '^') {
-      if (buffer[i + 1] == '+' || buffer[i + 1] == '-' ||
-          buffer[i + 1] == '*' || buffer[i + 1] == '/' ||
-          buffer[i + 1] == '^') {
+    }
+
+    if(check_symbol(buffer[i],'s') && (check_symbol(buffer[i-1],'o') && !check_symbol(buffer[i+1],'('))){
+      error++;
+    }
+
+    if(check_symbol(buffer[i],'s') && (check_symbol(buffer[i+1],'q') && !check_symbol(buffer[i+4],'('))){
+      error++;
+    }
+
+    if(is_operator(buffer[i]) && is_operator(buffer[i+1])){
+      error++;
+    }
+       
+    if (check_symbol(buffer[i],'m') && (!(isdigit(buffer[i - 1])) || !(isdigit(buffer[i + 3])))){
+      error++;
+    }
+
+    if (check_symbol(buffer[i],'.') && (!isdigit(buffer[i + 1]) || !isdigit(buffer[i - 1]))){
+      error++;
+    }
+
+    if (check_symbol(buffer[i],'(') && check_symbol(buffer[i+1],')')){
+      error++;
+    }
+
+    if ((is_operator(buffer[0]) && !check_symbol(buffer[0],'+')) || check_symbol(buffer[0],'m')){
+      error++;
+    }
+
+    if (is_operator(buffer[len-1]) || check_symbol(buffer[len-1],'d')){
+      error++;
+    }
+
+    if(check_symbol(buffer[i],'/') && check_symbol(buffer[i+1],'0')){
+      if(is_operator(buffer[i+2])){
+        error++;
+      }else if(i + 1 == len - 1){
         error++;
       }
     }
-    if (buffer[i] == 'm' &&
-        (!(isdigit(buffer[i - 1])) || !(isdigit(buffer[i + 3]))))
+
+    if(isdigit(buffer[i]) && !isdigit(buffer[i+1]) && (i != len - 1)){
+
+      if(!is_operator(buffer[i+1]) && !check_symbol(buffer[i+1],')') && !check_symbol(buffer[i+1],'.')
+         && !check_symbol(buffer[i+1],'m')){
+        error++;
+      }
+        
+    }
+
+    if(check_symbol(buffer[i],')') && is_operator(buffer[i-1]) ){
       error++;
-    if (buffer[i] == '.' &&
-        (!isdigit(buffer[i + 1]) || !isdigit(buffer[i - 1])))
-      error++;
-    if (buffer[i] == '(' && buffer[i + 1] == ')') error++;
-    if (buffer[0] == '*' || buffer[0] == '/' || buffer[0] == '^' ||
-        buffer[0] == 'm')
-      error++;
-    if (buffer[len - 1] == '+' || buffer[len - 1] == '-' ||
-        buffer[len - 1] == '*' || buffer[len - 1] == '/' ||
-        buffer[len - 1] == '^' || buffer[len - 1] == 'm')
-      error++;
-    if (buffer[i] == '/' && buffer[i + 1] == '0' &&
-        (buffer[i + 2] == '+' || buffer[i + 2] == '*' || buffer[i + 2] == '/' ||
-         buffer[i + 2] == '^'))
-      error++;
-    if (i == len - 2 && buffer[i] == '/' && buffer[i + 1] == '0') error++;
+    }
   }
+
+  if(!error && count_open_brackets != count_closing_brackets){
+    error++;
+  }
+
+  return error;
+}
+
+int x_validation(char *str) {
+  int error = 0;
+  size_t len = 0;
+
+  int count_dots = 0;
+
+  char buffer[256] = {0};
+  strncpy(buffer, str, sizeof(buffer) - 1);
+  buffer[sizeof(buffer) - 1] = '\0';
+
+  len = strlen(buffer);
+  
+  for (size_t i = 0;len != 0 && !error && (i < len); i++) {
+
+    if(i != 0 && is_operator(buffer[i])){
+      error++;
+    }
+
+    if(!isdigit(buffer[0]) && !check_symbol(buffer[0],'-') && !check_symbol(buffer[0],'+')){
+      error++;
+    }
+
+    if(check_symbol(buffer[i],'.' && check_symbol(buffer[i+1],'.'))){
+      error++;
+    }
+
+    if(isalpha(buffer[i])){
+      error++;
+    }
+
+    if((check_symbol(buffer[0],'-') || check_symbol(buffer[0],'+')) && !isdigit(buffer[1])){
+      error++;
+    }
+
+    if(check_symbol(buffer[i],'(') || check_symbol(buffer[i],')')){
+      error++;
+    }
+
+    if(check_symbol(buffer[i],'.') && count_dots){
+      error++;
+    }
+
+    if(check_symbol(buffer[i],'.') && !count_dots){
+      count_dots++;
+    }    
+
+  }
+
   return error;
 }

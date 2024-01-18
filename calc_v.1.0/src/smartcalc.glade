@@ -32,6 +32,7 @@
             <property name="editable">False</property>
             <property name="placeholder-text" translatable="yes">type input here</property>
             <signal name="activate" handler="on_entry_focus_out" swapped="no"/>
+            <signal name="focus-in-event" handler="on_entry_focus_out" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">0</property>

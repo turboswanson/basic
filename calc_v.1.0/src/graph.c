@@ -4,7 +4,7 @@ void open_new_window(elements *output, int count) {
   GtkBuilder *new_builder;
   GtkWidget *new_window;
   GtkWidget *drawing_area;
-  // print_lexem(output,&count);
+
   DrawData *draw_data = g_slice_new(DrawData);
   draw_data->output = output;
   draw_data->count = count;
@@ -94,7 +94,7 @@ void on_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data) {
   int flag = 0;
 
   for (double x = -width; x < width; x += 0.1) {
-    double y = 0;
+    long double y = 0;
 
     for (int i = 0; i < count; i++) {
       if ((output + i)->operation[0] == 'x') {
@@ -115,4 +115,5 @@ void on_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data) {
   cairo_stroke(cr);
 
   flag = 0;
+
 }

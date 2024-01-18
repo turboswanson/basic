@@ -13,19 +13,57 @@
   ()     type = 4 / priority = 0 /  operation[0] = '('
 */
 
-int parser(char *input_buffer, elements *lexem, double x_value) {
+static int check_symbol(char c, char symbol){
+  int res = 0;
+
+  if(c == symbol){
+    res = 1;
+  }
+
+  return res;
+}
+
+static int is_operator(char c){
+
+int res = 0;
+
+ if((c == '+' || c == '-' || c == '*' || c == '/' || c == '^')){
+    res = 1;
+ }
+
+  return res;
+}
+
+static int is_function(char c){
+
+int res = 0;
+
+ if((c == 's' || c == 'c' || c == 't' || c == 'a' || c == 'm' || c == 'l')){
+    res = 1;
+ }
+
+  return res;
+}
+
+
+int parser(char *input_buffer, elements *lexem, long double x_value) {
   char buf[1024] = {0};
   int count = 0;
   int error = 0;
-  // int flag_neg = 0;
+  int flag_negative = 0;
+
   strncpy(buf, input_buffer, sizeof(buf) - 1);
   buf[sizeof(buf) - 1] = '\0';
 
   size_t len = strlen(buf);
 
   for (size_t i = 0; i < len; i++) {
-    if (i == 0 && buf[i] == '+') i++;
-    if (i == 0 && buf[i] == '-') {
+
+    if (i == 0 && check_symbol(buf[i],'+')){
+      i++;
+    }
+
+    if (i == 0 && check_symbol(buf[i],'-')) {
       unary_processing(lexem, &count);
       lexem += count;
       i++;
@@ -35,9 +73,17 @@ int parser(char *input_buffer, elements *lexem, double x_value) {
       error = digit_processing(lexem, buf, &i);
       lexem++;
       count++;
+      if(flag_negative){
+         lexem->type = 4;
+         lexem->priority = 0;
+         lexem->operation[0] = ')';
+         flag_negative = 0;
+         i++;
+         lexem++;
+      }
     }
 
-    if (buf[i] == 'x') {
+    if (check_symbol(buf[i],'x')) {
       lexem->type = 1;
       lexem->value = x_value;
       lexem->operation[0] = 'x';
@@ -47,8 +93,7 @@ int parser(char *input_buffer, elements *lexem, double x_value) {
     }
 
     if (!error) {
-      if (buf[i] == '+' || buf[i] == '-' || buf[i] == '*' || buf[i] == '/' ||
-          buf[i] == '^') {
+      if (is_operator(buf[i])) {
         operator_processing(buf[i], lexem);
         lexem++;
         count++;
@@ -56,24 +101,23 @@ int parser(char *input_buffer, elements *lexem, double x_value) {
 
       // sin,cos,tan,asin,acos,atan,log,sqrt
 
-      if (buf[i] == 's' || buf[i] == 'c' || buf[i] == 't' || buf[i] == 'a' ||
-          buf[i] == 'l' || buf[i] == 'm') {
+      if (is_function(buf[i])) {
         function_processing(buf, lexem, &i);
         count++;
         lexem++;
       }
 
-      if ((buf[i] == '(' && buf[i + 1] != '-') ||
-          (buf[i] == ')' && buf[i - 2] != '-')) {
+      if ((check_symbol(buf[i],'(') && buf[i + 1] != '-') || (check_symbol(buf[i],')'))) {
         brackets_processing(buf[i], lexem);
         count++;
         lexem++;
       }
 
-      if (buf[i] == '(' && buf[i + 1] == '-') {
+      if (check_symbol(buf[i],'(') && check_symbol(buf[i+1],'-')) {
         negative_processing(&lexem);
+        flag_negative = 1;
         i++;
-        count = count + 2;
+        count = count + 4;
         lexem++;
       }
     }
@@ -98,14 +142,9 @@ int digit_processing(elements *lexem, char *buf, size_t *i) {
   }
 
   if (dot <= 1) {
-    double res = 0.0;
-    // char *prevLocale = setlocale(LC_NUMERIC, NULL);
-    // setlocale(LC_NUMERIC, "C");
-
-    sscanf(start, "%lf", &res);
-    // g_print("%lf",res);
+    long double res = 0.0;
+    sscanf(start, "%Lf", &res);
     lexem->value = res;
-    // setlocale(LC_NUMERIC, prevLocale);
   } else {
     err = 1;
   }
@@ -126,17 +165,17 @@ void unary_processing(elements *lexem, int *count) {
 }
 
 void operator_processing(char operator, elements * lexem) {
-  if (operator== '+' || operator== '-') {
+  if (check_symbol(operator,'+') || check_symbol(operator,'-')) {
     lexem->type = 2;
     lexem->priority = 1;
   }
 
-  if (operator== '*' || operator== '/') {
+  if (check_symbol(operator,'*') || check_symbol(operator,'/')) {
     lexem->type = 2;
     lexem->priority = 2;
   }
 
-  if (operator== '^') {
+  if (check_symbol(operator,'^')) {
     lexem->type = 2;
     lexem->priority = 3;
   }
@@ -145,21 +184,21 @@ void operator_processing(char operator, elements * lexem) {
 }
 
 void function_processing(char *buf, elements *lexem, size_t *i) {
-  if (buf[*i] == 's' && buf[*i + 1] == 'i' && buf[*i + 2] == 'n') {
+  if (check_symbol(buf[*i],'s') && check_symbol(buf[*i+1],'i')) {
     lexem->type = 3;
     lexem->priority = 3;
     lexem->operation[0] = 's';
     lexem->operation[1] = 'i';
     lexem->operation[2] = 'n';
     *i = *i + 3;
-  } else if (buf[*i] == 'c' && buf[*i + 1] == 'o' && buf[*i + 2] == 's') {
+  } else if (check_symbol(buf[*i],'c') && check_symbol(buf[*i+1],'o')) {
     lexem->type = 3;
     lexem->priority = 3;
     lexem->operation[0] = 'c';
     lexem->operation[1] = 'o';
     lexem->operation[2] = 's';
     *i = *i + 3;
-  } else if (buf[*i] == 't' && buf[*i + 1] == 'a' && buf[*i + 2] == 'n') {
+  } else if (check_symbol(buf[*i],'t') && check_symbol(buf[*i+1],'a')) {
     lexem->type = 3;
     lexem->priority = 3;
     lexem->operation[0] = 't';
@@ -167,8 +206,7 @@ void function_processing(char *buf, elements *lexem, size_t *i) {
     lexem->operation[2] = 'n';
     *i = *i + 3;
   }
-  if (buf[*i] == 's' && buf[*i + 1] == 'q' && buf[*i + 2] == 'r' &&
-      buf[*i + 3] == 't') {
+  if (check_symbol(buf[*i],'s') && check_symbol(buf[*i+1],'q')) {
     lexem->type = 3;
     lexem->priority = 3;
     lexem->operation[0] = 's';
@@ -176,24 +214,24 @@ void function_processing(char *buf, elements *lexem, size_t *i) {
     lexem->operation[2] = 'r';
     lexem->operation[3] = 't';
     *i = *i + 4;
-  } else if (buf[*i] == 'a') {
+  } else if (check_symbol(buf[*i],'a')) {
     lexem->type = 3;
     lexem->priority = 3;
     lexem->operation[0] = 'a';
 
-    if (buf[*i + 1] == 's' && buf[*i + 2] == 'i' && buf[*i + 3] == 'n') {
+    if (check_symbol(buf[*i+1],'s') && check_symbol(buf[*i+2],'i')) {
       lexem->type = 3;
       lexem->priority = 3;
       lexem->operation[1] = 's';
       lexem->operation[2] = 'i';
       lexem->operation[3] = 'n';
-    } else if (buf[*i + 1] == 'c' && buf[*i + 2] == 'o' && buf[*i + 3] == 's') {
+    } else if (check_symbol(buf[*i+1],'c') && check_symbol(buf[*i+2],'o')) {
       lexem->type = 3;
       lexem->priority = 3;
       lexem->operation[1] = 'c';
       lexem->operation[2] = 'o';
       lexem->operation[3] = 's';
-    } else if (buf[*i + 1] == 't' && buf[*i + 2] == 'a' && buf[*i + 3] == 'n') {
+    } else if (check_symbol(buf[*i+1],'t') && check_symbol(buf[*i+2],'a')) {
       lexem->type = 3;
       lexem->priority = 3;
       lexem->operation[1] = 't';
@@ -202,20 +240,20 @@ void function_processing(char *buf, elements *lexem, size_t *i) {
     }
 
     *i = *i + 4;
-  } else if (buf[*i] == 'l') {
+  } else if (check_symbol(buf[*i],'l')) {
     lexem->type = 3;
     lexem->priority = 3;
     lexem->operation[0] = 'l';
 
-    if (buf[*i + 1] == 'o' && buf[*i + 2] == 'g') {
+    if (check_symbol(buf[*i+1],'o') && check_symbol(buf[*i+2],'g')) {
       lexem->operation[1] = 'o';
       lexem->operation[2] = 'g';
       *i = *i + 3;
-    } else if (buf[*i + 1] == 'n') {
+    } else if (check_symbol(buf[*i+1],'n')) {
       lexem->operation[1] = 'n';
       *i = *i + 2;
     }
-  } else if (buf[*i] == 'm' && buf[*i + 1] == 'o' && buf[*i + 2] == 'd') {
+  } else if (check_symbol(buf[*i],'m')) {
     lexem->type = 2;
     lexem->priority = 2;
     lexem->operation[0] = 'm';
@@ -232,21 +270,28 @@ void brackets_processing(char c, elements *lexem) {
 }
 
 void negative_processing(elements **lexem) {
+  (*lexem)->type = 4;
+  (*lexem)->priority = 0;
+  (*lexem)->operation[0] = '(';
+  (*lexem)++;
+
   (*lexem)->type = 1;
   (*lexem)->value = -1.0;
-
   (*lexem)++;
+
   (*lexem)->type = 2;
   (*lexem)->priority = 2;
   (*lexem)->operation[0] = '*';
+ 
 }
 
 void postfix(elements *input, elements *output, int *count) {
   int count_out = *count, count_in = 0, i = 0;
-  elements tmp_stack[512] = {0};
+  elements tmp_stack[256] = {0};
   elements *tmp = tmp_stack;
 
   while (count_in++ < *count) {
+
     if (input->type == 1) {  // num or x
       input_to_output(output, input);
       output++;
@@ -262,7 +307,6 @@ void postfix(elements *input, elements *output, int *count) {
             and when we meet + ---> output : 22* tmp: +
             then output: 22*3+
           */
-
           input_to_output(output, tmp);
           output++;
           i--;
@@ -318,7 +362,9 @@ void sort_brackets(elements *input, elements **output, elements **tmp, int *i,
     (*count_out)--;
 
     while (*i > 0) {
+
       (*tmp)--;
+
       if ((*tmp)->operation[0] == '(') {
         (*i)--;
         break;

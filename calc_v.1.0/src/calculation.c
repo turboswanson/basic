@@ -1,7 +1,7 @@
 #include "calc.h"
 
-void calculation(elements *output, int count, double *res) {
-  double stack[512] = {0};
+void calculation(elements *output, int count, long double *res) {
+  long double stack[512] = {0};
 
   for (int i = 0; i < count; i++) {
     if (output->type == 1) {
@@ -9,27 +9,27 @@ void calculation(elements *output, int count, double *res) {
     }
 
     if (output->type == 2) {
-      double value2 = stack[i - 1];
-      double value1 = stack[i - 2];
+      long double value2 = stack[i - 1];
+      long double value1 = stack[i - 2];
       stack[i - 1] = stack[i - 2] = 0;
 
       char operation[5] = {0};
       strcpy(operation, output->operation);
       i = i - 2;
       count = count - 2;
-      double res = execute(value1, value2, operation);
+      long double res = execute(value1, value2, operation);
       stack[i] = res;
     }
 
     if (output->type == 3) {
-      double value2 = stack[i - 1];
-      double value1 = 0;
+      long double value2 = stack[i - 1];
+      long double value1 = 0;
       stack[i - 1] = 0;
       char operation[5] = {0};
       strcpy(operation, output->operation);
       i--;
       count--;
-      double res = execute(value1, value2, operation);
+      long double res = execute(value1, value2, operation);
       stack[i] = res;
     }
 
@@ -39,8 +39,8 @@ void calculation(elements *output, int count, double *res) {
   *res = stack[0];
 }
 
-double execute(double value1, double value2, char *operation) {
-  double res = 0.0;
+long double execute(long double value1, long double value2, char *operation) {
+  long double res = 0.0;
   if (operation[0] == '+') {
     res = value1 + value2;
   } else if (operation[0] == '-') {

@@ -14,37 +14,63 @@ typedef struct {
   int type;
   char operation[5];
   int priority;
-  double value;
-} elements;
+  long double value;
+ }elements;
+
+typedef struct{
+  char input_buffer[256];
+  char x_input[256];
+  elements stack[256];
+  elements output[256];
+  long double x;
+  bool in;
+}CalcData;
 
 typedef struct {
   elements *output;
   int count;
 } DrawData;
 
-// void on_entry_activate(GtkEntry *entry, gpointer user_data);
-void on_main_window_destroy();
-int parser(char *input_buffer, elements *lexem, double x_value);
+
+// VALIDATION
+
 int validation(char *str);
 int x_validation(char *buffer);
-void free_lexem(elements *lexem, int count);
-void on_entry_focus_in(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-void on_entry_focus_out(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-void on_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data);
+
+// PARSER
+
+int parser(char *input_buffer, elements *lexem, long double x_value);
 int digit_processing(elements *lexem, char *buf, size_t *i);
 void unary_processing(elements *lexem, int *count);
 void operator_processing(char operator, elements * lexem);
 void function_processing(char *buf, elements *lexem, size_t *i);
 void brackets_processing(char c, elements *lexem);
 void negative_processing(elements **lexem);
+
+// POSTFIX NOTATION
+
 void postfix(elements *input, elements *output, int *count);
 void input_to_output(elements *output, elements *input);
 void sort_brackets(elements *input, elements **output, elements **tmp_ptr,
                    int *i, int *count_out);
-void calculation(elements *output, int count, double *res);
-double execute(double value1, double value2, char *operation);
-void print_lexem(elements *lexem, int count);
+
+// CALCULATION
+
+void calculation(elements *output, int count,  long double *res);
+long double execute(long double value1, long double value2, char *operation);
+
+// FRONTEND
+
+void on_main_window_destroy();
+void on_entry_focus_in(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+void on_entry_focus_out(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+void on_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data);
 void on_button_clicked(GtkButton *button, gpointer user_data);
 void open_new_window(elements *output, int count);
+
+//AUX
+
+void free_lexem(elements *lexem, int count);
+void print_lexem(elements *lexem, int count);
 
 #endif
