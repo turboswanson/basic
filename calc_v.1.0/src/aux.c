@@ -23,3 +23,34 @@ void free_lexem(elements *lexem, int count) {
   }
 }
 
+
+void free_calc_data(AppData *app_data){
+   for(int i = 0; i < 256 ; i++){
+    app_data->calc_data->stack[i].type = 0;
+    app_data->calc_data->output[i].type = 0;
+    app_data->calc_data->stack[i].priority = 0;
+    app_data->calc_data->output[i].priority = 0;
+    app_data->calc_data->stack[i].operation[0] = 0;
+    app_data->calc_data->stack[i].operation[1] = 0;
+    app_data->calc_data->stack[i].operation[2] = 0;
+    app_data->calc_data->stack[i].operation[3] = 0;
+    app_data->calc_data->stack[i].operation[4] = 0;
+    app_data->calc_data->output[i].operation[0] = 0;
+    app_data->calc_data->output[i].operation[1] = 0;
+    app_data->calc_data->output[i].operation[2] = 0;
+    app_data->calc_data->output[i].operation[3] = 0;
+    app_data->calc_data->output[i].operation[4] = 0;
+    app_data->calc_data->stack[i].value = 0;
+    app_data->calc_data->output[i].value = 0;
+  }
+
+  memset(app_data->calc_data->input_buffer,0,sizeof(app_data->calc_data->input_buffer));
+  memset(app_data->calc_data->x_input,0,sizeof(app_data->calc_data->x_input));
+
+  app_data->calc_data->in = false;
+}
+
+void free_input(CalcData *calc_data){
+  memset(calc_data->input_buffer,0,sizeof(calc_data->input_buffer));
+  memset(calc_data->x_input,0,sizeof(calc_data->x_input));
+}

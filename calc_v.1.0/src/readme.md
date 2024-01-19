@@ -8,7 +8,7 @@ The program implements an engineering version of calculator using Dijkstra's alg
 
 ## Usage
 
-Click the button with a specific label to input the calculating expression in infix notation into the input window. If a mistake occurs, click 'CE' button to clear the input. If calculating expression is done click '=' to see the result. If calculating expression involves 'x', its value can be entered into the specific window. To view the fucntion chart click the 'GRAPH' button. If errors exist in the input you'll see ERROR after clicking '=' button. To ensure correct results enclose each negative number within brackets. If divisor is a negative number use additional brackets.
+Click the button with a specific label to input the calculating expression in infix notation into the input window. If a mistake occurs, click 'CE' button to clear the input. If calculating expression is done click '=' to see the result. If calculating expression involves 'x', its value can be entered into the specific window. To view the fucntion chart click the 'GRAPH' button. If errors exist in the input you'll see ERROR after clicking '=' button. To ensure correct results enclose each negative number within brackets. The program is unable to handle the scientific notation result, and you will encounter an error message if you attempt to perform further calculations.
 
 ## Additional information
 

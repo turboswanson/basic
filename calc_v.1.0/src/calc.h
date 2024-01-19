@@ -10,12 +10,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct{
+ GtkWidget *entry;
+ GtkWidget *entry2;
+ GtkWidget *drawing_area;
+}FrontData;
+
 typedef struct {
   int type;
   char operation[5];
   int priority;
   long double value;
  }elements;
+
 
 typedef struct{
   char input_buffer[256];
@@ -30,6 +37,11 @@ typedef struct {
   elements *output;
   int count;
 } DrawData;
+
+typedef struct {
+  CalcData *calc_data;
+  FrontData *front_data;
+} AppData;
 
 
 // VALIDATION
@@ -72,5 +84,7 @@ void open_new_window(elements *output, int count);
 
 void free_lexem(elements *lexem, int count);
 void print_lexem(elements *lexem, int count);
+void free_calc_data(AppData *app_data);
+void free_input(CalcData *calc_data);
 
 #endif
