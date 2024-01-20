@@ -72,15 +72,15 @@ START_TEST(check_input) {
   err = validation(string_21);
   ck_assert_int_eq(1, err);
 
-  char string_22[] = "sinmod.";
+  char string_22[] = "sin(mod.";
   err = validation(string_22);
   ck_assert_int_eq(1, err);
 
-  char string_23[] = "sincos";
+  char string_23[] = "4.5.6";
   err = validation(string_23);
   ck_assert_int_eq(1, err);
 
-  char string_24[] = "asincos";
+  char string_24[] = "4/0+1";
   err = validation(string_24);
   ck_assert_int_eq(1, err);
 
@@ -91,6 +91,47 @@ START_TEST(check_input) {
   char string_26[] = "4+5./0^56";
   err = validation(string_26);
   ck_assert_int_eq(1, err);
+
+  char string_27[] = "1+2";
+  err = x_validation(string_27);
+  ck_assert_int_eq(1, err);
+
+  char string_28[] = "sin(x)";
+  err = x_validation(string_28);
+  ck_assert_int_eq(2, err);
+
+  char string_29[] = "3..15";
+  err = x_validation(string_29);
+  ck_assert_int_eq(1, err);
+
+  char string_30[] = "ln()";
+  err = x_validation(string_30);
+  ck_assert_int_eq(2, err);
+
+  char string_31[] = "-sin()";
+  err = x_validation(string_31);
+  ck_assert_int_eq(1, err);
+
+  char string_32[] = "4(";
+  err = x_validation(string_32);
+  ck_assert_int_eq(1, err);
+
+  char string_33[] = "1.3455.7";
+  err = x_validation(string_33);
+  ck_assert_int_eq(1, err);
+  
+  char string_34[] = "5.5";
+  err = x_validation(string_34);
+  ck_assert_int_eq(0, err);
+
+  char string_35[] = "5/0";
+  err = validation(string_35);
+  ck_assert_int_eq(1, err);
+
+  char string_36[] = "5sin(";
+  err = validation(string_36);
+  ck_assert_int_eq(1, err);
+
 }
 END_TEST
 
@@ -126,7 +167,6 @@ START_TEST(calculate) {
   postfix(parser_input, parser_output, &n);
   calculation(parser_output, n, &res_21);
   res_original = 11 + pow(-2, 5);
-  // printf("\nTEST : %Lf\n",res_21);
   ck_assert_double_eq(res_original, res_21);
 
   free_lexem(parser_input,n);

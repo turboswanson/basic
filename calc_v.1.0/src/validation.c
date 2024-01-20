@@ -24,6 +24,7 @@ int res = 0;
 
 int validation(char *str) {
   int error = 0;
+  int count_dots = 0;
   int count_open_brackets = 0;
   int count_closing_brackets = 0;
 
@@ -41,26 +42,22 @@ int validation(char *str) {
       count_open_brackets++;
     }
 
+    if(check_symbol(buffer[i],'.') && count_dots){
+      error++;
+    }
+
+    if(check_symbol(buffer[i],'.') && !count_dots){
+      count_dots++;
+    }
+
+    if(is_operator(buffer[i])){
+      count_dots = 0;
+    }
+
     if(check_symbol(buffer[i],')')){
       count_closing_brackets++;
     }
-
-    if(check_symbol(buffer[i],'n') && !check_symbol(buffer[i+1],'(')){
-      error++;
-    }
-
-    if(check_symbol(buffer[i],'g') && !check_symbol(buffer[i+1],'(')){
-      error++;
-    }
-
-    if(check_symbol(buffer[i],'s') && (check_symbol(buffer[i-1],'o') && !check_symbol(buffer[i+1],'('))){
-      error++;
-    }
-
-    if(check_symbol(buffer[i],'s') && (check_symbol(buffer[i+1],'q') && !check_symbol(buffer[i+4],'('))){
-      error++;
-    }
-
+    
     if(is_operator(buffer[i]) && is_operator(buffer[i+1])){
       error++;
     }
@@ -136,7 +133,7 @@ int x_validation(char *str) {
       error++;
     }
 
-    if(check_symbol(buffer[i],'.' && check_symbol(buffer[i+1],'.'))){
+    if(check_symbol(buffer[i],'.') && check_symbol(buffer[i+1],'.')){
       error++;
     }
 

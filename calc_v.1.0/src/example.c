@@ -8,7 +8,8 @@ int main(void) {
   long double res_21 = 0.0;
   long double res_original = 0.0;
   int n = 0;
-  char input[] = "(-x)"; 
+  char input[] = "(-x)";
+  int error = validation(input); 
   n = parser(input, parser_input, 5);
   postfix(parser_input, parser_output, &n);
   calculation(parser_output, n, &res_21);

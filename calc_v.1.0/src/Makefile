@@ -2,10 +2,10 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra -std=c11
 LIBS = -lm `pkg-config --cflags --libs gtk+-3.0`
 TEST_LIBS = -lcheck -lsubunit -lgcov
-SRC = calc.c parser.c calculation.c validation.c graph.c aux.c
+SRC = calc.c display.c parser.c calculation.c validation.c graph.c aux.c
 TEST_SRC = parser.c calculation.c validation.c aux.c test.c
 HEADER = calc.h
-OBJ = calc.o parser.o calculation.o validation.o graph.o aux.o
+OBJ = calc.o display.o parser.o calculation.o validation.o graph.o aux.o
 GCOV_FLAGS = -fprofile-arcs -ftest-coverage --coverage
 GCOVR_PATH = ~/.local/bin/gcovr
 INSTALL_PATH = /usr/local/bin/
@@ -51,10 +51,7 @@ fix:
 val: calc
 	valgrind ./calc
 deb:
-	$(CC) -g parser.c calculation.c example.c -o ex $(LIBS)
-	./ex
-validate:
-	$(CC) -g validate_deb.c validation.c -o ex $(LIBS)
+	$(CC) -g validation.c parser.c calculation.c example.c -o ex $(LIBS)
 	./ex			 	 
 clean:
 	rm -rf calc a.out test *.o build dist *.tgz *.gcno *gcda *.html *.css ex *.aux *.log *.pdf

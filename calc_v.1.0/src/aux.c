@@ -54,3 +54,21 @@ void free_input(CalcData *calc_data){
   memset(calc_data->input_buffer,0,sizeof(calc_data->input_buffer));
   memset(calc_data->x_input,0,sizeof(calc_data->x_input));
 }
+
+void on_entry_focus_in(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
+  AppData *app_data = (AppData *)user_data;
+  app_data->calc_data->in = true;
+  (void)widget;
+  (void)event;
+  (void)user_data;
+
+}
+
+void on_entry_focus_out(GtkWidget *widget, GdkEvent *event,
+                        gpointer user_data) {
+  AppData *app_data = (AppData *)user_data;
+  app_data->calc_data->in = false;
+  (void)widget;
+  (void)event;
+  (void)user_data;
+}
