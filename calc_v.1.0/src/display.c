@@ -24,8 +24,9 @@ void display(GtkButton *button, gpointer user_data) {
   const gchar *text = gtk_button_get_label(button);
 
   int graph_flag = 0;
-
+  
   if (check_expression(text,"graph")) graph_flag = 1;
+
 
   if (check_expression(text,"=") || graph_flag) {
     int error = validation(app_data->calc_data->input_buffer);

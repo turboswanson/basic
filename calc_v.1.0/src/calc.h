@@ -79,6 +79,7 @@ void on_entry_focus_out(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 void on_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data);
 void on_button_clicked(GtkButton *button, gpointer user_data);
 void open_new_window(elements *output, int count);
+void open_credit_window();
 
 //AUX
 
