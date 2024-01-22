@@ -15,11 +15,17 @@ void open_credit_window() {
   credit_data->rate_entry = GTK_WIDGET(gtk_builder_get_object(new_builder, "rate_entry"));
 
   GtkWidget *calculate_button = GTK_WIDGET(gtk_builder_get_object(new_builder, "calculate"));
+  
   g_signal_connect(calculate_button, "clicked", G_CALLBACK(on_process_button_clicked), credit_data);
 
+  
   gtk_widget_show_all(new_window);
   
 }
+
+
+
+
 
 void on_process_button_clicked(GtkWidget *widget, gpointer user_data) {
     CreditData *credit_data = (CreditData *)user_data;
@@ -34,7 +40,7 @@ void on_process_button_clicked(GtkWidget *widget, gpointer user_data) {
     gtk_entry_set_text(GTK_ENTRY(credit_data->period_entry), "");
     gtk_entry_set_text(GTK_ENTRY(credit_data->rate_entry), "");
         
-    G_UNUSED(widget);
+    (void)widget;
 }
 
 void credit_data_processing(const gchar *text1,const gchar *text2,const gchar *text3){
