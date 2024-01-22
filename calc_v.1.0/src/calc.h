@@ -47,7 +47,8 @@ typedef struct {
   GtkWidget *loan_entry;
   GtkWidget *period_entry;
   GtkWidget *rate_entry;
-
+  GtkWidget *radio1;
+  GtkWidget *radio2;
 } CreditData;
 
 
@@ -77,8 +78,8 @@ void sort_brackets(elements *input, elements **output, elements **tmp_ptr,
 
 void calculation(elements *output, int count,  long double *res);
 long double execute(long double value1, long double value2, char *operation);
-void credit_data_processing(const gchar *text1,const gchar *text2,const gchar *text3);
-
+void annuity_calculation(loan,period,rate,&monthly_payment,&total,&overpayment);
+void differential_calculation(loan,period,rate,&monthly_payment,&total,&overpayment);
 
 // FRONTEND
 
@@ -90,6 +91,8 @@ void on_button_clicked(GtkButton *button, gpointer user_data);
 void open_new_window(elements *output, int count);
 void open_credit_window();
 void on_process_button_clicked(GtkWidget *widget, gpointer user_data);
+void radio_toggled(GtkRadioButton *b,gpointer user_data);
+
 
 
 //AUX
