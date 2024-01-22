@@ -27,8 +27,9 @@ void display(GtkButton *button, gpointer user_data) {
   
   if (check_expression(text,"graph")) graph_flag = 1;
 
-
-  if (check_expression(text,"=") || graph_flag) {
+  if(check_expression(text,"credit")) {
+           open_credit_window();
+  }else if (check_expression(text,"=") || graph_flag) {
     int error = validation(app_data->calc_data->input_buffer);
 
     if (!error) {

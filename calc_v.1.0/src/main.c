@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
   AppData *app_data = g_slice_new(AppData);
   app_data->calc_data = g_slice_new(CalcData);
   app_data->front_data = g_slice_new(FrontData);
- 
+   
   free_calc_data(app_data);
  
   gtk_builder_connect_signals(builder, app_data);

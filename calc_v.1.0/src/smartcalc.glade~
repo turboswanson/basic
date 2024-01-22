@@ -16,7 +16,7 @@
         <property name="column-homogeneous">True</property>
         <child>
           <object class="GtkButton" id="calculate">
-            <property name="label" translatable="yes">Calculate</property>
+            <property name="label" translatable="yes">calculate</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
@@ -74,7 +74,7 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Loan term in years</property>
+            <property name="label" translatable="yes">Loan term</property>
           </object>
           <packing>
             <property name="left-attach">0</property>
@@ -607,7 +607,7 @@
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
                 <property name="hexpand">True</property>
-                <signal name="clicked" handler="open_credit_window" swapped="no"/>
+                <signal name="clicked" handler="display" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">0</property>
