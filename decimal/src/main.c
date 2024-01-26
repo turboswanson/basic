@@ -7,18 +7,13 @@
 #define EXPONENT_PLUS_1 65536
 
 int main(void) {
-  s21_decimal num1 = {{0, 0, 0, 0}};
-  s21_decimal num2 = {{0, 0, 0, 0}};
-  // s21_set_scale(&num2,1);
-  s21_decimal tmp;
-  printf("%d\n", s21_round(num1, &tmp));
-  printf("%d\n", s21_truncate(num1, &tmp));
-  printf("%d\n", s21_floor(num1, &tmp));
-  printf("%d\n", s21_negate(num1, &tmp));
-  printf("%d\n", s21_add(num1, num2, &tmp));
-  printf("%d\n", s21_sub(num1, num2, &tmp));
-  printf("%d\n", s21_mul(num1, num2, &tmp));
-  printf("%d", s21_div(num1, num2, &tmp));
+   int num1 = -3;
+  int num2 = -3;
+  s21_decimal dec1, dec2;
+  s21_from_int_to_decimal(num1, &dec1);
+  s21_from_int_to_decimal(num2, &dec2);
+  int res = s21_is_greater(dec1, dec2);
+  printf("%d",res);
 
   // for (int i = 0; i < 80; i++) {
   //   s21_round(arr[i],&tmp);
@@ -36,7 +31,7 @@ int main(void) {
   // }
 
   // for (int i = 127; i >= 0; i--) {
-  //   int bit = s21_get_bit(tmp, i);
+  //   int bit = s21_get_bit(val1, i);
   //   printf("%d", bit);
 
   //   if (i == 96 || i == 64 || i == 32) printf(" ");  // bits
@@ -49,7 +44,7 @@ int main(void) {
   // printf("\n");
 
   // for(int i = 127; i >= 0;i--){
-  //     int bit = s21_get_bit(num2[29],i);
+  //     int bit = s21_get_bit(val2,i);
   //     printf("%d",bit);
 
   //     if(i == 96 || i == 64 || i == 32)printf(" ");//bits

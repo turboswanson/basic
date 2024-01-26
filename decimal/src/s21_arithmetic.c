@@ -57,96 +57,6 @@ DIV
 
 */
 
-// int s21_add_int(int x, int y, int *carry) {
-//   // int index_x = 0;
-//   // int index_y = 0;
-
-//   // for(int i = 31;i >= 0; i--){ // look for the last significant's bit
-//   index
-
-//   //   if(f_get_bit(x,i)){
-//   //     index_x = i;
-//   //     i = 0;
-//   //   }
-//   // }
-
-//   // for(int i = 31;i >= 0; i--){ // look for the last significant's bit
-//   index
-
-//   //   if(f_get_bit(y,i)){
-//   //     index_y = i;
-//   //     i = 0;
-//   //   }
-//   // }
-
-//   int sum = 0;
-//   int res = 0;
-
-//   // int index = ((index_x > index_y) ? index_x : index_y);
-
-//   int index = 31;
-
-//   for (int i = 0; i <= index; i++) {
-//     int bit1 = s21_f_get_bit(x, i);
-//     int bit2 = s21_f_get_bit(y, i);
-
-//     if (*carry == 0) {
-//       if (!bit1 && !bit2) {
-//         sum = 0;
-//         s21_f_set_bit(&res, i, sum);
-//         continue;
-//       }
-
-//       if ((bit1 && !bit2) || (bit2 && !bit1)) {
-//         sum = 1;
-//         s21_f_set_bit(&res, i, sum);
-//         continue;
-//       }
-
-//       if (bit1 && bit2) {
-//         sum = 0;
-//         *carry = 1;
-//         s21_f_set_bit(&res, i, sum);
-//         continue;
-//       }
-//     } else {
-//       if (!bit1 && !bit2) {
-//         sum = 1;
-//         *carry = 0;
-//         s21_f_set_bit(&res, i, sum);
-//         continue;
-//       }
-
-//       if ((bit1 && !bit2) || (!bit1 && bit2)) {
-//         sum = 0;
-//         *carry = 1;
-//         s21_f_set_bit(&res, i, sum);
-//         continue;
-//       }
-
-//       if (bit1 && bit2) {
-//         sum = 1;
-//         *carry = 1;
-//         s21_f_set_bit(&res, i, sum);
-//         continue;
-//       }
-//     }
-//   }
-
-//   // if(*carry && index != 31){
-//   //   f_set_bit(&res,index+1,1);
-//   // }
-
-//   // printf("%d",res);
-
-//   //  for(int i = 31 ; i >= 0 ; i--){   // show each bit of res
-//   //     int bit = f_get_bit(res,i);
-//   //     printf("%d",bit);
-//   // }
-
-//   return res;
-// }
-
 int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
   int error = 0;
 
@@ -194,7 +104,6 @@ int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
     s21_short_to_long_decimal(y, &value2);
 
     int diff = scale1 - scale2;
-    // int common_denominator = (diff > 0)? scale1 : scale2;
 
     if (flag_max1 && diff <= 0 && !scale1 && sign1 == sign2) {
       skip = 1;
@@ -346,7 +255,6 @@ int s21_sub(s21_decimal x, s21_decimal y, s21_decimal *res) {
       s21_short_to_long_decimal(y, &value2);
 
       int diff = scale1 - scale2;
-      //  int common_denominator = (diff > 0)? scale1 : scale2;
 
       if (diff > 0) {
         s21_set_scale(&y, scale1);  // local y
@@ -418,20 +326,6 @@ int s21_sub(s21_decimal x, s21_decimal y, s21_decimal *res) {
 
 void s21_sub_long(s21_long_decimal value1, s21_long_decimal value2,
                   s21_long_decimal *total) {
-  // int bit1 = 0;
-  // int bit2 = 0;
-  // int z = 0;
-  // int tmp = 0;
-
-  // for(int i = 0; i < 256; i++){
-  //   bit1 = s21_get_bit_long(value1,i);
-  //   bit2 = s21_get_bit_long(value2,i);
-  //   z = bit1 - bit2 - tmp;
-  //   tmp = z < 0;
-  //   z = abs(z);
-  //   s21_set_bit_long(total,i,z % 2);
-  // }
-
   for (int i = 0; i < 8; i++) {
     value2.bits[i] = ~value2.bits[i];
   }
@@ -443,68 +337,6 @@ void s21_sub_long(s21_long_decimal value1, s21_long_decimal value2,
   s21_add_long(value1, value2, total);
 }
 
-// int s21_mul_int(int x, int y) {
-//   int index_x;
-//   int index_y;
-//   for (int i = 31; i >= 0; i--) {
-//     if (s21_f_get_bit(x, i)) {
-//       index_x = i;
-//       break;
-//     }
-//   }
-
-//   for (int i = 31; i >= 0; i--) {
-//     if (s21_f_get_bit(y, i)) {
-//       index_y = i;
-//       break;
-//     }
-//   }
-
-//   int index = (index_x > index_y) ? index_x : index_y;
-
-//   int bit_y = 0;
-//   int bit_x = 0;
-
-//   int tmp[index];
-
-//   for (int i = 0; i <= index; i++) {
-//     for (int j = 0; j <= 31; j++) {
-//       s21_f_set_bit(&tmp[i], j, 0);  // make tmp[] = {0};
-//     }
-//   }
-
-//   for (int i = 0; i <= index; i++) {
-//     bit_y = s21_f_get_bit(y, i);
-
-//     for (int j = 0; j <= index; j++) {
-//       bit_x = s21_f_get_bit(x, j);
-
-//       if (!bit_x || !bit_y) {
-//         s21_f_set_bit(&tmp[i], j, 0);
-//       } else {
-//         s21_f_set_bit(&tmp[i], j, 1);
-//       }
-//     }
-//   }
-
-//   for (int i = 0; i <= index; i++) {
-//     tmp[i] = tmp[i] << i;
-//   }
-
-//   //  for(int i = 31 ; i >= 0 ; i--){   // show each bit of res
-//   //       int bit = f_get_bit(tmp[1],i);
-//   //       printf("%d ",bit);
-//   //   }
-
-//   int res = 0;
-//   int carry = 0;
-
-//   for (int i = 0; i <= index; i++) {
-//     res = s21_add_int(res, tmp[i], &carry);
-//   }
-
-//   return res;
-// }
 
 int s21_mul(s21_decimal x, s21_decimal y, s21_decimal *res) {
   int sign1 = s21_get_sign(x);
@@ -825,140 +657,6 @@ int s21_equation_long(s21_long_decimal *value1, s21_long_decimal *value2) {
   return scale;
 }
 
-// s21_long_decimal division(s21_long_decimal value1, s21_long_decimal value2,
-//                           s21_long_decimal *remainder) {
-//   s21_long_decimal result = {0};
-//   s21_long_decimal partial_remainder = {0};
-//   s21_long_decimal quotinent = {0};
-
-//   if (s21_is_greater_long(value2, value1)) {  // 3/5
-//     partial_remainder = value1;
-//   } else {
-//     // FIND SHIFT
-
-//     int left1 = 0;  // index of the last significant bit that equals 1
-//     int left2 = 0;
-
-//     for (int i = 255; i >= 0; i--) {
-//       if (s21_get_bit_long(value1, i)) {
-//         left1 = i;
-//         break;
-//       }
-//     }
-
-//     for (int i = 255; i >= 0; i--) {
-//       if (s21_get_bit_long(value2, i)) {
-//         left2 = i;
-//         break;
-//       }
-//     }
-
-//     int shift = left1 - left2;  // ALWAYS > 0 because we have already
-//     compared
-//                                 // if value2 > value1
-
-//     // SHIFT THE DIVISOR(value2)
-
-//     s21_long_decimal shifted_divisor = value2;
-//     s21_shift_long_left(&shifted_divisor, shift);
-
-//     // FIND QUOTINENT AND PARTIAL_REMAINDER
-
-//     s21_long_decimal dividend = value1;
-
-//     int need_substraction = 1;  // it's nessesary initially
-
-//     while (shift >= 0) {
-//       if (need_substraction == 1) {
-//         s21_sub_long(dividend, shifted_divisor, &partial_remainder);
-//       } else {
-//         s21_add_long(dividend, shifted_divisor, &partial_remainder);
-//       }
-
-//       s21_shift_long_left(&quotinent, 1);
-
-//       if (!(s21_get_bit_long(partial_remainder, 255))) {
-//         s21_set_bit_long(&quotinent, 0, 1);
-//       }
-
-//       dividend = partial_remainder;
-
-//       s21_shift_long_left(&dividend, 1);
-
-//       if (!(s21_get_bit_long(partial_remainder, 255))) {
-//         need_substraction = 1;
-//       } else {
-//         need_substraction = 0;
-//       }
-
-//       --shift;
-//     }
-
-//     if (s21_get_bit_long(partial_remainder, 255)) {
-//       s21_add_long(partial_remainder, shifted_divisor, &partial_remainder);
-//     }
-
-//     s21_shift_long_right(&partial_remainder, left1 - left2);
-//   }
-
-//   result = quotinent;
-//   (void)remainder;
-
-//   return result;
-// }
-
-// int s21_division_post_normalization(s21_long_decimal *res,s21_long_decimal
-// *value2,s21_long_decimal *remainder){
-//   /*  62/16
-//       res = 3 , remainder = 14
-//       1:14 * 10 = 140 /16 = 8 (12)  3*10 + 8 = 38
-//       2:12 * 10 = 120 / 16 = 7 (8)  38*10 + 7 = 387
-//       3:8 *  10 = 80/16 = 5 (0)  387*10 + 5 = 3875
-
-//       power = 3;
-
-//       res = 3875 / 10^3 (3.875)
-//       remainder = 0
-
-//       59/15
-
-//       res = 3, remainder = 14
-
-//       1:14 * 10 = 140/15 = 9(5) 3*10 + 9  = 39
-//       2:5  * 10 = 50/15  = 3(5) 39*10 + 3 = 393
-//       3:5  * 10 = 50/15  = 3(5) 393*10 + 3 = 3933
-//       4:5  * 10 = 50/15  = 3(5) 3933*10 + 3 = 39333
-//       .....
-//       28:5 * 10 = 50/15  = 3(5) 3933333333333333333333333333333333
-
-//       power 28;
-
-//       res = 3933333333333333333333333333333333
-//       remainder = 5
-
-//       */
-//      int power = 0;
-//      s21_long_decimal num = {0};
-//      s21_long_decimal ten = {10,0,0,0,0,0,0,0};
-
-//      while(power < 28 && !s21_equals_zero_long(*remainder)){
-//         s21_mul_long(*remainder,ten,remainder);//14 * 10 = 140
-//         num = division(*remainder,*value2,remainder); //140/16 -> num =
-//         8,remainder = 12 s21_mul_long(*res,ten,res);//res = 3*10
-//         s21_add_long(*res,num,res);// res = 38
-//         power++;
-//       }
-
-//       return power;
-// }
-
-// s21_decimal s21_abs(s21_decimal num){
-//   s21_decimal res = num;
-//   s21_set_bit(&res,127,0);
-
-//   return res;
-// }
-
 void s21_zero_decimal(s21_decimal *dst) {
   dst->bits[0] = dst->bits[1] = dst->bits[2] = dst->bits[3] = 0;
 }
@@ -1007,13 +705,8 @@ int s21_post_normalization(s21_long_decimal *res, int scale) {
               // make scale--(10^x x--) OR x/10^5 : 1/10 == 10x/10^5 == x/10^4
   }
 
-  // printf("%d\n",remainder);
+ (void)flag;
 
-  // if (flag && scale == 0 && res->bits[3] == 0 &&
-  //     s21_get_bit_long(*res, 0)) {  // making res = res - 1
-  //   s21_set_bit_long(res, 0, 0);
-  // }
-  (void)flag;
   s21_long_decimal one = {{1, 0, 0, 0, 0, 0, 0, 0}};
   if (remainder >= 5) {
     s21_add_long(*res, one, res);
@@ -1026,12 +719,3 @@ int s21_post_normalization(s21_long_decimal *res, int scale) {
 
   return scale;
 }
-
-// void s21_increase_scale_long_decimal(s21_long_decimal *dst, int n) {
-//   s21_long_decimal ten = {{10, 0, 0, 0, 0, 0, 0, 0}}, tmp = {0};
-//   for (int i = 0; i < n; i++) {
-//     s21_mul_long(*dst, ten, &tmp);
-//     *dst = tmp;
-//     s21_zero_long(&tmp);
-//   }
-// }

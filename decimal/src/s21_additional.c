@@ -55,37 +55,6 @@ int s21_truncate(s21_decimal value, s21_decimal *result) {
     if (scale) {
       s21_set_scale(result, 0);
     }
-
-    // float diff = 0;
-
-    // if (s21_get_scale(value)) {  // 12345.6
-    //   long double tmp = 0.0;
-    //   s21_from_decimal_to_double(value, &tmp);
-    //   tmp = trunc(tmp);  // 12345
-
-    //   if (tmp < 0) {
-    //     tmp = -tmp;
-    //     s21_set_sign(result);
-    //   }
-
-    //   for (int i = 0; tmp >= 1 && i < 96; i++) {
-    //     tmp = floor(tmp) / 2;  // if even diff = 0, if odd diff > 0
-
-    //     diff = tmp - floor(tmp);
-
-    //     if (diff > 0) {
-    //       s21_set_bit(result, i, 1);
-    //     } else {
-    //       s21_set_bit(result, i, 0);
-    //     }
-    //   }
-
-    //   s21_set_scale(result, 0);
-    // } else {
-    //   for (int i = 0; i < 4; i++) {
-    //     result->bits[i] = value.bits[i];
-    //   }
-    // }
   }
 
   return error;
@@ -126,28 +95,6 @@ int s21_round(s21_decimal value, s21_decimal *result) {
 
     if (sign) s21_set_sign(result);
 
-    // long double tmp = 0;
-    // long double diff = 0;
-    // s21_from_decimal_to_double(value, &tmp);
-    // tmp = round(tmp);
-
-    // if (tmp < 0) {
-    //   s21_set_sign(result);
-    //   tmp = -tmp;
-    // }
-
-    // for (int i = 0; tmp >= 1 && i < 96; i++) {
-    //   tmp = floor(tmp) / 2;
-    //   diff = tmp - floor(tmp);
-
-    //   if (diff > 0) {
-    //     s21_set_bit(result, i, 1);
-    //   } else {
-    //     s21_set_bit(result, i, 0);
-    //   }
-    // }
-
-    // s21_set_scale(result, 0);
   }
 
   return error;
@@ -161,19 +108,6 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
   if (result == NULL) {
     error = 1;
   } else {
-    // s21_zero_decimal(result);
-
-    // int sign = s21_get_sign(value);
-
-    // if (sign) s21_negate(value, &value);
-    // s21_truncate(value, result);
-
-    // s21_decimal one = {{1, 0, 0, 0}};
-
-    // if (sign) {
-    //   s21_add(*result, one, result);
-    //   s21_set_sign(result);
-    // }
 
     s21_zero_decimal(result);
     s21_truncate(value, result);

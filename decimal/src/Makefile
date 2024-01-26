@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -std=c11
-SRC = $(wildcard s21_*.c) #filename processing utility
-OBJ = $(patsubst %.c,%.o,${SRC}) #pattern,substitution,source
+SRC = $(wildcard s21_*.c) 
+OBJ = $(patsubst %.c,%.o,${SRC})
 TEST_SRC = $(wildcard ./unit_tests/s21_*.c)
 LIBS = -lcheck -lsubunit -lrt -lpthread -lm -lgcov
 GCOV_FLAGS = -fprofile-arcs -ftest-coverage --coverage

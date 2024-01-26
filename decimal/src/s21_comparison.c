@@ -4,18 +4,18 @@ int s21_is_greater(s21_decimal x, s21_decimal y) {
   int res = 0;
   int sign1 = s21_get_sign(x);
   int sign2 = s21_get_sign(y);
+  s21_long_decimal value1 = {0};
+  s21_long_decimal value2 = {0};
 
-  if (sign1 && !sign2) {  // if x < 0 && y > 0 ---- > y > x return FALSE
+  if(s21_is_equal(x,y)){
     res = 0;
-
-  } else if (!sign1 && sign2) {  // if y < 0 && x > 0 ---- > x > y return TRUE
+  }else if(!s21_is_decimal(x) && !s21_is_decimal(y)){
+    res = 0;
+  }else if (sign1 && !sign2) {  
+    res = 0;
+  } else if (!sign1 && sign2) {  
     res = 1;
-
-    if (!s21_is_decimal(x) && !s21_is_decimal(y)) res = 0;
   } else {
-    s21_long_decimal value1 = {0};
-    s21_long_decimal value2 = {0};
-
     s21_short_to_long_decimal(x, &value1);
     s21_short_to_long_decimal(y, &value2);
 
@@ -25,20 +25,15 @@ int s21_is_greater(s21_decimal x, s21_decimal y) {
     int diff = scale1 - scale2;
 
     s21_normalization(&value1, &value2, diff);
+    res = s21_is_greater_long(value1, value2);
 
-    if (s21_is_equal_long(value1, value2)) {
-      res = 0;
-    } else {
-      res = s21_is_greater_long(value1, value2);
-
-      if (sign1 && sign2) {  // if both are negative
-        if (res) {
+    if (sign1 && sign2) {
+      if (res) {
           res = 0;
-        } else {
+      } else {
           res = 1;
-        }
       }
-    }
+    } 
   }
 
   return res;
