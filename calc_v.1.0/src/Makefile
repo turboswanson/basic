@@ -10,7 +10,7 @@ GCOV_FLAGS = -fprofile-arcs -ftest-coverage --coverage
 GCOVR_PATH = ~/.local/bin/gcovr
 INSTALL_PATH = /usr/local/bin/
 GLADE = smartcalc.glade smartcalc.glade~
-VALGRIND_FLAGS = --tool=memcheck --leak-check=yes
+VALGRIND_FLAGS = --tool=memcheck --leak-check=yes --suppressions=gtk.supp
 STYLE_BASE = --style=Google
 
 all: calc
@@ -49,9 +49,9 @@ cpp:
 fix:
 	clang-format $(STYLE_BASE) -i *.c *.h 
 val: calc
-	valgrind ./calc
+	valgrind $(VALGRIND_FLAGS) ./calc
 deb:
-	$(CC) -g validation.c parser.c calculation.c example.c -o ex $(LIBS)
+	$(CC) -g  validation.c parser.c calculation.c example.c -o ex $(LIBS)
 	./ex			 	 
 clean:
 	rm -rf calc a.out test *.o build dist *.tgz *.gcno *gcda *.html *.css ex *.aux *.log *.pdf

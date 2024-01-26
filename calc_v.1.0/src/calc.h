@@ -10,28 +10,27 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct{
- GtkWidget *entry;
- GtkWidget *entry2;
- GtkWidget *drawing_area;
-}FrontData;
+typedef struct {
+  GtkWidget *entry;
+  GtkWidget *entry2;
+  GtkWidget *drawing_area;
+} FrontData;
 
 typedef struct {
   int type;
   char operation[5];
   int priority;
   long double value;
- }elements;
+} elements;
 
-
-typedef struct{
+typedef struct {
   char input_buffer[256];
   char x_input[256];
   elements stack[256];
   elements output[256];
   long double x;
   bool in;
-}CalcData;
+} CalcData;
 
 typedef struct {
   elements *output;
@@ -60,7 +59,6 @@ typedef struct {
   double monthly_payment_last;
 } CreditData;
 
-
 // VALIDATION
 
 int validation(char *str);
@@ -85,14 +83,18 @@ void sort_brackets(elements *input, elements **output, elements **tmp_ptr,
 
 // CALCULATION
 
-void calculation(elements *output, int count,  long double *res);
+void calculation(elements *output, int count, long double *res);
 long double execute(long double value1, long double value2, char *operation);
-void annuity_calculation(double loan,double period,double rate,CreditData *credit_data);
-void differential_calculation(double loan,double period,double rate,CreditData *credit_data);
+void annuity_calculation(double loan, double period, double rate,
+                         CreditData *credit_data);
+void differential_calculation(double loan, double period, double rate,
+                              CreditData *credit_data);
 
 // FRONTEND
 
 void on_main_window_destroy();
+void on_credit_window_destroy(GtkWidget *widget, gpointer data);
+void on_graph_window_destroy(GtkWidget *widget, gpointer data);
 void on_entry_focus_in(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 void on_entry_focus_out(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 void on_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data);
@@ -100,12 +102,12 @@ void on_button_clicked(GtkButton *button, gpointer user_data);
 void open_new_window(elements *output, int count);
 void open_credit_window();
 void on_process_button_clicked(GtkWidget *widget, gpointer user_data);
-void radio_toggled(GtkRadioButton *b,gpointer user_data);
+void radio_toggled(GtkRadioButton *b, gpointer user_data);
 void open_result_window();
-void display_result(CreditData *credit_data,gboolean r2);
+void display_result(CreditData *credit_data, gboolean r2);
 void set_labels(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 
-//AUX
+// AUX
 
 void free_lexem(elements *lexem, int count);
 void print_lexem(elements *lexem, int count);

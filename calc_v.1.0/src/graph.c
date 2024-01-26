@@ -20,7 +20,16 @@ void open_new_window(elements *output, int count) {
                    draw_data);
 
   gtk_widget_show_all(new_window);
+  g_signal_connect(new_window, "destroy", G_CALLBACK(on_graph_window_destroy), draw_data);
+
 }
+
+void on_graph_window_destroy(GtkWidget *widget, gpointer data) {
+    DrawData *draw_data = (DrawData *)data;
+    g_slice_free(DrawData, draw_data);
+    (void)widget;
+}
+
 
 void on_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data) {
   DrawData *draw_data = (DrawData *)user_data;
@@ -115,5 +124,4 @@ void on_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data) {
   cairo_stroke(cr);
 
   flag = 0;
-
 }

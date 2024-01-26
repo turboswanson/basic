@@ -9,12 +9,12 @@ int main(void) {
   long double res_original = 0.0;
   int n = 0;
   char input[] = "(-x)";
-  int error = validation(input); 
+  int error = validation(input);
   n = parser(input, parser_input, 5);
   postfix(parser_input, parser_output, &n);
   calculation(parser_output, n, &res_21);
 
-  res_original = 1+(-5);
+  res_original = 1 + (-5);
 
   printf("%.8Lf - %.8Lf\n", res_21, res_original);
 

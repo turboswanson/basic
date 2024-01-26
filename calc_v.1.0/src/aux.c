@@ -23,9 +23,8 @@ void free_lexem(elements *lexem, int count) {
   }
 }
 
-
-void free_calc_data(AppData *app_data){
-   for(int i = 0; i < 256 ; i++){
+void free_calc_data(AppData *app_data) {
+  for (int i = 0; i < 256; i++) {
     app_data->calc_data->stack[i].type = 0;
     app_data->calc_data->output[i].type = 0;
     app_data->calc_data->stack[i].priority = 0;
@@ -44,15 +43,16 @@ void free_calc_data(AppData *app_data){
     app_data->calc_data->output[i].value = 0;
   }
 
-  memset(app_data->calc_data->input_buffer,0,sizeof(app_data->calc_data->input_buffer));
-  memset(app_data->calc_data->x_input,0,sizeof(app_data->calc_data->x_input));
+  memset(app_data->calc_data->input_buffer, 0,
+         sizeof(app_data->calc_data->input_buffer));
+  memset(app_data->calc_data->x_input, 0, sizeof(app_data->calc_data->x_input));
 
   app_data->calc_data->in = false;
 }
 
-void free_input(CalcData *calc_data){
-  memset(calc_data->input_buffer,0,sizeof(calc_data->input_buffer));
-  memset(calc_data->x_input,0,sizeof(calc_data->x_input));
+void free_input(CalcData *calc_data) {
+  memset(calc_data->input_buffer, 0, sizeof(calc_data->input_buffer));
+  memset(calc_data->x_input, 0, sizeof(calc_data->x_input));
 }
 
 void on_entry_focus_in(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
@@ -61,7 +61,6 @@ void on_entry_focus_in(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
   (void)widget;
   (void)event;
   (void)user_data;
-
 }
 
 void on_entry_focus_out(GtkWidget *widget, GdkEvent *event,

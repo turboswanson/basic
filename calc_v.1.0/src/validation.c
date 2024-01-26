@@ -1,26 +1,24 @@
 #include "calc.h"
 
-static int check_symbol(char c, char symbol){
+static int check_symbol(char c, char symbol) {
   int res = 0;
 
-  if(c == symbol){
+  if (c == symbol) {
     res = 1;
   }
 
   return res;
 }
 
-static int is_operator(char c){
+static int is_operator(char c) {
+  int res = 0;
 
-int res = 0;
-
- if((c == '+' || c == '-' || c == '*' || c == '/' || c == '^')){
+  if ((c == '+' || c == '-' || c == '*' || c == '/' || c == '^')) {
     res = 1;
- }
+  }
 
   return res;
 }
-
 
 int validation(char *str) {
   int error = 0;
@@ -35,76 +33,77 @@ int validation(char *str) {
   size_t len = strlen(buffer);
 
   if (len == 0) error++;
- 
-  for (size_t i = 0; (!error && (i < len)); i++) {
 
-    if(check_symbol(buffer[i],'(')){
+  for (size_t i = 0; (!error && (i < len)); i++) {
+    if (check_symbol(buffer[i], '(')) {
       count_open_brackets++;
     }
 
-    if(check_symbol(buffer[i],'.') && count_dots){
+    if (check_symbol(buffer[i], '.') && count_dots) {
       error++;
     }
 
-    if(check_symbol(buffer[i],'.') && !count_dots){
+    if (check_symbol(buffer[i], '.') && !count_dots) {
       count_dots++;
     }
 
-    if(is_operator(buffer[i])){
+    if (is_operator(buffer[i])) {
       count_dots = 0;
     }
 
-    if(check_symbol(buffer[i],')')){
+    if (check_symbol(buffer[i], ')')) {
       count_closing_brackets++;
     }
-    
-    if(is_operator(buffer[i]) && is_operator(buffer[i+1])){
-      error++;
-    }
-       
-    if (check_symbol(buffer[i],'m') && (!(isdigit(buffer[i - 1])) || !(isdigit(buffer[i + 3])))){
+
+    if (is_operator(buffer[i]) && is_operator(buffer[i + 1])) {
       error++;
     }
 
-    if (check_symbol(buffer[i],'.') && (!isdigit(buffer[i + 1]) || !isdigit(buffer[i - 1]))){
+    if (check_symbol(buffer[i], 'm') &&
+        (!(isdigit(buffer[i - 1])) || !(isdigit(buffer[i + 3])))) {
       error++;
     }
 
-    if (check_symbol(buffer[i],'(') && check_symbol(buffer[i+1],')')){
+    if (check_symbol(buffer[i], '.') &&
+        (!isdigit(buffer[i + 1]) || !isdigit(buffer[i - 1]))) {
       error++;
     }
 
-    if ((is_operator(buffer[0]) && !check_symbol(buffer[0],'+')) || check_symbol(buffer[0],'m')){
+    if (check_symbol(buffer[i], '(') && check_symbol(buffer[i + 1], ')')) {
       error++;
     }
 
-    if (is_operator(buffer[len-1]) || check_symbol(buffer[len-1],'d')){
+    if ((is_operator(buffer[0]) && !check_symbol(buffer[0], '+')) ||
+        check_symbol(buffer[0], 'm')) {
       error++;
     }
 
-    if(check_symbol(buffer[i],'/') && check_symbol(buffer[i+1],'0')){
-      if(is_operator(buffer[i+2])){
+    if (is_operator(buffer[len - 1]) || check_symbol(buffer[len - 1], 'd')) {
+      error++;
+    }
+
+    if (check_symbol(buffer[i], '/') && check_symbol(buffer[i + 1], '0')) {
+      if (is_operator(buffer[i + 2])) {
         error++;
-      }else if(i + 1 == len - 1){
+      } else if (i + 1 == len - 1) {
+        error++;
+      }
+    }
+
+    if (isdigit(buffer[i]) && !isdigit(buffer[i + 1]) && (i != len - 1)) {
+      if (!is_operator(buffer[i + 1]) && !check_symbol(buffer[i + 1], ')') &&
+          !check_symbol(buffer[i + 1], '.') &&
+          !check_symbol(buffer[i + 1], 'm')) {
         error++;
       }
     }
 
-    if(isdigit(buffer[i]) && !isdigit(buffer[i+1]) && (i != len - 1)){
-
-      if(!is_operator(buffer[i+1]) && !check_symbol(buffer[i+1],')') && !check_symbol(buffer[i+1],'.')
-         && !check_symbol(buffer[i+1],'m')){
-        error++;
-      }
-        
-    }
-
-    if(check_symbol(buffer[i],')') && is_operator(buffer[i-1]) ){
+    if (check_symbol(buffer[i], ')') && is_operator(buffer[i - 1])) {
       error++;
     }
   }
 
-  if(!error && count_open_brackets != count_closing_brackets){
+  if (!error && count_open_brackets != count_closing_brackets) {
     error++;
   }
 
@@ -122,41 +121,41 @@ int x_validation(char *str) {
   buffer[sizeof(buffer) - 1] = '\0';
 
   len = strlen(buffer);
-  
-  for (size_t i = 0;len != 0 && !error && (i < len); i++) {
 
-    if(i != 0 && is_operator(buffer[i])){
+  for (size_t i = 0; len != 0 && !error && (i < len); i++) {
+    if (i != 0 && is_operator(buffer[i])) {
       error++;
     }
 
-    if(!isdigit(buffer[0]) && !check_symbol(buffer[0],'-') && !check_symbol(buffer[0],'+')){
+    if (!isdigit(buffer[0]) && !check_symbol(buffer[0], '-') &&
+        !check_symbol(buffer[0], '+')) {
       error++;
     }
 
-    if(check_symbol(buffer[i],'.') && check_symbol(buffer[i+1],'.')){
+    if (check_symbol(buffer[i], '.') && check_symbol(buffer[i + 1], '.')) {
       error++;
     }
 
-    if(isalpha(buffer[i])){
+    if (isalpha(buffer[i])) {
       error++;
     }
 
-    if((check_symbol(buffer[0],'-') || check_symbol(buffer[0],'+')) && !isdigit(buffer[1])){
+    if ((check_symbol(buffer[0], '-') || check_symbol(buffer[0], '+')) &&
+        !isdigit(buffer[1])) {
       error++;
     }
 
-    if(check_symbol(buffer[i],'(') || check_symbol(buffer[i],')')){
+    if (check_symbol(buffer[i], '(') || check_symbol(buffer[i], ')')) {
       error++;
     }
 
-    if(check_symbol(buffer[i],'.') && count_dots){
+    if (check_symbol(buffer[i], '.') && count_dots) {
       error++;
     }
 
-    if(check_symbol(buffer[i],'.') && !count_dots){
+    if (check_symbol(buffer[i], '.') && !count_dots) {
       count_dots++;
-    }    
-
+    }
   }
 
   return error;
