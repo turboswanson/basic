@@ -33,7 +33,7 @@ lcov_report:test
 	xdg-open $(REPORT)
 
 foo:clean all
-	$(CC) -g main.c $(SRC) -lm
+	$(CC) -g example.c $(SRC) -lm
 	./a.out
 check:
 	clang-format $(STYLE_BASE) -n *.c *.h unit_tests/*.c unit_tests/*.h
