@@ -129,36 +129,41 @@ int s21_sub(s21_decimal x, s21_decimal y, s21_decimal *res) {
   int scale2 = s21_get_scale(y);
   int flag_signed = 0;
   int skip = 0;
-  int flag_max1 = 0;
-  int flag_max2 = 0;
+ 
 
   s21_zero_decimal(res);
 
-  if (x.bits[0] == UINT_MAX && x.bits[1] == UINT_MAX && x.bits[2] == UINT_MAX &&
-      s21_is_decimal(y)) {
-    flag_max1 = 1;
-  }
+  int diff = scale1 - scale2;
 
-  if (y.bits[0] == UINT_MAX && y.bits[1] == UINT_MAX && y.bits[2] == UINT_MAX &&
-      s21_is_decimal(x)) {
-    flag_max2 = 1;
-  }
+  if(s21_is_max(x) && s21_is_decimal(y)){  // if MAX/10-(-any) or -MAX/10 - any
+    if(diff <= 0 && !scale1 && sign1 != sign2){
+      error = 1;
+    }
 
-  if (flag_max1 && !scale1 && sign1 != sign2) {
-    skip = 1;
-
-    if (sign1) {
-      flag_signed = 1;
+  }else if((s21_is_max(y) && s21_is_decimal(x))){ // if any -(MAX/10) or -any - MAX/10
+     if(diff >= 0 && !scale2 && sign1 != sign2){
+      error = 1;
     }
   }
 
-  if (flag_max2 && !scale2 && sign1 != sign2) {
-    skip = 1;
+  // flag_signed = s21_is_negative(x,y);
+  // if (flag_max1 && !scale1 && sign1 != sign2) {
+  //   skip = 1;
 
-    if (sign1) {
-      flag_signed = 1;
-    }
-  }
+  //   if (sign1) {
+  //     flag_signed = 1;
+  //   }
+  // }
+
+  // if (flag_max2 && !scale2 && sign1 != sign2) {
+  //   skip = 1;
+
+  //   if (sign1) {
+  //     flag_signed = 1;
+  //   }
+  // }
+
+
 
   if (!skip) {
     if (s21_is_equal(x, y) && sign1 == sign2) {  //-7 - (-7) OR 7 - 7
@@ -171,7 +176,6 @@ int s21_sub(s21_decimal x, s21_decimal y, s21_decimal *res) {
       s21_short_to_long_decimal(x, &value1);
       s21_short_to_long_decimal(y, &value2);
 
-      int diff = scale1 - scale2;
 
       if (diff > 0) {
         s21_set_scale(&y, scale1);  // local y
