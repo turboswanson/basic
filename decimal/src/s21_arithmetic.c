@@ -11,11 +11,7 @@ int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
   int scale2 = s21_get_scale(y);
   int diff = scale1- scale2;
 
-  int flag_signed = 0;  // if res < 0
-
-  if(sign1 && sign2){
-    flag_signed = 1;
-  }
+  int flag_signed = s21_is_add_negative(x,y);  // if res < 0
 
   if(s21_is_opposite(x,y)){ // -7 + 7
     s21_zero_decimal(res);
@@ -29,10 +25,6 @@ int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
      if(diff >= 0 && !scale2 && sign1 == sign2){
       error = 1;
     }
-  }
-
-  if(error && flag_signed){ // if -MAX/10 + (-any number)
-      error = 2;
   }
 
   if(!error){
@@ -54,47 +46,48 @@ int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
 
     s21_normalization(&value1, &value2, diff);  // common denominator
 
-    if ((sign1 == sign2) && sign1) {  // IF BOTH ARE NEGATIVE
-      s21_set_sign(res);
-
-      flag_signed = 1;
-
-      s21_add_long(value1, value2, &total);
-
-    } else if ((sign1 == sign2) && !sign1) { // IF BOTH ARE POSITIVE
-
-      s21_add_long(value1, value2, &total);
+    if ((sign1 == sign2)) {  // IF BOTH ARE POSITIVE OR NEGATIVE
       
+      s21_add_long(value1, value2, &total);
+
     }else if (sign1 && !sign2){
 
       if (s21_is_greater_long(value1, value2)) {  // if x < 0 AND NORM value1 > NORM value2 (-7 + 3)
+        
         s21_sub_long(value1, value2, &total);
-        s21_set_sign(res);
-        flag_signed = 1;
-
+       
       } else {
+        
         s21_sub_long(value2, value1,&total);  // if x < 0 AND NORM value1 < NORM value2 (-3 + 7)
       }
     }else if(sign2 && !sign1){
       
       if (s21_is_greater_long(value1, value2)) {  // 7 + (-3)
+        
         s21_sub_long(value1, value2, &total);
       } else {  // 3 + (-7)
+        
         s21_sub_long(value2, value1, &total);
-        s21_set_sign(res);
-        flag_signed = 1;
+        
       }
     }
-      // now we need to find how much times we need to total/10 to make it fits
-      // to our 95-bits decimal
+
+    if(flag_signed){
+      s21_set_sign(res);
+    }
+    
+    // now we need to find how much times we need to total/10 to make it fits
+    // to our 95-bits decimal
 
     int set_scale = s21_get_scale(x);
 
     res_scale = s21_post_normalization(&total, set_scale);
 
     if (res_scale >= 0) {
+
       s21_long_to_short_decimal(total, res);
       s21_set_scale(res, res_scale);
+
     } else {
       error = 1;
     }
@@ -112,6 +105,7 @@ int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
 void s21_add_long(s21_long_decimal value1, s21_long_decimal value2,
                   s21_long_decimal *total) {
   int res = 0, carry = 0;
+
   for (int i = 0; i < 256; i++) {
     res = s21_get_bit_long(value1, i) + s21_get_bit_long(value2, i) +
           carry;  // 0 (0+0+0),1(1+0+0 or 0+1+0),2(1+1+0) or 3(1+1+1)
@@ -127,13 +121,11 @@ int s21_sub(s21_decimal x, s21_decimal y, s21_decimal *res) {
   int sign2 = s21_get_sign(y);
   int scale1 = s21_get_scale(x);
   int scale2 = s21_get_scale(y);
-  int flag_signed = 0;
-  int skip = 0;
- 
 
   s21_zero_decimal(res);
 
   int diff = scale1 - scale2;
+  int flag_signed = s21_is_sub_negative(x,y);
 
   if(s21_is_max(x) && s21_is_decimal(y)){  // if MAX/10-(-any) or -MAX/10 - any
     if(diff <= 0 && !scale1 && sign1 != sign2){
@@ -146,26 +138,8 @@ int s21_sub(s21_decimal x, s21_decimal y, s21_decimal *res) {
     }
   }
 
-  // flag_signed = s21_is_negative(x,y);
-  // if (flag_max1 && !scale1 && sign1 != sign2) {
-  //   skip = 1;
-
-  //   if (sign1) {
-  //     flag_signed = 1;
-  //   }
-  // }
-
-  // if (flag_max2 && !scale2 && sign1 != sign2) {
-  //   skip = 1;
-
-  //   if (sign1) {
-  //     flag_signed = 1;
-  //   }
-  // }
-
-
-
-  if (!skip) {
+ 
+  if (!error) {
     if (s21_is_equal(x, y) && sign1 == sign2) {  //-7 - (-7) OR 7 - 7
       s21_zero_decimal(res);
     } else {
@@ -186,47 +160,41 @@ int s21_sub(s21_decimal x, s21_decimal y, s21_decimal *res) {
       s21_normalization(&value1, &value2, diff);  // common denominator
 
       if (!sign1 && !sign2) {
+
         if (s21_is_greater_long(value2, value1)) {  // 3 - 7
           s21_long_decimal tmp = value1;
           value1 = value2;
           value2 = tmp;
-          s21_set_sign(res);
-          flag_signed = 1;
         }
 
         s21_sub_long(value1, value2, &total);
-      }
 
-      if (sign1 && sign2) {  //-7 - (-3) OR -3 - (-7)
+      }else if (sign1 && sign2) {  //-7 - (-3) OR -3 - (-7)
+
         if (s21_is_greater_long(value1, value2)) {
           s21_sub_long(value1, value2, &total);
-          s21_set_sign(res);
-          flag_signed = 1;
-
         } else {
           s21_sub_long(value2, value1, &total);
         }
+
+      }else if (sign1 != sign2) {
+        s21_add_long(value1,value2,&total);
       }
 
-      if (sign1 != sign2) {
-        if (sign1) {  //-7 - 3 OR -3 - 7
-          s21_add_long(value1, value2, &total);
-          s21_set_sign(res);
-          flag_signed = 1;
-
-        } else {  // 7 - (-3) OR 3 - (-7)
-          s21_add_long(value1, value2, &total);
-        }
+      if(flag_signed){
+        s21_set_sign(res);
       }
 
       int set_scale = s21_get_scale(x);
 
       int scale = s21_post_normalization(
-          &total, set_scale);  // both scales are equal now(watch string №265)
+          &total, set_scale); 
 
       if (scale >= 0) {
+
         s21_long_to_short_decimal(total, res);
         s21_set_scale(res, scale);
+
       } else {
         error = 1;
       }
@@ -237,9 +205,6 @@ int s21_sub(s21_decimal x, s21_decimal y, s21_decimal *res) {
     error = 2;
   }
 
-  if (skip) error = 1;
-  if (skip && flag_signed) error = 2;
-
   if (error) s21_zero_decimal(res);
 
   return error;
@@ -247,6 +212,7 @@ int s21_sub(s21_decimal x, s21_decimal y, s21_decimal *res) {
 
 void s21_sub_long(s21_long_decimal value1, s21_long_decimal value2,
                   s21_long_decimal *total) {
+
   for (int i = 0; i < 8; i++) {
     value2.bits[i] = ~value2.bits[i];
   }

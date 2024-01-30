@@ -52,11 +52,6 @@ void s21_set_bit_long(s21_long_decimal *dst, int index, int bit);
 int s21_is_decimal(s21_decimal num);  // if there bits at all
 int s21_is_long_decimal(s21_long_decimal dst);
 
-void print_long_decimal(s21_long_decimal value);
-void print_decimal(s21_decimal value);
-void print_int(int num);
-
-
 
 // ARITHMETIC
 
@@ -104,8 +99,7 @@ int s21_equals_zero(s21_decimal x);
 int s21_equals_zero_long(s21_long_decimal x);
 int s21_is_less(s21_decimal x, s21_decimal y);
 int s21_is_less_or_equal(s21_decimal x, s21_decimal y);
-int s21_is_max(s21_decimal num);
-int s21_is_opposite(s21_decimal x, s21_decimal y);
+
 
 
 // CONVERTERS
@@ -123,5 +117,18 @@ int s21_truncate(s21_decimal value, s21_decimal *result);
 int s21_round(s21_decimal value, s21_decimal *result);
 int s21_floor(s21_decimal value, s21_decimal *result);
 float s21_rand_r(float a, float b);
+
+
+// AUXILIARY
+
+int s21_is_add_negative(s21_decimal value1,s21_decimal value2);
+int s21_is_sub_negative(s21_decimal value1,s21_decimal value2);
+int s21_is_max(s21_decimal num);
+int s21_is_opposite(s21_decimal x, s21_decimal y);
+void print_long_decimal(s21_long_decimal value);
+void print_decimal(s21_decimal value);
+void print_int(int num);
+
+
 
 #endif

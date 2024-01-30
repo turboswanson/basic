@@ -183,33 +183,3 @@ int s21_is_less_or_equal(s21_decimal x, s21_decimal y) {
   return res;
 }
 
-int s21_is_opposite(s21_decimal x, s21_decimal y){
-  int res = 1;
-  
-  for (int i = 0; i < 96; i++) {  // -7 + 7 OR 7 + (-7)
-    if (s21_get_bit(x, i) != s21_get_bit(y, i)) {
-      res = 0;
-      i = 96;
-    }
-  }
-
-  if(s21_get_sign(x) == s21_get_sign(y)){
-    res = 0;
-  }
-
-  if(s21_get_scale(x) != s21_get_scale(y)){
-    res = 0;
-  }
-
-  return res;
-}
-
-int s21_is_max(s21_decimal num){
-  int res = 0;
-
-  if(num.bits[0] == UINT_MAX && num.bits[1] == UINT_MAX && num.bits[2] == UINT_MAX){
-    res = 1;
-  }
-
-  return res;
-}

@@ -222,39 +222,3 @@ int s21_is_long_decimal(s21_long_decimal dst) {
          dst.bits[5] + dst.bits[6] + dst.bits[7];
 }
 
-void print_int(int num){
-
-  for(int i = 31; i >= 0;i--){
-      int bit = s21_f_get_bit(num,i);
-      printf("%d",bit);
-
-      if(i == 96 || i == 64 || i == 32)printf(" "); //bits
-      if(i == 127)printf(" "); // sign
-      if(i == 120)printf(" "); // 0
-      if(i == 112)printf(" "); //pow
-
-  }
-}
-
-void print_decimal(s21_decimal value){
-
-  for (int i = 127; i >= 0; i--) {
-    int bit = s21_get_bit(value, i);
-    printf("%d", bit);
-
-    if (i == 96 || i == 64 || i == 32) printf(" ");  // bits
-    if (i == 127) printf(" ");                       // sign
-    if (i == 120) printf(" ");                       // 0
-    if (i == 112) printf(" ");                       // pow
-  }
-}
-
-void print_long_decimal(s21_long_decimal value){
-      for(int i = 255; i >= 0;i--){
-      int bit = s21_get_bit_long(value,i);
-      printf("%d",bit);
-
-      if(i % 32 == 0) printf(" ");
-
-    }
-}
