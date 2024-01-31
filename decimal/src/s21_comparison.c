@@ -82,8 +82,6 @@ int s21_is_not_equal(s21_decimal x, s21_decimal y) {
 
 int s21_is_equal_long(s21_long_decimal x, s21_long_decimal y) {
   int flag = 1;
-  // int bit1 = 0;
-  // int bit2 = 0;
 
   for (int i = 0; i < 256; i++) {
     if (s21_get_bit_long(x, i) != s21_get_bit_long(y, i)) {
@@ -91,8 +89,6 @@ int s21_is_equal_long(s21_long_decimal x, s21_long_decimal y) {
       break;
     }
   }
-
-  // printf("%d - %d\n",s21_get_sign(x),s21_get_sign(y));
 
   return flag;
 }

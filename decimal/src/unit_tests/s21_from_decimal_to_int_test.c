@@ -87,7 +87,7 @@ END_TEST
 //   src.bits[1] = 0;
 //   src.bits[2] = 0;
 //   src.bits[3] = 0;
-//   set_1_bit(&(src.bits[3]), 31);
+//   s21_set_bit(&src, 31,1);
 //   result = s21_from_decimal_to_int(src, &number);
 //   ck_assert_int_eq(number, -2147483647);
 //   ck_assert_int_eq(result, 0);

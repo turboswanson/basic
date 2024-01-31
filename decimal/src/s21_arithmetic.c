@@ -16,7 +16,7 @@ int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
   if(s21_is_opposite(x,y)){ // -7 + 7
     s21_zero_decimal(res);
 
-  }else if(s21_is_max(x) && s21_is_decimal(y)){ // if MAX/10 + any number
+  }else if(s21_is_max(x) && s21_is_decimal(y)){ // if MAX/10 + any number    
     if(diff <= 0 && !scale1 && sign1 == sign2){
       error = 1;
     }
@@ -35,7 +35,7 @@ int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
     int res_scale = 0;
   
     s21_short_to_long_decimal(x, &value1);
-    s21_short_to_long_decimal(y, &value2);
+    s21_short_to_long_decimal(y, &value2);  
 
        
     if (diff > 0) {
@@ -50,25 +50,15 @@ int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res) {
       
       s21_add_long(value1, value2, &total);
 
-    }else if (sign1 && !sign2){
+    }else if (sign1 != sign2){
 
-      if (s21_is_greater_long(value1, value2)) {  // if x < 0 AND NORM value1 > NORM value2 (-7 + 3)
+      if (s21_is_greater_long(value1, value2)) { 
         
         s21_sub_long(value1, value2, &total);
        
       } else {
         
-        s21_sub_long(value2, value1,&total);  // if x < 0 AND NORM value1 < NORM value2 (-3 + 7)
-      }
-    }else if(sign2 && !sign1){
-      
-      if (s21_is_greater_long(value1, value2)) {  // 7 + (-3)
-        
-        s21_sub_long(value1, value2, &total);
-      } else {  // 3 + (-7)
-        
-        s21_sub_long(value2, value1, &total);
-        
+        s21_sub_long(value2, value1,&total);  
       }
     }
 
@@ -138,7 +128,6 @@ int s21_sub(s21_decimal x, s21_decimal y, s21_decimal *res) {
     }
   }
 
- 
   if (!error) {
     if (s21_is_equal(x, y) && sign1 == sign2) {  //-7 - (-7) OR 7 - 7
       s21_zero_decimal(res);
@@ -293,19 +282,13 @@ int s21_div(s21_decimal x, s21_decimal y, s21_decimal *res) {
 
   s21_zero_decimal(res);
 
-  if (!s21_is_decimal(x) && !s21_is_decimal(y)) {
-    error = 3;
-  } else if (s21_is_decimal(x)) {  // 0/any value = 0
+ if (s21_is_decimal(x)) {  // 0/any value = 0
     if (s21_is_decimal(y)) {
       int scale, res_scale = 0;
 
       s21_long_decimal value1 = {0}, value2 = {0}, total = {0};
       s21_long_decimal ten = {{10, 0, 0, 0, 0, 0, 0, 0}};
 
-      int scale1 = s21_get_scale(x);
-      int scale2 = s21_get_scale(y);
-      (void)scale1;
-      (void)scale2;
       int sign1 = s21_get_sign(x);
       int sign2 = s21_get_sign(y);
 
@@ -355,13 +338,6 @@ int s21_div_long(s21_long_decimal value1, s21_long_decimal value2,
   int bit2 = 0;
   int diff = 0;
 
-  int limit = 58;  // limit calculation ability of for
-
-  if (value1.bits[1] || value1.bits[2] || value2.bits[1] || value2.bits[2]) {
-    limit = 96;
-  }
-  (void)limit;
-
   s21_zero_long(total);
 
   s21_long_decimal ten = {{10, 0, 0, 0, 0, 0, 0, 0}};
@@ -386,12 +362,6 @@ int s21_div_long(s21_long_decimal value1, s21_long_decimal value2,
                         // like 1.333333333333333333333
     // if I made until i < 96 there is a HUGE number so post-normalization can't
     // deal with
-
-    // int result = 0;
-    // s21_decimal res = {0};
-    // s21_long_to_short_decimal(*total,&res);
-    // s21_from_decimal_to_int(res,&result);
-    // printf("%d\n",result);
 
     if (i > 0) {  // if remainder
       s21_shift_long_left(&value2, 1);
@@ -462,7 +432,7 @@ void s21_div_long_int(s21_long_decimal value1, s21_long_decimal value2,
   s21_zero_long(total);
 
   if (!s21_equals_zero_long(value1)) {
-    // s21_long_decimal ten = {{10,0,0,0,0,0,0,0}};
+
     s21_long_decimal tmp = {0};
 
     for (int i = 255; i >= 0 && (!left1 || !left2); i--) {
@@ -561,7 +531,7 @@ void s21_normalization(s21_long_decimal *value1, s21_long_decimal *value2,
     for (int i = 0; i < diff; i++) {
       s21_mul_long(*value2, x, &res);
       *value2 = res;
-      s21_zero_long(&res);
+      s21_zero_long(&res); 
     }
 
   } else if (diff < 0) {  // increase value1 power
@@ -574,27 +544,21 @@ void s21_normalization(s21_long_decimal *value1, s21_long_decimal *value2,
 }
 
 int s21_post_normalization(s21_long_decimal *res, int scale) {
-  int flag = 0;
+
   s21_long_decimal ten = {{10, 0, 0, 0, 0, 0, 0, 0}};
   int remainder = 0;
 
   while ((res->bits[3] || res->bits[4] || res->bits[5] || res->bits[6] ||
           res->bits[7]) &&
-         scale > 0) {  //
+         scale > 0) {  
 
     s21_div_long_int(*res, ten, res, &remainder);
 
-    if (res->bits[3] && scale == 1) {
-      flag = 1;
-    }
-
-    scale--;  // because 314/10^2 == 31/10 each time we make res/10 we need to
-              // make scale--(10^x x--) OR x/10^5 : 1/10 == 10x/10^5 == x/10^4
+    scale--; 
   }
 
- (void)flag;
-
   s21_long_decimal one = {{1, 0, 0, 0, 0, 0, 0, 0}};
+
   if (remainder >= 5) {
     s21_add_long(*res, one, res);
   }

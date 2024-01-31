@@ -94,7 +94,7 @@ int s21_shift_decimal_left(s21_decimal *dst, int num) {
   int buf[3] = {0};
   int error = 0;
 
-  for (int i = 0; i < num; i++) {
+  for (int i = 0; i < num && !error; i++) {
     for (int j = 0; j < 2; j++) {
       buf[j] = s21_get_bit(
           *dst, (j + 1) * 32 - 1);  // save the last bit of each bits (31,63)
@@ -118,7 +118,7 @@ int s21_shift_long_left(s21_long_decimal *dst, int num) {
   int buf[8] = {0};
   int error = 0;
 
-  for (int i = 0; i < num; i++) {
+  for (int i = 0; i < num && !error; i++) {
     for (int j = 0; j < 7; j++) {
       buf[j] = s21_get_bit_long(
           *dst,
@@ -140,8 +140,7 @@ int s21_shift_long_left(s21_long_decimal *dst, int num) {
   return error;
 }
 
-int s21_shift_decimal_right(s21_decimal *dst, int num) {
-  int error = 0;
+void s21_shift_decimal_right(s21_decimal *dst, int num) {
 
   int buffer[3] = {0};
 
@@ -156,12 +155,10 @@ int s21_shift_decimal_right(s21_decimal *dst, int num) {
     dst->bits[2] >>= 1;
   }
 
-  return error;
 }
 
-int s21_shift_long_right(s21_long_decimal *dst, int num) {
+void s21_shift_long_right(s21_long_decimal *dst, int num) {
   int buffer[7] = {0};
-  int error = 0;
 
   for (int k = 0; k < num; k++) {
     for (int i = 0; i < 7; i++) {
@@ -174,7 +171,6 @@ int s21_shift_long_right(s21_long_decimal *dst, int num) {
     dst->bits[7] >>= 1;
   }
 
-  return error;
 }
 
 void s21_short_to_long_decimal(s21_decimal src, s21_long_decimal *dst) {
@@ -200,15 +196,7 @@ void s21_set_bit_long(s21_long_decimal *dst, int index, int bit) {
 
   if (bit == 0) {
     dst->bits[index / 32] = dst->bits[index / 32] & ~mask;
-  }
-
-  /* mask = 00001000000
-
-  to make a specific bit == 0 we need to & it with 0 ( 0 & 0 == 0, 1 & 0 )
-
-  so we need to ~mask ---> 111111111011111111
-  */
-  else {
+  } else {
     dst->bits[index / 32] = dst->bits[index / 32] | mask;
   }
 }

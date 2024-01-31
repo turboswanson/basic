@@ -7,22 +7,17 @@
 #define EXPONENT_PLUS_1 65536
 
 int main(void) {
-   s21_decimal src1 = {0};
-  src1.bits[0] = 0b11111111111111111111111111111111;
-  src1.bits[1] = 0b11111111111111111111111111111111;
-  src1.bits[2] = 0b11111111111111111111111111111111;
-  src1.bits[3] = 0b10000000000000000000000000000000;
-  s21_decimal src2 = {0};
-  src2.bits[0] = 0b00000000000000000000000000000010;
-  src2.bits[1] = 0b00000000000000000000000000000000;
-  src2.bits[2] = 0b00000000000000000000000000000000;
-  src2.bits[3] = 0b00000000000000110000000000000000;
-  s21_decimal res = {0};
+ s21_decimal value1 = {0};
 
- s21_add(src1,src2,&res);
+ value1.bits[0] = MAX;
+ value1.bits[1] = MAX;
+ value1.bits[2] = MAX;
+ value1.bits[3] = 0;
 
- print_decimal(res);
-
+ s21_long_decimal total = {0};
+ s21_short_to_long_decimal(value1,&total); 
+ print_long_decimal(total);
+  
   return 0;
 }
 
@@ -72,7 +67,8 @@ char x = -3;
 32bit system
 
 INT_MAX = 2 147 483 648; // 01111111111111111111111111111111
-UINT_MAX = 4 294 967 295; //11111111111111111111111111111111
+
+UINT_MAX = 4 294 967 295; // 11111111111111111111111111111111
 
 */
 

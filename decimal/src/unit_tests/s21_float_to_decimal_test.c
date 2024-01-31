@@ -377,83 +377,6 @@ START_TEST(float_to_decimal_29) {
 }
 END_TEST
 
-// START_TEST(float_to_decimal_30) {
-//   float a = 1.2e-27;
-//   float b = 0.0;
-//   int error = 0;
-//   int func_error = 0;
-//   s21_decimal dec = {{0}};
-//   func_error = s21_from_float_to_decimal(a, &dec);
-//   s21_from_decimal_to_float(dec, &b);
-//   ck_assert_int_eq(error, func_error);
-//   ck_assert_float_eq(a, b);
-// }
-// END_TEST
-
-// START_TEST(float_to_decimal_31) {
-//   float a = 1.2e-26;
-//   float b = 0.0;
-//   int error = 0;
-//   int func_error = 0;
-//   s21_decimal dec = {{0}};
-//   func_error = s21_from_float_to_decimal(a, &dec);
-//   s21_from_decimal_to_float(dec, &b);
-//   ck_assert_int_eq(error, func_error);
-//   ck_assert_float_eq(a, b);
-// }
-// END_TEST
-
-// START_TEST(float_to_decimal_32) {
-//   float a = 1.2e-25;
-//   float b = 0.0;
-//   int error = 0;
-//   int func_error = 0;
-//   s21_decimal dec = {{0}};
-//   func_error = s21_from_float_to_decimal(a, &dec);
-//   s21_from_decimal_to_float(dec, &b);
-//   ck_assert_int_eq(error, func_error);
-//   ck_assert_float_eq(a, b);
-// }
-// END_TEST
-
-// START_TEST(float_to_decimal_33) {
-//   float a = 1.2e-24;
-//   float b = 0.0;
-//   int error = 0;
-//   int func_error = 0;
-//   s21_decimal dec = {{0}};
-//   func_error = s21_from_float_to_decimal(a, &dec);
-//   s21_from_decimal_to_float(dec, &b);
-//   ck_assert_int_eq(error, func_error);
-//   ck_assert_float_eq(a, b);
-// }
-// END_TEST
-
-// START_TEST(float_to_decimal_34) {
-//   float a = 1.2e-23;
-//   float b = 0.0;
-//   int error = 0;
-//   int func_error = 0;
-//   s21_decimal dec = {{0}};
-//   func_error = s21_from_float_to_decimal(a, &dec);
-//   s21_from_decimal_to_float(dec, &b);
-//   ck_assert_int_eq(error, func_error);
-//   ck_assert_float_eq(a, b);
-// }
-// END_TEST
-
-// START_TEST(float_to_decimal_35) {
-//   float a = 1.2e-22;
-//   float b = 0.0;
-//   int error = 0;
-//   int func_error = 0;
-//   s21_decimal dec = {{0}};
-//   func_error = s21_from_float_to_decimal(a, &dec);
-//   s21_from_decimal_to_float(dec, &b);
-//   ck_assert_int_eq(error, func_error);
-//   ck_assert_float_eq(a, b);
-// }
-// END_TEST
 
 START_TEST(float_to_decimal_36) {
   float a = 1.2e-21;
@@ -1023,12 +946,6 @@ Suite *suite_float_to_decimal(void) {
   tcase_add_test(tc, float_to_decimal_27);
   tcase_add_test(tc, float_to_decimal_28);
   tcase_add_test(tc, float_to_decimal_29);
-  // tcase_add_test(tc, float_to_decimal_30);
-  // tcase_add_test(tc, float_to_decimal_31);
-  // tcase_add_test(tc, float_to_decimal_32);
-  // tcase_add_test(tc, float_to_decimal_33);
-  // tcase_add_test(tc, float_to_decimal_34);
-  // tcase_add_test(tc, float_to_decimal_35);
   tcase_add_test(tc, float_to_decimal_36);
   tcase_add_test(tc, float_to_decimal_37);
   tcase_add_test(tc, float_to_decimal_38);

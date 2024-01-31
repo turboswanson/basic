@@ -10,11 +10,11 @@ int s21_is_opposite(s21_decimal x, s21_decimal y){
     }
   }
 
-  if(s21_get_sign(x) == s21_get_sign(y)){
+  if(res && (s21_get_sign(x) == s21_get_sign(y))){
     res = 0;
   }
 
-  if(s21_get_scale(x) != s21_get_scale(y)){
+  if(res && (s21_get_scale(x) != s21_get_scale(y))){
     res = 0;
   }
 
