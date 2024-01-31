@@ -58,7 +58,7 @@ int s21_is_equal(s21_decimal x, s21_decimal y) {
   for (int i = 0; i < 256; i++) {
     if (s21_get_bit_long(value1, i) != s21_get_bit_long(value2, i)) {
       flag = 0;
-      break;
+      i = 256;
     }
   }
 
@@ -86,7 +86,7 @@ int s21_is_equal_long(s21_long_decimal x, s21_long_decimal y) {
   for (int i = 0; i < 256; i++) {
     if (s21_get_bit_long(x, i) != s21_get_bit_long(y, i)) {
       flag = 0;
-      break;
+      i = 256;
     }
   }
 
@@ -104,11 +104,11 @@ int s21_is_greater_long(s21_long_decimal x, s21_long_decimal y) {
 
     if (bit1 && !bit2) {
       flag = 1;
-      break;
+      i = -1;
     }
 
     if (!bit1 && bit2) {
-      break;
+      i = -1;
     }
   }
 
