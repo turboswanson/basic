@@ -5,20 +5,25 @@
 #include "s21_decimal.h"
 
 #define EXPONENT_PLUS_1 65536
+// 3.8 -> 3.0
+  //-3.8 -> -4.0
 
 int main(void) {
- s21_decimal value1 = {0};
+ s21_decimal num = {0};
+ num.bits[0] = 77;
+ s21_set_scale(&num,1);
+ s21_long_decimal value = {0};
+ s21_short_to_long_decimal(num,&value);
+ s21_long_decimal ten = {10,0,0,0,0,0,0};
+ 
+ s21_long_decimal res = {0};
+ int rem = 0;
+ s21_div_long_int(value,ten,&res,&rem);
+ s21_decimal result = {0};
+ s21_long_to_short_decimal(res,&result);
+ print_decimal(result);
 
- value1.bits[0] = MAX;
- value1.bits[1] = MAX;
- value1.bits[2] = MAX;
- value1.bits[3] = 0;
-
- s21_long_decimal total = {0};
- s21_short_to_long_decimal(value1,&total); 
- print_long_decimal(total);
-  
-  return 0;
+ return 0;
 }
 
 

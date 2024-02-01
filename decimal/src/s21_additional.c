@@ -110,8 +110,18 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
   } else {
 
     s21_zero_decimal(result);
-    s21_truncate(value, result);
+    // s21_truncate(value, result);
     s21_decimal one = {{1, 0, 0, 0}};
+    int scale = s21_get_scale(value);
+
+    s21_long_decimal num = {0};
+    s21_short_to_long_decimal(value,&num);
+    s21_long_decimal ten = {{10, 0, 0, 0}};
+    int rem = 0;
+    
+    for(int i = 0; i < scale; i++){
+      s21_div_long_int(num,ten,&num,&rem);
+    }    
 
     if (s21_get_sign(value) && !s21_is_equal(*result, value)) {
       s21_sub(*result, one, result);
