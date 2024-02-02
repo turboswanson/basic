@@ -8,20 +8,14 @@
 // 3.8 -> 3.0
   //-3.8 -> -4.0
 
-int main(void) {
- s21_decimal num = {0};
- num.bits[0] = 77;
- s21_set_scale(&num,1);
- s21_long_decimal value = {0};
- s21_short_to_long_decimal(num,&value);
- s21_long_decimal ten = {10,0,0,0,0,0,0};
- 
- s21_long_decimal res = {0};
- int rem = 0;
- s21_div_long_int(value,ten,&res,&rem);
- s21_decimal result = {0};
- s21_long_to_short_decimal(res,&result);
- print_decimal(result);
+int main(void) {  
+ s21_decimal src1, res;
+  src1.bits[0] = 0b01010101001110101110101110110001;
+  src1.bits[1] = 0b00001101101101001101101001011111;
+  src1.bits[2] = 0b00000000000000000000000000000000;
+  src1.bits[3] = 0b10000000000100100000000000000000;
+  s21_floor(src1,&src1);
+  print_decimal(src1);
 
  return 0;
 }

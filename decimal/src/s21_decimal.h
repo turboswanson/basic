@@ -88,6 +88,8 @@ int s21_equals_zero(s21_decimal x);
 int s21_equals_zero_long(s21_long_decimal x);
 int s21_is_less(s21_decimal x, s21_decimal y);
 int s21_is_less_or_equal(s21_decimal x, s21_decimal y);
+int s21_is_less_ten(s21_decimal value);
+int s21_is_less_ten_long(s21_long_decimal value);
 
 // CONVERTERS
 

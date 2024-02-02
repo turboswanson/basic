@@ -179,3 +179,22 @@ int s21_is_less_or_equal(s21_decimal x, s21_decimal y) {
   return res;
 }
 
+int s21_is_less_ten(s21_decimal value){
+  int res = 0;
+
+  if(value.bits[0] < 10 && value.bits[1] == 0 && value.bits[2] == 0){
+    res = 1;
+  }
+
+  return res;
+}
+
+int s21_is_less_ten_long(s21_long_decimal value){
+  int res = 0;
+
+  if(value.bits[0] < 10 && value.bits[1] == 0 && value.bits[2] == 0){
+    res = 1;
+  }
+
+  return res;
+}
