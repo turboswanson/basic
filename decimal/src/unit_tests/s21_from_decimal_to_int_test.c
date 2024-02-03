@@ -80,20 +80,6 @@ START_TEST(s21_from_decimal_to_int_2) {
 }
 END_TEST
 
-// START_TEST(s21_from_decimal_to_int_3) {
-//   s21_decimal src = {{0}};
-//   int result = 0, number = 0;
-//   src.bits[0] = 2147483647;
-//   src.bits[1] = 0;
-//   src.bits[2] = 0;
-//   src.bits[3] = 0;
-//   s21_set_bit(&src, 31,1);
-//   result = s21_from_decimal_to_int(src, &number);
-//   ck_assert_int_eq(number, -2147483647);
-//   ck_assert_int_eq(result, 0);
-// }
-// END_TEST
-
 START_TEST(s21_from_decimal_to_int_4) {
   s21_decimal src = {{0}};
   int result = 0, number = 0;
@@ -135,24 +121,6 @@ START_TEST(s21_from_decimal_to_int_6) {
 }
 END_TEST
 
-// START_TEST(s21_from_decimal_to_int_new) {
-//   s21_decimal src = {{0}};
-//   int result = 0, number = 0;
-//   // error = 0;
-//   long int c = 4294967295;
-//   src.bits[0] = c;
-//   src.bits[1] = 0;
-//   src.bits[2] = 0;
-//   src.bits[3] = 0;
-//   result = s21_from_decimal_to_int(src, &number);
-//   // error = check_bits_decimal_int(&src, number);
-//   ck_assert_int_eq(result, 0);
-//   ck_assert_int_eq(error, 0);
-//   //   ck_assert_int_eq(number, 0xFFFFFFFFFFFFFFFF);
-//   //   ck_assert_int_eq(result, 0);
-// }
-// END_TEST
-
 int check, result, code;
 
 START_TEST(s21_test_from_decimal_to_int_0) {
@@ -173,16 +141,6 @@ START_TEST(s21_test_from_decimal_to_int_1) {
 }
 END_TEST
 
-// START_TEST(s21_test_from_decimal_to_int_2) {
-//   s21_decimal a = {{INT_MAX, INT_MAX, 0, 0}};
-//   set_1_bit(&(a.bits[0]), 31);
-//   check = 0;
-//   code = s21_from_decimal_to_int(a, &result);
-//   //   ck_assert_int_eq(result, check);
-//   ck_assert_int_eq(code, 1);
-// }
-// END_TEST
-
 START_TEST(s21_test_from_decimal_to_int_3) {
   s21_decimal a = {{INT_MAX, INT_MAX, INT_MAX, 0}};
   check = 0;
@@ -201,33 +159,6 @@ START_TEST(s21_test_from_decimal_to_int_4) {
   ck_assert_int_eq(code, 1);
 }
 END_TEST
-
-// START_TEST(s21_test_from_decimal_to_int_5) {
-//   s21_decimal src1;
-//   int error = 0;
-//   //   s21_decimal src1 = {{UINT_MAX, 0, 0, 0}};
-//   src1.bits[0] = 0b11111111111111111111111111111111;
-//   src1.bits[1] = 0b00000000000000000000000000000000;
-//   src1.bits[2] = 0b00000000000000000000000000000000;
-//   src1.bits[3] = 0b00000000000000000000000000000000;
-//   //   unsigned int check1 = UINT_MAX;
-//   int result1 = 0;
-//   code = s21_from_decimal_to_int(src1, &result1);
-//   error = check_bits_decimal_int(&src1, result1);
-//   //   ck_assert_int_eq(result1, check1);
-//   ck_assert_int_eq(error, 0);
-//   ck_assert_int_eq(code, 0);
-// }
-// END_TEST
-
-// START_TEST(s21_test_from_decimal_to_int_6) {
-//   s21_decimal a = {{UINT_MAX, 0, 0, 0}};
-//   check = -1;
-//   code = s21_from_decimal_to_int(a, &result);
-//   ck_assert_int_eq(result, check);
-//   ck_assert_int_eq(code, 1);
-// }
-// END_TEST
 
 START_TEST(s21_test_from_decimal_to_int_7) {
   int result = 0;
@@ -275,15 +206,6 @@ START_TEST(s21_test_from_decimal_to_int_11) {
   ck_assert_int_eq(code, 0);
 }
 END_TEST
-
-// START_TEST(s21_test_from_decimal_to_int_12) {
-//   s21_decimal a = {{INT_MAX, 0, 0, EXPONENT_INT_MIN_28}};
-//   check = 0;  // (int)(INT_MAX / 10^28)
-//   code = s21_from_decimal_to_int(a, &result);
-//   ck_assert_int_eq(result, check);
-//   ck_assert_int_eq(code, 0);
-// }
-// END_TEST
 
 START_TEST(s21_test_from_decimal_to_int_14) {
   s21_decimal a = {{INT_MAX, 0, 0, EXPONENT_PLUS_28}};
@@ -503,28 +425,21 @@ Suite *suite_from_decimal_to_int(void) {
   // tcase_add_loop_test(tc, from_decimal_to_int_3, 0, 1000);
   tcase_add_test(tc, from_decimal_to_int_4);
 
-  /*Serzhunya*/
   tcase_add_test(tc, s21_from_decimal_to_int_1);
   tcase_add_test(tc, s21_from_decimal_to_int_2);
-  // tcase_add_test(tc, s21_from_decimal_to_int_3);
   tcase_add_test(tc, s21_from_decimal_to_int_4);
   tcase_add_test(tc, s21_from_decimal_to_int_5);
   tcase_add_test(tc, s21_from_decimal_to_int_6);
 
   tcase_add_test(tc, s21_test_from_decimal_to_int_0);
   tcase_add_test(tc, s21_test_from_decimal_to_int_1);
-  // tcase_add_test(tc, s21_test_from_decimal_to_int_2);
   tcase_add_test(tc, s21_test_from_decimal_to_int_3);
   tcase_add_test(tc, s21_test_from_decimal_to_int_4);
-  // tcase_add_test(tc, s21_test_from_decimal_to_int_5);
-  // tcase_add_test(tc, s21_test_from_decimal_to_int_6);
-  // tcase_add_test(tc, s21_from_decimal_to_int_new);
   tcase_add_test(tc, s21_test_from_decimal_to_int_7);
   tcase_add_test(tc, s21_test_from_decimal_to_int_8);
   tcase_add_test(tc, s21_test_from_decimal_to_int_9);
   tcase_add_test(tc, s21_test_from_decimal_to_int_10);
   tcase_add_test(tc, s21_test_from_decimal_to_int_11);
-  // tcase_add_test(tc, s21_test_from_decimal_to_int_12);
   tcase_add_test(tc, s21_test_from_decimal_to_int_14);
   tcase_add_test(tc, s21_test_from_decimal_to_int_15);
   tcase_add_test(tc, s21_test_from_decimal_to_int_16);
@@ -539,7 +454,6 @@ Suite *suite_from_decimal_to_int(void) {
   tcase_add_test(tc, s21_from_decimal_to_intTest13);
   tcase_add_test(tc, s21_from_decimal_to_intTest14);
   tcase_add_test(tc, s21_from_decimal_to_intTest15);
-  /*Serzhunya*/
 
   suite_add_tcase(s, tc);
   return s;

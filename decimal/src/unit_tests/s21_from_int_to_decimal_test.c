@@ -329,7 +329,6 @@ Suite *suite_from_int_to_decimal(void) {
   tcase_add_test(tc, from_int_to_decimal_1);
   tcase_add_test(tc, from_int_to_decimal_2);
 
-  /*Serzhunya*/
   tcase_add_test(tc, s21_from_int_to_decimal_1);
 
   tcase_add_test(tc, s21_test_from_int_to_decimal_0);
@@ -349,7 +348,6 @@ Suite *suite_from_int_to_decimal(void) {
   tcase_add_test(tc, s21_from_int_to_decimalTest9);
   tcase_add_test(tc, from_int_to_decimal_0);
   tcase_add_test(tc, from_int_to_decimal_1);
-  /*Serzhunya*/
 
   suite_add_tcase(s, tc);
   return s;

@@ -49,7 +49,6 @@ void s21_long_to_short_decimal(s21_long_decimal src, s21_decimal *dst);
 int s21_is_decimal(s21_decimal num);  // if there are bits at all
 int s21_is_long_decimal(s21_long_decimal dst);
 
-
 // ARITHMETIC
 
 int s21_add(s21_decimal x, s21_decimal y, s21_decimal *res);
@@ -106,17 +105,15 @@ int s21_round(s21_decimal value, s21_decimal *result);
 int s21_floor(s21_decimal value, s21_decimal *result);
 float s21_rand_r(float a, float b);
 
-
 // AUXILIARY
 
-int s21_is_add_negative(s21_decimal value1,s21_decimal value2);
-int s21_is_sub_negative(s21_decimal value1,s21_decimal value2);
-int s21_is_max(s21_decimal num); // s21_decimal = {UINT_MAX,UINT_MAX,UINT_MAX,0};
+int s21_is_add_negative(s21_decimal value1, s21_decimal value2);
+int s21_is_sub_negative(s21_decimal value1, s21_decimal value2);
+int s21_is_max(
+    s21_decimal num);  // s21_decimal = {UINT_MAX,UINT_MAX,UINT_MAX,0};
 int s21_is_opposite(s21_decimal x, s21_decimal y);
 void print_long_decimal(s21_long_decimal value);
 void print_decimal(s21_decimal value);
 void print_int(int num);
-
-
 
 #endif

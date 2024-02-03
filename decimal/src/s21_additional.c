@@ -42,7 +42,7 @@ int s21_truncate(s21_decimal value, s21_decimal *result) {
 
       if (tmp.bits[0] < 10 && (scale - i) > 1) {
         s21_zero_long(&tmp);
-        break;
+        i = scale;
       }
     }
 
@@ -76,7 +76,7 @@ int s21_round(s21_decimal value, s21_decimal *result) {
 
     s21_decimal truncated = {0};
 
-    s21_truncate(unsigned_value, &truncated);
+    s21_floor(unsigned_value, &truncated);
 
     s21_decimal fract = {0};
 
@@ -94,7 +94,6 @@ int s21_round(s21_decimal value, s21_decimal *result) {
     }
 
     if (sign) s21_set_sign(result);
-
   }
 
   return error;
@@ -109,44 +108,35 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
   if (result == NULL) {
     error = 1;
   } else {
-
     s21_zero_decimal(result);
     s21_decimal one = {{1, 0, 0, 0}};
     int scale = s21_get_scale(value);
     s21_long_decimal num = {0};
-    s21_short_to_long_decimal(value,&num);
+    s21_short_to_long_decimal(value, &num);
     s21_long_decimal ten = {{10, 0, 0, 0}};
     int rem = 0;
 
-    if(scale && !s21_is_less_ten(value)){
-       
-      for(int i = 0; i < scale; i++){
-        s21_div_long_int(num,ten,&num,&rem);
+    if (scale && !s21_is_less_ten(value)) {
+      for (int i = 0; i < scale; i++) {
+        s21_div_long_int(num, ten, &num, &rem);
 
-        if(s21_is_less_ten_long(num)){
+        if (s21_is_less_ten_long(num) && i != scale - 1) {
           s21_zero_long(&num);
           i = scale;
         }
       }
 
-      s21_long_to_short_decimal(num,result);
+      s21_long_to_short_decimal(num, result);
 
-    } else if(!scale){
+    } else if (!scale) {
       *result = value;
     }
 
-     if(scale && sign){
-        s21_set_sign(result);
-        s21_sub(*result,one,result);
-      }    
-
- }
+    if (scale && sign) {
+      s21_set_sign(result);
+      s21_sub(*result, one, result);
+    }
+  }
 
   return error;
-}
-
-float s21_rand_r(float a, float b) {
-  float m = (float)rand() / RAND_MAX;
-  float num = a + m * (b - a);
-  return num;
 }

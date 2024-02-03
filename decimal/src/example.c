@@ -6,16 +6,20 @@
 
 #define EXPONENT_PLUS_1 65536
 // 3.8 -> 3.0
-  //-3.8 -> -4.0
+//-3.8 -> -4.0
 
-int main(void) {  
-float x = 1.2345678901234567890123456780;
-s21_decimal num = {0};
-s21_from_float_to_decimal(x,&num);
-print_decimal(num);
-} 
+int main(void) {
+  s21_decimal src1, origin;
+  // src1 = 3.5;
 
-
+  src1.bits[0] = 0b01010101001110101110101110110001;
+  src1.bits[1] = 0b00001101101101001101101001011111;
+  src1.bits[2] = 0b00000000000000000000000000000000;
+  src1.bits[3] = 0b10000000000100100000000000000000;
+  s21_decimal result = {{0, 0, 0, 0}};
+  s21_floor(src1, &result);
+  print_decimal(result);
+}
 
 /*
 

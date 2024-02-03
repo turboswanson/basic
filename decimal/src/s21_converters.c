@@ -56,12 +56,12 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
 
    the   actual mantissa = 1.011 0000 0000 0000 0000 0000 could be calculate:
 
-   1 + 0*2^(-1) + 1*2^(-2) + 1*2^(-3) + 0*2^(-4) ........ + 0*2(-23)   
-   1 + 0.25 + 0.125 = 1.375 
+   1 + 0*2^(-1) + 1*2^(-2) + 1*2^(-3) + 0*2^(-4) ........ + 0*2(-23)
+   1 + 0.25 + 0.125 = 1.375
 
    it's a negative number so -1.375
-   
-   E = 1000 0001 = 129 
+
+   E = 1000 0001 = 129
 
    -1.375*2^(E-127) = -1.375*2^(2) = -5.5
 
@@ -79,19 +79,22 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     } else {
       if (src != 0) {
         int tmp = 0;
-        memcpy(&tmp, &src, sizeof(float)); // copies binary represenatation of a float nummber
+        memcpy(
+            &tmp, &src,
+            sizeof(float));  // copies binary represenatation of a float nummber
 
-        int sign = *(int *)&src >> 31; // integer operation only
+        int sign = *(int *)&src >> 31;  // integer operation only
 
-        int mask = 255 << 23; // 1111 1111 << 23
-        int exp = ((mask & tmp) >> 23) - 127; // 2^(E - 127)
+        int mask = 255 << 23;                  // 1111 1111 << 23
+        int exp = ((mask & tmp) >> 23) - 127;  // 2^(E - 127)
 
-        double num = (double)fabs(src);  
+        double num = (double)fabs(src);
 
         int off = 0;
 
-        for (; off <= 28 && (int)num / (int)pow(2, 23) == 0; 
-             num *= 10, off++) { // making num *= 10 until it less 2^(23) = 8 388 608
+        for (; off <= 28 && (int)num / (int)pow(2, 23) == 0;
+             num *= 10,
+             off++) {  // making num *= 10 until it less 2^(23) = 8 388 608
         }
 
         num = round(num);
@@ -103,12 +106,12 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
           for (; fmod(num, 10) == 0 && off > 0; off--, num /= 10) {
           }
 
-          /* union elements share memory space and now we have a binary representation of num
-              e.g if   mant.fl = 314
-                  then mant.ui = 1134362624
+          /* union elements share memory space and now we have a binary
+             representation of num e.g if   mant.fl = 314 then mant.ui =
+             1134362624
           */
 
-          mant.fl = num; 
+          mant.fl = num;
           exp = ((*(int *)&mant.fl & ~0x80000000) >> 23) - 127;
 
           dst->bits[exp / 32] |= 1 << exp % 32;
@@ -155,4 +158,3 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst) {
 
   return error;
 }
-

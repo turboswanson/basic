@@ -88,30 +88,6 @@ START_TEST(is_greater_8) {
 }
 END_TEST
 
-// START_TEST(is_greater_9) {
-//   float a = s21_rand_r(-10e20, 10e20);
-//   float b = s21_rand_r(-10e20, 10e20);
-
-//   s21_decimal _a = {{0}};
-//   s21_decimal _b = {{0}};
-//   s21_from_float_to_decimal(a, &_a);
-//   s21_from_float_to_decimal(b, &_b);
-//   ck_assert_int_eq(s21_is_greater(_a, _b), a > b);
-// }
-// END_TEST
-
-// START_TEST(is_greater_10) {
-//   float a = s21_rand_r(-10e1, 10e1);
-//   float b = s21_rand_r(-10e1, 10e1);
-
-//   s21_decimal _a = {{0}};
-//   s21_decimal _b = {{0}};
-//   s21_from_float_to_decimal(a, &_a);
-//   s21_from_float_to_decimal(b, &_b);
-//   ck_assert_int_eq(s21_is_greater(_a, _b), a > b);
-// }
-// END_TEST
-
 START_TEST(is_greater_11) {
   s21_decimal value_1 = {{123457u, 654u, 0xFFFFFFFF, 0}};
   s21_decimal value_2 = {{123456u, 654u, 0xFFFFFFFF, 0}};
@@ -1133,8 +1109,6 @@ Suite *suite_is_greater(void) {
   tcase_add_test(tc, is_greater_6);
   tcase_add_test(tc, is_greater_7);
   tcase_add_test(tc, is_greater_8);
-  // tcase_add_loop_test(tc, is_greater_9, 0, 1000);
-  // tcase_add_loop_test(tc, is_greater_10, 0, 1000);
   tcase_add_test(tc, is_greater_11);
   tcase_add_test(tc, is_greater_12);
   tcase_add_test(tc, is_greater_13);
@@ -1143,7 +1117,6 @@ Suite *suite_is_greater(void) {
   tcase_add_test(tc, is_greater_16);
   tcase_add_test(tc, is_greater_17);
 
-  /*Serzhunya*/
   tcase_add_test(tc, greater_1);
   tcase_add_test(tc, greater_2);
   tcase_add_test(tc, greater_3);
@@ -1205,8 +1178,6 @@ Suite *suite_is_greater(void) {
   tcase_add_test(tc, s21_test_is_greater_51);
   tcase_add_test(tc, s21_test_is_greater_41);
   tcase_add_test(tc, s21_test_is_greater_2i);
-
-  /*Serzhunya*/
 
   suite_add_tcase(s, tc);
   return s;

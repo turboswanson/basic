@@ -377,7 +377,6 @@ START_TEST(float_to_decimal_29) {
 }
 END_TEST
 
-
 START_TEST(float_to_decimal_36) {
   float a = 1.2e-21;
   float b = 0.0;

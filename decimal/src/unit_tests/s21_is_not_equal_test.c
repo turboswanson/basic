@@ -259,7 +259,6 @@ Suite *suite_is_not_equal(void) {
   tcase_add_test(tc, is_not_equal_13);
   tcase_add_test(tc, is_not_equal_14);
 
-  /*Serzhunya*/
   tcase_add_test(tc, not_equal_1);
   tcase_add_test(tc, not_equal_2);
   tcase_add_test(tc, not_equal_3);
@@ -270,7 +269,6 @@ Suite *suite_is_not_equal(void) {
   tcase_add_test(tc, s21_not_equal_8);
   tcase_add_test(tc, s21_not_equal_9);
   tcase_add_test(tc, s21_not_equal_10);
-  /*Serzhunya*/
 
   suite_add_tcase(s, tc);
   return s;

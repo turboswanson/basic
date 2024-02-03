@@ -433,9 +433,6 @@ Suite *suite_mul(void) {
   tcase_add_test(tc, mul_17);
   tcase_add_test(tc, mul_18);
   tcase_add_test(tc, mul_19);
-
-  /*Serzhunya*/
-
   tcase_add_test(tc, mul_test_1);
   tcase_add_test(tc, mul_test_2);
   tcase_add_test(tc, mul_test_3);
@@ -444,8 +441,6 @@ Suite *suite_mul(void) {
   tcase_add_test(tc, mul_test_6);
   tcase_add_test(tc, mul_test_7);
   tcase_add_test(tc, mul_test_8);
-  /*Serzhunya*/
-
   tcase_add_test(tc, s21_mul_test_wtf_1);
   tcase_add_test(tc, s21_mul_test_wtf_2);
   tcase_add_test(tc, s21_mul_test_wtf_3);

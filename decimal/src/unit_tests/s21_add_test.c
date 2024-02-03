@@ -1164,11 +1164,7 @@ START_TEST(s21_test_decimal_add_28) {
   s21_decimal etalon = {
       {0b01110001001010101101101011101101, 0b00101110001111001110000111111000,
        0b10110000001111101110111101101101, 0b10000000000011100000000000000000}};
-  // s21_decimal etalon = {
-  //     {0b10000110001000101111001000011011,
-  //     0b11111001111010000010010110101101,
-  //      0b10110000001111101111000010010100,
-  //      0b10000000000011100000000000000000}};
+
   s21_decimal res = {{0, 0, 0, 0}};
   s21_decimal* p_res = &res;
 
@@ -2050,9 +2046,6 @@ Suite* suite_add(void) {
   tcase_add_test(tc, add_16);
   tcase_add_test(tc, add_17);  //!
   tcase_add_test(tc, add_18);  //!
-  // tcase_add_loop_test(tc, add_19, 0, 100);
-
-  /*Serzhunya*/
 
   tcase_add_test(tc, add_test_1);
   tcase_add_test(tc, add_test_2);
@@ -2142,7 +2135,7 @@ Suite* suite_add(void) {
   tcase_add_test(tc, s21_add_max_35);
   tcase_add_test(tc, s21_add_max_36);
   tcase_add_test(tc, add_test_37);
-  /*Serzhunya*/
+
   tcase_add_test(tc, add_test_wtf_1);
   tcase_add_test(tc, add_test_wtf_2);
   tcase_add_test(tc, add_test_wtf_3);

@@ -368,7 +368,6 @@ Suite *suite_is_less(void) {
   tcase_add_test(tc, is_less_20);
   tcase_add_test(tc, is_less_21);
 
-  /*Serzhunya*/
   tcase_add_test(tc, is_less_23);
   tcase_add_test(tc, is_less_24);
   tcase_add_test(tc, is_less_25);
@@ -377,7 +376,6 @@ Suite *suite_is_less(void) {
   tcase_add_test(tc, is_less_28);
   tcase_add_test(tc, is_less_29);
   tcase_add_test(tc, is_less_30);
-  /*Serzhunya*/
 
   suite_add_tcase(s, tc);
   return s;

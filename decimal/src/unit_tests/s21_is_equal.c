@@ -1019,7 +1019,6 @@ Suite *suite_is_equal(void) {
   // tcase_add_loop_test(tc, is_equal_9, 0, 1000);
   // tcase_add_loop_test(tc, is_equal_10, 0, 1000);
 
-  /*Serzhunya*/
   tcase_add_test(tc, equal_1);
   tcase_add_test(tc, equal_2);
   tcase_add_test(tc, equal_3);
@@ -1069,7 +1068,6 @@ Suite *suite_is_equal(void) {
   tcase_add_test(tc, s21_is_equalTest34);
   tcase_add_test(tc, s21_is_equalTest35);
   tcase_add_test(tc, s21_is_equalTest36);
-  /*Serzhunya*/
 
   suite_add_tcase(s, tc);
   return s;

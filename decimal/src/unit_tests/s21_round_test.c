@@ -190,6 +190,24 @@ START_TEST(round_16) {
 }
 END_TEST
 
+START_TEST(test_round) {
+  float arg1[] = {17.1, -3.14,     -787878.0, 78.54, 955.689, -1.955,
+                  4.0,  -234.9144, 0.123755,  0.025, 15.141,  847.599,
+                  2.1,  155.0,     234.9144,  0.000};
+
+  float arg2[] = {17.0, -3.0, -787878.0, 79.0,  956.0, -2.0,  4.0,   -235.0,
+                  0.0,  0.0,  15.0,      848.0, 2.0,   155.0, 235.0, 0.0};
+
+  s21_decimal src1, result;
+  s21_from_float_to_decimal(arg1[_i], &src1);
+  s21_round(src1, &result);
+  float s21_dst, s21_src;
+  s21_from_decimal_to_float(src1, &s21_src);
+  s21_from_decimal_to_float(result, &s21_dst);
+  ck_assert_float_eq(s21_dst, arg2[_i]);
+}
+END_TEST
+
 Suite *suite_round(void) {
   Suite *s = suite_create("suite_round");
   TCase *tc = tcase_create("case_round");
@@ -211,6 +229,8 @@ Suite *suite_round(void) {
   tcase_add_test(tc, round_14);
   tcase_add_test(tc, round_15);
   tcase_add_test(tc, round_16);
+  tcase_add_test(tc, test_round);
+
   suite_add_tcase(s, tc);
   return s;
 }

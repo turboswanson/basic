@@ -7,13 +7,13 @@ int s21_is_greater(s21_decimal x, s21_decimal y) {
   s21_long_decimal value1 = {0};
   s21_long_decimal value2 = {0};
 
-  if(s21_is_equal(x,y)){
+  if (s21_is_equal(x, y)) {
     res = 0;
-  }else if(!s21_is_decimal(x) && !s21_is_decimal(y)){
+  } else if (!s21_is_decimal(x) && !s21_is_decimal(y)) {
     res = 0;
-  }else if (sign1 && !sign2) {  
+  } else if (sign1 && !sign2) {
     res = 0;
-  } else if (!sign1 && sign2) {  
+  } else if (!sign1 && sign2) {
     res = 1;
   } else {
     s21_short_to_long_decimal(x, &value1);
@@ -29,11 +29,11 @@ int s21_is_greater(s21_decimal x, s21_decimal y) {
 
     if (sign1 && sign2) {
       if (res) {
-          res = 0;
+        res = 0;
       } else {
-          res = 1;
+        res = 1;
       }
-    } 
+    }
   }
 
   return res;
@@ -66,9 +66,8 @@ int s21_is_equal(s21_decimal x, s21_decimal y) {
       (!s21_equals_zero(x) || !s21_equals_zero(y)))
     flag = 0;
 
- return flag;
+  return flag;
 }
-
 
 int s21_is_not_equal(s21_decimal x, s21_decimal y) {
   int res = 1;
@@ -179,20 +178,20 @@ int s21_is_less_or_equal(s21_decimal x, s21_decimal y) {
   return res;
 }
 
-int s21_is_less_ten(s21_decimal value){
+int s21_is_less_ten(s21_decimal value) {
   int res = 0;
 
-  if(value.bits[0] < 10 && value.bits[1] == 0 && value.bits[2] == 0){
+  if (value.bits[0] < 10 && value.bits[1] == 0 && value.bits[2] == 0) {
     res = 1;
   }
 
   return res;
 }
 
-int s21_is_less_ten_long(s21_long_decimal value){
+int s21_is_less_ten_long(s21_long_decimal value) {
   int res = 0;
 
-  if(value.bits[0] < 10 && value.bits[1] == 0 && value.bits[2] == 0){
+  if (value.bits[0] < 10 && value.bits[1] == 0 && value.bits[2] == 0) {
     res = 1;
   }
 

@@ -141,7 +141,6 @@ int s21_shift_long_left(s21_long_decimal *dst, int num) {
 }
 
 void s21_shift_decimal_right(s21_decimal *dst, int num) {
-
   int buffer[3] = {0};
 
   for (int k = 0; k < num; k++) {
@@ -154,7 +153,6 @@ void s21_shift_decimal_right(s21_decimal *dst, int num) {
     }
     dst->bits[2] >>= 1;
   }
-
 }
 
 void s21_shift_long_right(s21_long_decimal *dst, int num) {
@@ -170,7 +168,6 @@ void s21_shift_long_right(s21_long_decimal *dst, int num) {
     }
     dst->bits[7] >>= 1;
   }
-
 }
 
 void s21_short_to_long_decimal(s21_decimal src, s21_long_decimal *dst) {
@@ -209,4 +206,3 @@ int s21_is_long_decimal(s21_long_decimal dst) {
   return dst.bits[0] + dst.bits[1] + dst.bits[2] + dst.bits[3] + dst.bits[4] +
          dst.bits[5] + dst.bits[6] + dst.bits[7];
 }
-

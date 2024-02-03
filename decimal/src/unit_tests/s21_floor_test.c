@@ -203,6 +203,24 @@ START_TEST(s21_floor_test_wtf_6) {
 }
 END_TEST
 
+START_TEST(test_floor) {
+  float arg1[] = {17.1, -3.14,     -787878.0, 78.14, 955.189, -1.155,
+                  4.0,  -234.9144, 0.123755,  0.025, 15.141,  847.599,
+                  2.1,  155.1,     -234.9144, 0.000};
+
+  float arg2[] = {17.0, -4.0, -787878.0, 78.0,  955.0, -2.0,  4.0,    -235.0,
+                  0.0,  0.0,  15.0,      847.0, 2.0,   155.0, -235.0, 0.0};
+
+  s21_decimal src1, result;
+  s21_from_float_to_decimal(arg1[_i], &src1);
+  s21_floor(src1, &result);
+  float s21_dst, s21_src;
+  s21_from_decimal_to_float(src1, &s21_src);
+  s21_from_decimal_to_float(result, &s21_dst);
+  ck_assert_float_eq(s21_dst, arg2[_i]);
+}
+END_TEST
+
 Suite *suite_floor(void) {
   Suite *s = suite_create("suite_floor");
   TCase *tc = tcase_create("case_floor");
@@ -221,6 +239,7 @@ Suite *suite_floor(void) {
   tcase_add_test(tc, s21_floor_test_wtf_4);
   tcase_add_test(tc, s21_floor_test_wtf_5);
   tcase_add_test(tc, s21_floor_test_wtf_6);
+  tcase_add_test(tc, test_floor);
 
   suite_add_tcase(s, tc);
   return s;
