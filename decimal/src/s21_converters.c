@@ -50,19 +50,20 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst) {
 
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {
   /*
-  float x = 3.0  // 0 10000000 10000 0000 0000 0000 0000 00
+   1   1000 0001     011 0000 0000 0000 0000 0000
+   31  30  -  23     22                         0
+   s   exponent               mantissa
 
-  sign = 0// x > 0
+   the   actual mantissa = 1.011 0000 0000 0000 0000 0000 could be calculate:
 
-  exp = 10000000 // 128
+   1 + 0*2^(-1) + 1*2^(-2) + 1*2^(-3) + 0*2^(-4) ........ + 0*2(-23)   
+   1 + 0.25 + 0.125 = 1.375 
 
-  M = 10000 0000 0000 0000 0000 00 // 4194304
+   it's a negative number so -1.375
+   
+   E = 1000 0001 = 129 
 
-  (-1)^sign * 2^(exp - 127) * (1 + M/2^23) // 2^23 = 8388608
-
-  x = (-1)^sign * 2^(128-127) * (1 + 4194304/8388608 )
-
-  x = (-1)^0   * 2 ^ 1 * (1 + 0.5) = 2 * 1.5 = 3.0
+   -1.375*2^(E-127) = -1.375*2^(2) = -5.5
 
   */
 
@@ -85,15 +86,15 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
         int mask = 255 << 23; // 1111 1111 << 23
         int exp = ((mask & tmp) >> 23) - 127; // 2^(E - 127)
 
-        double num = (double)fabs(src);  // 1.234568
+        double num = (double)fabs(src);  
 
         int off = 0;
-        for (; off <= 28 && (int)num / (int)pow(2, 23) == 0;
-             num *= 10, off++) {  // 12345678.806305
-            //  printf("%lf\n",num);
+
+        for (; off <= 28 && (int)num / (int)pow(2, 23) == 0; 
+             num *= 10, off++) { // making num *= 10 until it less 2^(23) = 8 388 608
         }
 
-        num = round(num);  // 12345679.000000
+        num = round(num);
 
         if (off <= 28 && (exp > -94 && exp < 96)) {
           floatbits mant = {0};
@@ -102,7 +103,12 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
           for (; fmod(num, 10) == 0 && off > 0; off--, num /= 10) {
           }
 
-          mant.fl = num;
+          /* union elements share memory space and now we have a binary representation of num
+              e.g if   mant.fl = 314
+                  then mant.ui = 1134362624
+          */
+
+          mant.fl = num; 
           exp = ((*(int *)&mant.fl & ~0x80000000) >> 23) - 127;
 
           dst->bits[exp / 32] |= 1 << exp % 32;
@@ -150,13 +156,3 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst) {
   return error;
 }
 
-// int s21_from_decimal_to_double(s21_decimal src, long double *dst) {
-//   long double temp = (double)*dst;
-//   for (int i = 0; i < 96; i++) {
-//     temp += s21_get_bit(src, i) * pow(2, i);
-//   }
-//   temp = temp * pow(10, -s21_get_scale(src));
-//   if (s21_get_sign(src)) temp = temp * (-1);
-//   *dst = temp;
-//   return 0;
-// }

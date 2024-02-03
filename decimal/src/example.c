@@ -9,17 +9,11 @@
   //-3.8 -> -4.0
 
 int main(void) {  
-s21_decimal val = {0};
-val.bits[0] = 1;
-val.bits[1] = 2;
-val.bits[2] = 3;
-val.bits[0] = val.bits[0] << 1;
-
-print_decimal(val);
-
-val.bits[0] << 1;
-
-}
+float x = 1.2345678901234567890123456780;
+s21_decimal num = {0};
+s21_from_float_to_decimal(x,&num);
+print_decimal(num);
+} 
 
 
 
