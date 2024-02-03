@@ -9,15 +9,16 @@
   //-3.8 -> -4.0
 
 int main(void) {  
- s21_decimal src1, res;
-  src1.bits[0] = 0b01010101001110101110101110110001;
-  src1.bits[1] = 0b00001101101101001101101001011111;
-  src1.bits[2] = 0b00000000000000000000000000000000;
-  src1.bits[3] = 0b10000000000100100000000000000000;
-  s21_floor(src1,&src1);
-  print_decimal(src1);
+s21_decimal val = {0};
+val.bits[0] = 1;
+val.bits[1] = 2;
+val.bits[2] = 3;
+val.bits[0] = val.bits[0] << 1;
 
- return 0;
+print_decimal(val);
+
+val.bits[0] << 1;
+
 }
 
 

@@ -111,7 +111,6 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
   } else {
 
     s21_zero_decimal(result);
-    // s21_truncate(value, result);
     s21_decimal one = {{1, 0, 0, 0}};
     int scale = s21_get_scale(value);
     s21_long_decimal num = {0};
@@ -132,7 +131,7 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
 
       s21_long_to_short_decimal(num,result);
 
-    } else{
+    } else if(!scale){
       *result = value;
     }
 

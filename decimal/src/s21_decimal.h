@@ -97,7 +97,6 @@ int s21_from_int_to_decimal(int src, s21_decimal *dst);
 int s21_from_decimal_to_int(s21_decimal src, int *dst);
 int s21_from_float_to_decimal(float src, s21_decimal *dst);
 int s21_from_decimal_to_float(s21_decimal src, float *dst);
-int s21_from_decimal_to_double(s21_decimal src, long double *dst);
 
 // ADDITIONAL
 
@@ -112,7 +111,7 @@ float s21_rand_r(float a, float b);
 
 int s21_is_add_negative(s21_decimal value1,s21_decimal value2);
 int s21_is_sub_negative(s21_decimal value1,s21_decimal value2);
-int s21_is_max(s21_decimal num);
+int s21_is_max(s21_decimal num); // s21_decimal = {UINT_MAX,UINT_MAX,UINT_MAX,0};
 int s21_is_opposite(s21_decimal x, s21_decimal y);
 void print_long_decimal(s21_long_decimal value);
 void print_decimal(s21_decimal value);

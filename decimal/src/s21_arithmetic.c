@@ -366,7 +366,6 @@ int s21_div_long(s21_long_decimal value1, s21_long_decimal value2,
     if (i > 0) {  // if remainder
       s21_shift_long_left(&value2, 1);
       s21_mul_long(*total, ten, total);
-      // s21_mul_long(*total, ten, total);
 
       s21_mul_long(value1, ten, &value1);
       save_scale++;

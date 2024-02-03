@@ -78,24 +78,20 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     } else {
       if (src != 0) {
         int tmp = 0;
-        memcpy(&tmp, &src, sizeof(float));
+        memcpy(&tmp, &src, sizeof(float)); // copies binary represenatation of a float nummber
 
-        int sign = *(int *)&src >> 31;
+        int sign = *(int *)&src >> 31; // integer operation only
 
-        int mask = 255 << 23;
-        int exp = ((mask & tmp) >> 23) - 127;
-        // int mantissa = 0x7FFFFF & tmp;
-        //  float significand = 1 + (mantissa/pow(2,23));
+        int mask = 255 << 23; // 1111 1111 << 23
+        int exp = ((mask & tmp) >> 23) - 127; // 2^(E - 127)
 
         double num = (double)fabs(src);  // 1.234568
 
         int off = 0;
         for (; off <= 28 && (int)num / (int)pow(2, 23) == 0;
              num *= 10, off++) {  // 12345678.806305
-          // printf("%lf\n",num);
+            //  printf("%lf\n",num);
         }
-
-        // printf("%d",off);
 
         num = round(num);  // 12345679.000000
 
