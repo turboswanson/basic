@@ -63,6 +63,9 @@ log(10.2)-ln(10.2)/sqrt(4.123456789)+3-1.12 = 1.744922
 sudo apt update
 sudo apt install libgtk-3-dev
 
+GTKFLAGS = pkg-config --cflags gtk4
+GTKLIBS = pkg-config --libs gtk4
+
 /usr/share/glib-2.0/valgrind/
 
 valgrind --leak-check=full --show-reachable=yes --error-limit=no --suppressions=./gtk.supp --gen-suppressions=all --log-file=raw.log ./calc

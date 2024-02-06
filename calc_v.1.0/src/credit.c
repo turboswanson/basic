@@ -38,14 +38,14 @@ void open_credit_window() {
 
   gtk_widget_show_all(new_window);
 
-  g_signal_connect(new_window, "destroy", G_CALLBACK(on_credit_window_destroy), credit_data);
-
+  g_signal_connect(new_window, "destroy", G_CALLBACK(on_credit_window_destroy),
+                   credit_data);
 }
 
 void on_credit_window_destroy(GtkWidget *widget, gpointer data) {
-    CreditData *credit_data = (CreditData *)data;
-    g_slice_free(CreditData, credit_data);
-    (void)widget;
+  CreditData *credit_data = (CreditData *)data;
+  g_slice_free(CreditData, credit_data);
+  (void)widget;
 }
 
 void on_process_button_clicked(GtkWidget *widget, gpointer user_data) {
