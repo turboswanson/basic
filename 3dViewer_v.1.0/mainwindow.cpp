@@ -11,24 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     init = 0;
 
-    ui->scaleLbl->setText(QString::number(ui->scaleSlider->value()));
-//    glWidget = new glView(this);
-
-//    glWidget->setParent(ui->glBox);
-
-//    QVBoxLayout *layout = new QVBoxLayout(ui->glBox);
-//    layout->setContentsMargins(0, 0, 0, 0);
-//    layout->addWidget(glWidget);
-
-//    ui->glBox->setLayout(layout);
-
-//    glWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-//    char *filename = "/home/mitchelk/Qt/s21_3dViewer/cube.obj";
-//    parser(&glWidget->glData,filename);
-
-//    QObject::connect(glWidget, &QObject::destroyed, this, &MainWindow::cleanupGLData);
-
 }
 
 void MainWindow::cleanupGLData() {
@@ -69,6 +51,12 @@ void MainWindow::initializeGlWidget() {
             init = 1;
             glWidget = new glView(this);
             glWidget->glData.factor = 1.0;
+            glWidget->glData.angle = 0.0;
+            glWidget->glData.step_ud = 0.0;
+            glWidget->glData.step_lr = 0.0;
+            glWidget->glData.rotX = 0.0;
+            glWidget->glData.rotY = 0.0;
+            glWidget->glData.rotZ = 0.0;
 
             glWidget->setParent(ui->glBox);
 
@@ -87,8 +75,36 @@ void MainWindow::initializeGlWidget() {
 
 void MainWindow::on_scaleSlider_valueChanged(int value)
 {
-    ui->scaleLbl->setText(QString::number(value));
-    if(init) glWidget->setScale(value/10.0);
+   if(init) glWidget->setScale(value/10.0);
 
 }
+
+void MainWindow::on_rotationSlider_valueChanged(int value)
+{
+    if(init) glWidget->setAngleX(value);
+}
+
+void MainWindow::on_rotateYSlider_valueChanged(int value)
+{
+    if(init) glWidget->setAngleY(value);
+}
+
+
+void MainWindow::on_rotateZSlider_valueChanged(int value)
+{
+    if(init) glWidget->setAngleZ(value);
+}
+
+void MainWindow::on_moveSlider_valueChanged(int value)
+{
+    if(init) glWidget->setStepUd(value);
+}
+
+
+void MainWindow::on_movelrSlider_valueChanged(int value)
+{
+    if(init) glWidget->setStepLr(value);
+}
+
+
 

@@ -45,13 +45,18 @@ void glView::paintGL()
 
 //    glRotatef(0.5,-3,-3,-3); // for timer
     double factor = glData.factor;
-//    glRotated(45, 1, 1, 1);
+    double angle = glData.angle;
+    double move_ud = glData.step_ud;
+    double move_lr = glData.step_lr;
+    double rotX = glData.rotX;
+    double rotY = glData.rotY;
+    double rotZ = glData.rotZ;
+
+//    qDebug() << "ANGLE : " << angle;
+
+    glRotated(angle, rotX, rotY, rotZ);
     glScaled(factor, factor, factor);
-//    glTranslated(-5, -5, -5);
-
-    qglColor(Qt::green);
-
-
+    glTranslated(move_lr, move_ud, 1.0);
 
 
  static GLfloat pColors[] = {
@@ -107,10 +112,48 @@ void glView :: mouseMoveEvent(QMouseEvent *mo) {
 }
 
 void glView :: setScale(double factor) {
-    qDebug() << "FACTOR : " << factor;
+//    qDebug() << "FACTOR : " << factor;
     glData.factor = factor;
 
     updateGL();
 }
 
+void glView :: setAngleX(double angle) {
+    glData.angle = angle;
+    glData.rotX = 1.0;
+    glData.rotY = 0.1;
+    glData.rotZ = 0.1;
+
+    updateGL();
+}
+
+void glView :: setAngleY(double angle) {
+    glData.angle = angle;
+    glData.rotX = 0.1;
+    glData.rotY = 1.0;
+    glData.rotZ = 0.1;
+
+    updateGL();
+}
+
+void glView :: setAngleZ(double angle) {
+    glData.rotX = 0.1;
+    glData.rotY = 0.1;
+    glData.rotZ = 1.0;
+    glData.angle = angle;
+
+    updateGL();
+}
+
+void glView :: setStepUd(double step) {
+    glData.step_ud = step;
+
+    updateGL();
+}
+
+void glView :: setStepLr(double step) {
+    glData.step_lr = step;
+
+    updateGL();
+}
 

@@ -78,4 +78,10 @@ void print_data(const data *drawing_data){
     drawing_data->facets_count = 0.0;
     drawing_data->scale = 0.0;
     drawing_data->factor = 1.0;
+    drawing_data->angle = 0.0;
+    drawing_data->step_ud = 0.0;
+    drawing_data->step_lr = 0.0;
+    drawing_data->rotX = 0.0;
+    drawing_data->rotY = 0.0;
+    drawing_data->rotZ = 0.0;
  }

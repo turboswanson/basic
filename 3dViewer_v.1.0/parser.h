@@ -29,6 +29,12 @@ typedef struct Data {
     polygon_t *polygons;
     double scale;
     double factor;
+    double angle;
+    double rotX;
+    double rotY;
+    double rotZ;
+    double step_ud;
+    double step_lr;
 }data;
 
 void parser(data *drawing_data,char *filename);

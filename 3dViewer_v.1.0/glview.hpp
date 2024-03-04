@@ -24,6 +24,11 @@ public:
        void paintGL() override;
        void resizeGL(int w, int h) override;
        void setScale(double factor);
+       void setAngleX(double angle);
+       void setAngleY(double angle);
+       void setAngleZ(double angle);
+       void setStepUd(double step);
+       void setStepLr(double step);
        ~glView();
 
 private:
@@ -33,5 +38,6 @@ private:
     QTimer timer;
     void mousePressEvent(QMouseEvent *) override;
     void mouseMoveEvent(QMouseEvent *) override;
+
 };
 #endif // GLVIEW_HPP

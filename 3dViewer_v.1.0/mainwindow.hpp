@@ -23,6 +23,18 @@ private slots:
 
     void on_scaleSlider_valueChanged(int value);
 
+
+
+    void on_rotationSlider_valueChanged(int value);
+
+    void on_moveSlider_valueChanged(int value);
+
+    void on_movelrSlider_valueChanged(int value);
+
+    void on_rotateYSlider_valueChanged(int value);
+
+    void on_rotateZSlider_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
     glView *glWidget;
