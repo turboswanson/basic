@@ -17,30 +17,25 @@ typedef struct facets {
     unsigned int *pInds;
 }polygon_t;
 
-typedef struct facets_test {
-    unsigned int count_v;
-    unsigned int pInds[3];
-}polygon_test;
+typedef struct matrix_struct {
+  double **matrix;
+  int rows;
+  int columns;
+} matrix_t;
 
 typedef struct Data {
     unsigned int vertex_count;
     unsigned int facets_count;
-    double *pVerts;
     polygon_t *polygons;
+    matrix_t vertexes;
     double scale;
-    double factor;
-    double angle;
-    double rotX;
-    double rotY;
-    double rotZ;
-    double step_ud;
-    double step_lr;
 }data;
 
 void parser(data *drawing_data,char *filename);
 
 //AUXILIARY
-
+void create_matrix(int rows, int columns, matrix_t *result);
+void remove_matrix(matrix_t *A);
 int check_symbol(char c,char check);
 int is_vertex(char *buffer);
 int is_facet(char *buffer);

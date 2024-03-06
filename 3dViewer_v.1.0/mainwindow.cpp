@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     init = 0;
-
 }
 
 void MainWindow::cleanupGLData() {
@@ -48,63 +47,151 @@ void MainWindow::on_fileBtn_clicked()
 }
 
 void MainWindow::initializeGlWidget() {
-            init = 1;
-            glWidget = new glView(this);
-            glWidget->glData.factor = 1.0;
-            glWidget->glData.angle = 0.0;
-            glWidget->glData.step_ud = 0.0;
-            glWidget->glData.step_lr = 0.0;
-            glWidget->glData.rotX = 0.0;
-            glWidget->glData.rotY = 0.0;
-            glWidget->glData.rotZ = 0.0;
+    init = 1;
+    glWidget = new glView(this);
 
-            glWidget->setParent(ui->glBox);
+    glWidget->setParent(ui->glBox);
 
-            QVBoxLayout *layout = new QVBoxLayout(ui->glBox);
-            layout->setContentsMargins(0, 0, 0, 0);
-            layout->addWidget(glWidget);
+    QVBoxLayout *layout = new QVBoxLayout(ui->glBox);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(glWidget);
+    ui->glBox->setLayout(layout);
 
-            ui->glBox->setLayout(layout);
+    glWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-            glWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-            QObject::connect(glWidget, &QObject::destroyed, this, &MainWindow::cleanupGLData);
+    QObject::connect(glWidget, &QObject::destroyed, this, &MainWindow::cleanupGLData);
 
 }
 
-
-void MainWindow::on_scaleSlider_valueChanged(int value)
+void MainWindow::on_moveRightX_clicked()
 {
-   if(init) glWidget->setScale(value/10.0);
+    if(init){
+        translation(&glWidget->glData,0.1,0,0);
 
+        glWidget->update();
+    }
 }
 
-void MainWindow::on_rotationSlider_valueChanged(int value)
+
+void MainWindow::on_moveLeftX_clicked()
 {
-    if(init) glWidget->setAngleX(value);
+    if(init){
+        translation(&glWidget->glData,-0.1,0,0);
+
+        glWidget->update();
+    }
 }
 
-void MainWindow::on_rotateYSlider_valueChanged(int value)
+
+void MainWindow::on_moveDownY_clicked()
 {
-    if(init) glWidget->setAngleY(value);
+    if(init){
+        translation(&glWidget->glData,0,-0.1,0);
+
+        glWidget->update();
+    }
 }
 
 
-void MainWindow::on_rotateZSlider_valueChanged(int value)
+void MainWindow::on_moveUpY_clicked()
 {
-    if(init) glWidget->setAngleZ(value);
+    if(init){
+        translation(&glWidget->glData,0,0.1,0);
+
+        glWidget->update();
+    }
 }
 
-void MainWindow::on_moveSlider_valueChanged(int value)
+
+void MainWindow::on_moveBackZ_clicked()
 {
-    if(init) glWidget->setStepUd(value);
+    if(init){
+        translation(&glWidget->glData,0,0,-1.0);
+
+        glWidget->update();
+    }
 }
 
 
-void MainWindow::on_movelrSlider_valueChanged(int value)
+void MainWindow::on_moveForthZ_clicked()
 {
-    if(init) glWidget->setStepLr(value);
+    if(init){
+        translation(&glWidget->glData,0,0,1.0);
+
+        glWidget->update();
+    }
 }
 
 
+void MainWindow::on_scaleMinus_clicked()
+{
+
+    if(init){
+        scaling(&glWidget->glData,0.95);
+        glWidget->update();
+    }
+}
+
+
+void MainWindow::on_scalePlus_clicked()
+{
+    if(init){
+        scaling(&glWidget->glData,1.05);
+        glWidget->update();
+    }
+}
+
+
+void MainWindow::on_rotateXplus_clicked()
+{
+    if(init) {
+        rotation_by_ox(&glWidget->glData,0.1);
+        glWidget->update();
+    }
+}
+
+
+void MainWindow::on_rotateXminus_clicked()
+{
+    if(init) {
+        rotation_by_ox(&glWidget->glData,-0.1);
+        glWidget->update();
+    }
+}
+
+
+void MainWindow::on_rotateYplus_clicked()
+{
+    if(init) {
+        rotation_by_oy(&glWidget->glData,0.1);
+        glWidget->update();
+    }
+}
+
+
+void MainWindow::on_rotateYminus_clicked()
+{
+    if(init) {
+        rotation_by_oy(&glWidget->glData,-0.1);
+        glWidget->update();
+    }
+}
+
+
+void MainWindow::on_rotateZminus_clicked()
+{
+    if(init) {
+        rotation_by_oz(&glWidget->glData,-0.1);
+        glWidget->update();
+    }
+}
+
+
+void MainWindow::on_rotateZplus_clicked()
+{
+    if(init) {
+        rotation_by_oz(&glWidget->glData,0.1);
+        glWidget->update();
+    }
+}
 

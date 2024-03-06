@@ -13,12 +13,14 @@ SOURCES += \
     glview.cpp \
     mainwindow.cpp \
     parser.c \
-    parser_aux.c
+    parser_aux.c \
+    transform.c
 
 HEADERS += \
     glview.hpp \
     mainwindow.hpp \
-    parser.h
+    parser.h \
+    transform.h
 
 FORMS += \
     glview.ui \

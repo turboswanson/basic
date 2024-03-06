@@ -5,6 +5,7 @@
 #include <QMouseEvent>
 #include <QTimer>
 #include "parser.h"
+#include "transform.h"
 #include <QtOpenGL>
 #include <QPoint>
 #include <GL/gl.h>
@@ -23,12 +24,8 @@ public:
        void initializeGL() override;
        void paintGL() override;
        void resizeGL(int w, int h) override;
-       void setScale(double factor);
-       void setAngleX(double angle);
-       void setAngleY(double angle);
-       void setAngleZ(double angle);
-       void setStepUd(double step);
-       void setStepLr(double step);
+       void update();
+
        ~glView();
 
 private:

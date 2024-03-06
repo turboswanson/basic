@@ -1,8 +1,11 @@
 #include "parser.h"
 
-static void memory_allocation(data *drawing_data) {
-    drawing_data->pVerts = (double *)calloc(drawing_data->vertex_count*3,sizeof(double));
+static void memory_handling(data *drawing_data) {
+    // drawing_data->pVerts = (double *)calloc(drawing_data->vertex_count*3,sizeof(double));
     drawing_data->polygons = (polygon_t *)calloc(drawing_data->facets_count,sizeof(polygon_t));
+    unsigned int rows = drawing_data->vertex_count;
+    create_matrix(rows,3,&drawing_data->vertexes);
+
 }
 
 static void counting_vf(char *buffer,int index,data *drawing_data){
@@ -45,11 +48,14 @@ static void set_vertex_coord(char *buffer,int index,data *drawing_data) {
 
     sscanf(buffer+2,"%lf %lf %lf",&x,&y,&z);
 
-    drawing_data->pVerts[index] = x;
+    // drawing_data->pVerts[index] = x;
 
-    drawing_data->pVerts[index+1] = y;
+    // drawing_data->pVerts[index+1] = y;
 
-    drawing_data->pVerts[index+2] = z;
+    // drawing_data->pVerts[index+2] = z;
+    drawing_data->vertexes.matrix[index][0] = x;
+    drawing_data->vertexes.matrix[index][1] = y;
+    drawing_data->vertexes.matrix[index][2] = z;
 
     if(x > drawing_data->scale) drawing_data->scale = x;
     if(y > drawing_data->scale) drawing_data->scale = y;
@@ -102,7 +108,7 @@ static void string_parsing(char *filename,data *drawing_data){
     while(fgets(buffer,sizeof(buffer),file)) {
         if(is_vertex(buffer)){
             set_vertex_coord(buffer,vertex_index,drawing_data);
-            vertex_index = vertex_index+3;
+            vertex_index++;
         }
 
         if(is_facet(buffer)) {
@@ -122,13 +128,12 @@ void parser(data *drawing_data, char *filename){
 
     drawing_data->vertex_count = 0;
     drawing_data->facets_count = 0;
-    drawing_data->scale = 0;
-    drawing_data->pVerts = NULL;
+    drawing_data->scale = 0.0;
     drawing_data->polygons = NULL;
 
     if(access(filename, F_OK) == 0){
         counting_function(filename,drawing_data);
-        memory_allocation(drawing_data);
+        memory_handling(drawing_data);
         string_parsing(filename,drawing_data);        
         // print_data(&drawing_data);
         // free_data(&drawing_data);

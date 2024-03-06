@@ -1,5 +1,33 @@
 #include "parser.h"
 
+void create_matrix(int rows, int columns, matrix_t *result) {
+    
+    result->rows = rows;
+    result->columns = 3;
+
+    result->matrix = (double **)calloc(rows, sizeof(double*));  // allocate memory for rows pointers
+
+    for (int i = 0; i < rows; i++) {
+        result->matrix[i] = (double *)calloc(columns, sizeof(double));  // allocate memory for values
+    }
+    
+    
+}
+
+void remove_matrix(matrix_t *A) {
+
+  for (int i = 0; i < A->rows; i++) {
+      free(A->matrix[i]);
+  }
+
+  free(A->matrix);
+  
+  A->matrix = NULL;
+  A->rows = 0;
+  A->columns = 0;
+  
+}
+
 /// @brief two symbols comparing fucntion
 /// @param symbol1
 /// @param symbol2
@@ -44,12 +72,15 @@ int is_facet(char *buffer){
 /// @param drawing_data 
 void print_data(const data *drawing_data){
 
-    int num1 = drawing_data->vertex_count;
+    int num = drawing_data->vertex_count;
 
     printf("VERTEXES\n");
 
-    for(int i = 0; i < num1*3; i++){
-        printf("%lf\n", drawing_data->pVerts[i]);    
+    for( int i = 0; i < num; i++) {
+        for(int j = 0 ; j < 3; j++){
+            printf("%lf ",drawing_data->vertexes.matrix[i][j]);
+        }
+        printf("\n");
     }
 
     printf("\n");
@@ -66,7 +97,7 @@ void print_data(const data *drawing_data){
  }
 
  void free_data(data *drawing_data) {
-    free(drawing_data->pVerts);
+    // free(drawing_data->pVerts);
 
     for(unsigned int i = 0; i < drawing_data->facets_count; i++) {
         free(drawing_data->polygons[i].pInds);
@@ -74,14 +105,10 @@ void print_data(const data *drawing_data){
 
     free(drawing_data->polygons);
 
+    remove_matrix(&drawing_data->vertexes);
+
     drawing_data->vertex_count = 0.0;
     drawing_data->facets_count = 0.0;
     drawing_data->scale = 0.0;
-    drawing_data->factor = 1.0;
-    drawing_data->angle = 0.0;
-    drawing_data->step_ud = 0.0;
-    drawing_data->step_lr = 0.0;
-    drawing_data->rotX = 0.0;
-    drawing_data->rotY = 0.0;
-    drawing_data->rotZ = 0.0;
+
  }
