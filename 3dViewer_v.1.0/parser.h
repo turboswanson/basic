@@ -11,6 +11,8 @@ extern "C"
 #include <unistd.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <math.h>
+#include <limits.h>
 
 typedef struct facets {
     unsigned int count_v; // the amount of vertexes in one facet
@@ -28,7 +30,8 @@ typedef struct Data {
     unsigned int facets_count;
     polygon_t *polygons;
     matrix_t vertexes;
-    double scale;
+    double scale[6];
+
 }data;
 
 void parser(data *drawing_data,char *filename);

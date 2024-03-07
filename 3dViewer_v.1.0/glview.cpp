@@ -24,13 +24,23 @@ void glView::initializeGL()
 }
 
 void glView::resizeGL(int w, int h)
-{     double scale = glData.scale+5.0;
-
+{
       glViewport(0, 0, w, h);
       glMatrixMode(GL_PROJECTION);
       glLoadIdentity();
-      glOrtho(-scale,scale,-scale,scale,scale,-scale);
-//      qDebug() << "SCALE : " << scale;
+      //      qDebug() << "SCALE : " << scale;
+      //      qDebug() << "SCALE : " << scale;
+      //      qDebug() << "SCALE : " << scale;
+      //      qDebug() << "SCALE : " << scale;
+      //      qDebug() << "SCALE : " << scale;
+      //      qDebug() << "SCALE : " << scale;
+
+      for(int i = 0; i < 6; i++) {
+          qDebug() << "SCALE : \n" << glData.scale[i];
+      }
+
+      glFrustum(glData.scale[0]-10.0,glData.scale[1]+10.0,glData.scale[2]-10.0,glData.scale[3]+10.0,glData.scale[4]+10.0,glData.scale[5]-10.0);
+        //glOrtho
 
 }
 

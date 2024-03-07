@@ -109,6 +109,12 @@ void print_data(const data *drawing_data){
 
     drawing_data->vertex_count = 0.0;
     drawing_data->facets_count = 0.0;
-    drawing_data->scale = 0.0;
+
+    drawing_data->scale[0] = __DBL_MAX__;
+    drawing_data->scale[1] = __DBL_MIN__;
+    drawing_data->scale[2] = __DBL_MAX__;
+    drawing_data->scale[3] = __DBL_MIN__;
+    drawing_data->scale[4] = __DBL_MAX__;
+    drawing_data->scale[5] = __DBL_MIN__;
 
  }

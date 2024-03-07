@@ -57,9 +57,14 @@ static void set_vertex_coord(char *buffer,int index,data *drawing_data) {
     drawing_data->vertexes.matrix[index][1] = y;
     drawing_data->vertexes.matrix[index][2] = z;
 
-    if(x > drawing_data->scale) drawing_data->scale = x;
-    if(y > drawing_data->scale) drawing_data->scale = y;
-    if(z > drawing_data->scale) drawing_data->scale = z;
+
+
+    if(x < drawing_data->scale[0]) drawing_data->scale[0] = x;
+    if(x > drawing_data->scale[1]) drawing_data->scale[1] = x;
+    if(y < drawing_data->scale[2]) drawing_data->scale[2] = y;
+    if(y > drawing_data->scale[3]) drawing_data->scale[3] = y;
+    if(z < drawing_data->scale[4]) drawing_data->scale[4] = z;
+    if(z > drawing_data->scale[5]) drawing_data->scale[5] = z;
 }
 
 
@@ -128,7 +133,14 @@ void parser(data *drawing_data, char *filename){
 
     drawing_data->vertex_count = 0;
     drawing_data->facets_count = 0;
-    drawing_data->scale = 0.0;
+
+    drawing_data->scale[0] = __DBL_MAX__;
+    drawing_data->scale[1] = __DBL_MIN__;
+    drawing_data->scale[2] = __DBL_MAX__;
+    drawing_data->scale[3] = __DBL_MIN__;
+    drawing_data->scale[4] = __DBL_MAX__;
+    drawing_data->scale[5] = __DBL_MIN__;
+
     drawing_data->polygons = NULL;
 
     if(access(filename, F_OK) == 0){
