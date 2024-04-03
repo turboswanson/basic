@@ -1,3 +1,7 @@
+# Cat and Grep simple Bash utilities implementation
+
+## CAT
+
 ### cat Usage
 
 Cat is one of the most frequently used commands on Unix-like operating systems. It has three related functions with regard to text files: displaying them, combining copies of them and creating new ones.
@@ -13,6 +17,8 @@ Cat is one of the most frequently used commands on Unix-like operating systems. 
 | 3 | -n (GNU: --number) | number all output lines |
 | 4 | -s (GNU: --squeeze-blank) | squeeze multiple adjacent blank lines |
 | 5 | -t implies -v (GNU: -T the same, but without implying -v) | but also display tabs as ^I  |
+
+## Grep
 
 ### grep Usage
 
@@ -32,3 +38,26 @@ Cat is one of the most frequently used commands on Unix-like operating systems. 
 | 8 | -s | Suppress error messages about nonexistent or unreadable files. |
 | 9 | -f file | Take regexes from a file. |
 | 10 | -o | Output the matched parts of a matching line. |
+
+### Additional 
+
+Support of the following flags: -e, -i, -v, -c, -l, -n
+
+Only pcre or regex libraries can be used for regular expressions
+The source, header and make files must be placed in the src/grep/ directory
+The resulting executable file must be placed in the directory src/grep/ and named s21_grep
+
+Bonus assignment for extra points. You need to develop the grep utility:
+
+Support of all flags, including: -h, -s, -f, -o
+
+Only pcre or regex libraries can be used for regular expressions
+The source, header and make files must be placed in the src/grep/ directory
+The resulting executable file must be placed in the directory src/grep/ and named s21_grep
+
+Bonus assignment for extra points. You need to develop the grep utility:
+
+Support of all flags, including their pair combinations (e.g. -iv, -in)
+Only pcre or regex libraries can be used for regular expressions
+The source, header and make files must be placed in the src/grep/ directory
+The resulting executable file must be placed in the directory src/grep/ and named s21_grep
