@@ -34,3 +34,5 @@ Use standard set of Makefile targets: all, install, uninstall, clean, dvi, dist,
 
 Don't forget to specify your own qmake and installation path in Makefile.
 
+![](../3dViewer_v.1.0/img.png)
+
