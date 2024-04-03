@@ -14,3 +14,5 @@ Click the button with a specific label to input the calculating expression in in
 
 Makefile contains all, calc, install, uninstall, dist, dvi, test, clean targets. Use any of them for a specific purpose. Don't forget to edit 
 $(INSTALL_PATH) Makefile variable before make install if you want. 
+
+![](../src/img.png)
