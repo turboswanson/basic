@@ -1,0 +1,22 @@
+HOSTNAME: mitchelk-MS-7B89
+TIMEZONE: Asia/Yekaterinburg UTC 
+USER: mitchelk
+OS: Ubuntu 22.04.3 LTS
+DATE: 12 февраля 2024 00:32:44
+UPTIME: up 2 hours, 17 minutes
+UPTIME_SEC: 8255.95
+Interface: lo
+IP: 127.0.0.1/8
+Interface: wlxb0a7b9118ac6
+IP: 192.168.31.153/24
+Interface: outline-tun0
+IP: 10.0.85.1/32
+Interface: docker0
+IP: 172.17.0.1/16
+GATEWAY: 192.168.31.1
+RAM_TOTAL: 15.53Gb
+RAM_USED: 2.97Gb
+RAM_FREE: 9.15Gb
+SPACE_ROOT: 136.45Gb
+SPACE_ROOT_USED: 17.86Gb
+SPACE_ROOT_FREE: 111.58Gb
