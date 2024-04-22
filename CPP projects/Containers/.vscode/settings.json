@@ -1,0 +1,23 @@
+{
+    "files.associations": {
+        "*.tcc": "cpp",
+        "vector": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp",
+        "header.hpp": "c",
+        "atomic": "c",
+        "deque": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "iterator": "c",
+        "memory_resource": "c",
+        "type_traits": "c",
+        "*.tpp": "cpp",
+        "functional": "cpp",
+        "algorithm": "cpp",
+        "memory": "cpp",
+        "numeric": "cpp"
+    }
+}
