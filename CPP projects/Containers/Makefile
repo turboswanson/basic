@@ -1,7 +1,13 @@
+TEST_FLAGS = -lgtest -pthread
+
 all: 
-	g++ test.cpp -o test
+	g++ sample.cpp -o sample
+	./sample
+test:
+	g++ tests/*.cpp $(TEST_FLAGS) -o test
 	./test
 memcheck:
 	valgrind ./test
 clean:
-	rm test		
+	rm sample test
+			

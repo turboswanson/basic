@@ -8,6 +8,10 @@ namespace s21 {
 
     template<typename T>
     vector<T> :: vector(size_type n) {
+        if(n < 0){
+            throw std::out_of_range("Vector size should be non-negative");
+        }
+
         if(!n){
             this->vector_init();
         } else {
@@ -29,14 +33,14 @@ namespace s21 {
     }
 
     template<typename T>
-    vector<T> :: vector(vector&& other) {
-        this->swap(other);
-        other.vector_init();   
+    vector<T> :: vector(const vector &other) {
+        this->copy_vector(other);
     }
 
     template<typename T>
-    vector<T> :: vector(const vector &other) {
-        this->copy_vector(other);
+    vector<T> :: vector(vector&& other) {
+        this->swap(other);
+        other.vector_init();   
     }
 
     template<typename T>
@@ -52,6 +56,41 @@ namespace s21 {
     vector<T> :: ~vector(){
         this->remove();
     }
+
+    // Vector Element access
+
+    template<typename T>
+    typename vector<T>:: value_type* vector<T> :: data() noexcept {
+        return ptr_ ;
+    }
+
+    template<typename T>
+    typename vector<T>::reference vector<T> :: at(vector<T>::size_type pos){
+        if (pos >= size()) {
+            throw std::out_of_range("The index is out of range");
+        }
+
+        return this->ptr_[pos];
+    }
+
+    // Capacity
+
+    template<typename T>
+    bool vector<T> :: empty() const noexcept{
+       return size_ == 0; 
+    }
+
+    template<typename T>
+    typename vector<T> :: size_type vector<T> :: size() const noexcept{
+        return size_;
+    }
+
+    template<typename T>
+    typename vector<T> :: size_type vector<T> :: capacity() const noexcept{
+        return capacity_;
+    }
+        
+
 
     
     // AUX

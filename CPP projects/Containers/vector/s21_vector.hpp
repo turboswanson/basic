@@ -9,6 +9,8 @@ namespace s21{
     public:
         using value_type = T;
         using size_type = std::size_t;
+        using reference = value_type&;
+        using const_reference = const value_type&;
     public:
         vector();
         vector(size_type n);
@@ -17,6 +19,14 @@ namespace s21{
         vector(vector&& other);
         vector<value_type>& operator = (vector&& other);
         ~vector();
+    public:
+        //Vector Element access
+        value_type* data() noexcept;
+        reference at(size_type pos);
+        //Capacity
+        bool empty() const noexcept;
+        size_type size() const noexcept;
+        size_type capacity() const noexcept;    
     private:
         value_type *ptr_;
         size_type size_;
