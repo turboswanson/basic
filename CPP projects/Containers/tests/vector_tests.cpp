@@ -181,4 +181,42 @@ TEST(VectorTest, Element_at_throw) {
   EXPECT_ANY_THROW(std_v.at(1));
 }
 
+TEST(VectorTest, Element_operator_sq_brackets) {
+  s21::vector<int> s21_v{1, 2, 3, 4, 5};
+  std::vector<int> std_v{1, 2, 3, 4, 5};
+
+  EXPECT_EQ(s21_v[0], std_v[0]);
+  EXPECT_EQ(s21_v[1], std_v[1]);
+  EXPECT_EQ(s21_v[2], std_v[2]);
+  EXPECT_EQ(s21_v[3], std_v[3]);
+  EXPECT_EQ(s21_v[4], std_v[4]);
+}
+
+TEST(VectorTest, Element_sq_brackets_throw) {
+  s21::vector<int> s21_v;
+  EXPECT_ANY_THROW(s21_v[1]);
+
+}
+
+TEST(VectorTest,max_size_test_1){
+  s21::vector<int>s21_v;
+  std::vector<int>std_v;
+
+  EXPECT_DOUBLE_EQ(s21_v.max_size(),std_v.max_size());
+}
+
+TEST(VectorTest,max_size_test_2){
+  s21::vector<double>s21_v;
+  std::vector<double>std_v;
+
+  EXPECT_DOUBLE_EQ(s21_v.max_size(),std_v.max_size());
+}
+
+TEST(VectorTest,max_size_test_3){
+  s21::vector<char>s21_v;
+  std::vector<char>std_v;
+
+  EXPECT_DOUBLE_EQ(s21_v.max_size(),std_v.max_size());
+}
+
 //AR 177

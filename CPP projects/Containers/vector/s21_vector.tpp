@@ -8,7 +8,7 @@ namespace s21 {
 
     template<typename T>
     vector<T> :: vector(size_type n) {
-        if(n < 0){
+        if(n < 0 || n >= this->max_size()){
             throw std::out_of_range("Vector size should be non-negative");
         }
 
@@ -66,7 +66,16 @@ namespace s21 {
 
     template<typename T>
     typename vector<T>::reference vector<T> :: at(vector<T>::size_type pos){
-        if (pos >= size()) {
+        if (pos >= size() || pos < 0) {
+            throw std::out_of_range("The index is out of range");
+        }
+
+        return this->ptr_[pos];
+    }
+
+    template<typename T>
+    typename vector<T>::reference vector<T> :: operator [](vector<T>::size_type pos){
+        if (pos >= size() || pos < 0) {
             throw std::out_of_range("The index is out of range");
         }
 
@@ -89,6 +98,15 @@ namespace s21 {
     typename vector<T> :: size_type vector<T> :: capacity() const noexcept{
         return capacity_;
     }
+
+    /// @brief 
+    /// @tparam T 
+    /// @details numeric_limits<size_type>::max() returns UINT_MAX depends on 32 or 64-bit system
+    /// @details pow(2,bits)/sizeof(value_type), bits = 31 or 63  
+    template<typename T>
+    typename vector<T> :: size_type vector<T> :: max_size() const noexcept{
+        return std::numeric_limits<size_type>::max() / (2 * sizeof(T));
+     }
         
 
 

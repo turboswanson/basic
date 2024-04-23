@@ -2,14 +2,17 @@
 #include "./vector/s21_vector.tpp"
 
 using namespace s21;
-// #include <vector>
+#include <vector>
+#include <limits>
+#include <cmath>
 // #include <iostream>
 
 int main(){ 
-  s21::vector<double> s21_v{2.2222, 3.3333, 5.555, 7.7777, 1.111111};
-  s21::vector<double> s21_move;
-  s21_move = std::move(s21_v);
-  
-  
+  // s21::vector<int> s21_v;
+  std::vector<char> res;
+  // std::cout << res.max_size() << std::endl;
+  // std::cout << s21_v.max_size() << std::endl;
+  // std::cout << pow(2,63)/1 - 1 << std:: endl;
+  std::cout << std::numeric_limits<uint>::max();
   return 0;
 }

@@ -1,12 +1,15 @@
 #pragma once
 
 #include <iostream>
+#include <limits>
+#include <cmath>
 
 namespace s21{
 
     template<typename T>
     class vector {
     public:
+        // Vector member type
         using value_type = T;
         using size_type = std::size_t;
         using reference = value_type&;
@@ -20,13 +23,16 @@ namespace s21{
         vector<value_type>& operator = (vector&& other);
         ~vector();
     public:
-        //Vector Element access
+        // Vector Element access
         value_type* data() noexcept;
         reference at(size_type pos);
-        //Capacity
+        reference operator [](size_type pos);
+
+        // Capacity
         bool empty() const noexcept;
         size_type size() const noexcept;
-        size_type capacity() const noexcept;    
+        size_type capacity() const noexcept;
+        size_type max_size() const noexcept;    
     private:
         value_type *ptr_;
         size_type size_;
