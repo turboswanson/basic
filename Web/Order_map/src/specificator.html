@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UV Print Options</title>
+<link rel="stylesheet" href="../style/spec_style.css">
+</head>
+<body>
+
+<div class="menu_container">
+    <label for="printOptions">Select UV Print Option:</label>
+    <select id="printOptions" onchange="handlePrepValue()">
+        <option value="UV-print A">UV-print A</option>
+        <option value="UV-print B">UV-print B</option>
+        <option value="UV-print C">UV-print C</option>
+        <option value="UV-print Notebook">UV-print Notebook</option>
+        <option value="Round UV print">Round UV print</option>
+    </select>
+
+</div>
+
+<div class="preparing_container">
+    <div id="prepDisplay"></div>
+    
+</div>
+
+<div class="extra_menu_container">
+    <label>Select Extra Options:</label>
+    <input type="checkbox" id="primerCheckbox" value="Primers" onchange="handleExtraOptions()">
+    <label for="primerCheckbox">Primers</label>
+    <input type="checkbox" id="varnishCheckbox" value="Varnish" onchange="handleExtraOptions()">
+    <label for="varnishCheckbox">Varnish</label>
+</div>
+
+<div class="exceed_container">
+    <span class="label"> Add area :</span>
+    <span class="value"><input type="number" id="Exceed" placeholder="Amount in square sm"value=""></span>
+</div>
+
+<div class="amount_container">
+    <span class="label">Amount :</span>
+    <span class="value"><input type="number" id="Amount" value=""></span>
+</div>
+
+<div class="designer_container">
+    <label for="designer">Select designer:</label>
+    <select id="designer" onchange="handleDesigner()">
+        <option value="0"></option>
+        <option value="1">Alexey Ivanov</option>
+        <option value="2">Ekaterina Ivanova</option>
+        <option value="3">Igor Kvetniy</option>
+        <option value="4">Irina Kablukova</option>
+        <option value="5">Nina Golovashova</option>
+        <option value="6">Olga</option>
+    </select>
+
+</div>
+
+<div class="printer_container">
+    <label for="printer">Select printer:</label>
+    <select id="printer" onchange="handlePrinter()">
+        <option value="0"></option>
+        <option value="1">Anton Salamatov</option>
+        <option value="2">Anna Lebedeva</option>
+        <option value="3">Dima Zvarychenko</option>
+        <option value="4">Sergey Zhukov</option>
+        <option value="5">Alexandr Zykov</option>
+        <option value="6">Kate Ivanova</option>
+        <option value="7">Alexey Kilin</option>
+        <option value="8">Kostya Polurebrov</option>
+        <option value="9">Leyka Askerova</option>
+        <option value="10">Michael Sedyukov</option>
+        <option value="11">Irina Polushina</option>
+        <option value="12">Nina Puhareva</option>
+    </select>
+</div>
+
+<div class="executor_container">
+    <label for="executor">Select executor:</label>
+    <select id="executor" onchange="handleExecutor()">
+        <option value="0"></option>
+        <option value="1">Alexey Kilin</option>
+        <option value="2">Anton Salamatov</option>
+        <option value="3">Anna Lebedeva</option>
+        <option value="4">Dima Zvarychenko</option>
+        <option value="5">Kate Ivanova</option>
+        <option value="6">Leyka Askerova</option>
+        <option value="7">Michael Sedyukov</option>
+        <option value="8">Nina Puhareva</option>
+    </select>
+
+</div>
+
+<form id="commentForm">
+    <label for="commentInput">Comment:</label><br>
+    <textarea id="commentInput" name="comment" rows="4" cols="50" placeholder="Write your comment here..."></textarea><br>
+</form>
+
+<div class="calc_btn_container">
+    <button onclick="calculate();navigateToPage()">Done</button>
+</div>
+
+<script>
+    var print_type = 0;
+    var prepValue = 0;
+    var amountValue = 0;
+    var itemPrice = 0;
+    var total = 0;
+    var extra = 0;
+    var exceed = 0;
+    var is_round = 0;
+    var designer = 0;
+    var printer = 0;
+    var executor = 0;
+
+    function init(){
+        print_type = 0;
+        prepValue = 0;
+        amountValue = 0;
+        itemPrice = 0;
+        total = 0;
+        extra = 0;
+        exceed = 0;
+        is_round = 0;
+        designer = 0;
+        printer = 0;
+        executor = 0;
+
+        clearAmountField();
+        uncheckAllCheckboxes();
+        clearCommentSection();
+    }   
+
+    function handlePrepValue() {
+        var selectedOption = document.getElementById("printOptions").value;
+        var prepDisplay = document.getElementById("prepDisplay");
+        var exceedContainer = document.querySelector(".exceed_container");
+        
+        init();
+
+        switch(selectedOption) {
+            case "UV-print A":
+                print_type = "UV-print A";
+                prepValue = 800;
+                exceedContainer.style.display = "none";
+                break;
+            case "UV-print B":
+                print_type = "UV-print B";
+                prepValue = 900;
+                exceedContainer.style.display = "none";
+                break;
+            case "UV-print C":
+                print_type = "UV-print C";
+                prepValue = 1000;
+                exceedContainer.style.display = "none";
+                break;
+            case "UV-print Notebook":
+                print_type = "UV-print Notebook";
+                prepValue = 1200;
+                exceedContainer.style.display = "none";
+                break;
+            case "Round UV print":
+                print_type = "Round UV print";
+                prepValue = 1500;
+                exceedContainer.style.display = "block";
+                is_round = 1;
+                break;
+            }
+
+        prepDisplay.innerHTML = "<span class='bold-text'>Preparing : </span> " + prepValue;
+    }
+
+    function handleExceed(){
+        var exceedInput = document.getElementById("Exceed");
+
+        exceedInput.addEventListener("input", function(event) {
+            exceed = event.target.value.trim();
+        });
+        
+    }
+
+    function handleAmountValue() {
+        var amountInput = document.getElementById("Amount");
+
+        amountInput.addEventListener("input", function(event) {
+
+            amountValue = event.target.value.trim();
+            
+            if(amountValue != ""){
+                handleItemPrice();
+            }else{
+                localStorage.removeItem('total');
+              }
+        });
+     
+    }
+
+    function handleItemPrice(){
+        var selectedOption = document.getElementById("printOptions").value;
+
+        switch(selectedOption) {
+            case "UV-print A":
+                if(amountValue > 0 && amountValue < 51){
+                    itemPrice = 32;    
+                }else if(amountValue > 50 && amountValue < 101){
+                    itemPrice = 24;    
+                }else if(amountValue > 100 && amountValue < 301){
+                    itemPrice = 22;    
+                }else if(amountValue > 300 && amountValue < 501){
+                    itemPrice = 20;    
+                }else if(amountValue >= 501){
+                    itemPrice = 17;                     
+                }else if(amountValue <= 0){
+                    itemPrice = 0;    
+                }
+
+                break;
+
+            case "UV-print B":
+                if(amountValue > 0 && amountValue < 51){
+                    itemPrice = 45;    
+                }else if(amountValue > 50 && amountValue < 101){
+                    itemPrice = 42;    
+                }else if(amountValue > 100 && amountValue < 301){
+                    itemPrice = 37;    
+                }else if(amountValue > 300 && amountValue < 501){
+                    itemPrice = 35;    
+                }else if(amountValue >= 501){
+                    itemPrice = 32;                     
+                }else if(amountValue <= 0){
+                    itemPrice = 0;    
+                }
+
+                break;
+
+            case "UV-print C":
+                if(amountValue > 0 && amountValue < 51){
+                    itemPrice = 75;    
+                }else if(amountValue > 50 && amountValue < 101){
+                    itemPrice = 70;    
+                }else if(amountValue > 100 && amountValue < 301){
+                    itemPrice = 65;    
+                }else if(amountValue > 300 && amountValue < 501){
+                    itemPrice = 60;    
+                }else if(amountValue >= 501){
+                    itemPrice = 57;                     
+                }else if(amountValue <= 0){
+                    itemPrice = 0;    
+                }
+
+                break;
+
+            case "UV-print Notebook":
+                if(amountValue > 0 && amountValue < 51){
+                    itemPrice = 200;    
+                }else if(amountValue > 50 && amountValue < 101){
+                    itemPrice = 180;    
+                }else if(amountValue > 100 && amountValue < 301){
+                    itemPrice = 170;    
+                }else if(amountValue > 300){
+                    itemPrice = 160;    
+                }else if(amountValue <= 0 ){
+                    itemPrice = 0;    
+                }
+
+                break;
+
+            case "Round UV print":
+                if(amountValue > 0 && amountValue < 51){
+                    itemPrice = 220;    
+                }else if(amountValue > 50 && amountValue < 101){
+                    itemPrice = 200;    
+                }else if(amountValue > 100 && amountValue < 301){
+                    itemPrice = 190;    
+                }else if(amountValue > 300){
+                    itemPrice = 180;    
+                }else if(amountValue <= 0 ){
+                    itemPrice = 0;    
+                }
+                
+                break;
+        }
+
+        handleExtraOptions();
+    }
+
+    function handleTotalPrice(){
+        handleAmountValue();
+
+        if(is_round){
+            handleExceed();
+        }
+
+        // console.log("Amount:", amountValue);
+        // console.log("Item Price:", itemPrice);
+        // console.log("Prep value:", prepValue);
+        // console.log("Extra value:", extra);
+        // console.log("Exceed value:", exceed);
+        
+        total = amountValue*(itemPrice+extra) + prepValue+(exceed*2);
+        // console.log("Total Value:", total);
+
+      
+
+    }
+
+    function handle_storage(){
+       localStorage.setItem('type', print_type);
+       localStorage.setItem('amount', amountValue);
+       localStorage.setItem('prep', prepValue);
+       localStorage.setItem('itemPrice', itemPrice);
+       localStorage.setItem('exceed', exceed);
+       localStorage.setItem('total', total); 
+       localStorage.setItem('designed', designer); 
+       localStorage.setItem('printer', printer); 
+       localStorage.setItem('executor', executor); 
+    }
+
+    function handleExtraOptions(){
+        var primerCheckbox = document.getElementById("primerCheckbox");
+        var varnishCheckbox = document.getElementById("varnishCheckbox");
+
+        var isPrimerChecked = primerCheckbox.checked;
+        var isVarnishChecked = varnishCheckbox.checked;
+        
+        extra = 0;
+
+        if(isPrimerChecked && isVarnishChecked){
+            extra = 0.4*itemPrice;
+        }else if(isPrimerChecked || isVarnishChecked){
+            extra = 0.2*itemPrice;
+        }
+    }
+
+    function calculate() {
+        handleTotalPrice();
+    }
+
+    function clearAmountField() {
+        document.getElementById("Amount").value = "";
+    }
+
+    function uncheckAllCheckboxes() {
+        var checkboxes = document.querySelectorAll('.extra_menu_container input[type="checkbox"]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = false;
+        });
+    }
+
+    function clearCommentSection() {
+        document.getElementById("commentInput").value = ""; 
+    }
+
+    function handleDesigner(){
+        var name = document.getElementById("designer").value;    
+        switch(name) {
+            case "0":
+                designer = "";
+            case "1":
+                designer = "Alexey Ivanov";
+                break;
+            case "2":
+                designer = "Ekaterina Ivanova";
+                break;
+            case "3":
+                designer = "Igor Kvetniy";
+                break;
+            case "4":
+                designer = "Irina Kablukova";
+                break;     
+            case "5":
+                designer = "Nina Golovashova";
+                break;
+            case "6":
+                designer = "Olga";
+                break;
+        }    
+        
+    }
+
+    function handlePrinter(){
+        var name = document.getElementById("printer").value;    
+        switch(name) {
+            case "0":
+                printer = ""; 
+            case "1":
+                printer = "Anton Salamatov";
+                break;
+            case "2":
+                printer = "Anna Lebedeva";
+                break;
+            case "3":
+                printer = "Dima Zvarychenko";
+                break;
+            case "4":
+                printer = "Sergey Zhukov";
+                break;     
+            case "5":
+                printer = "Alexandr Zykov";
+                break;
+            case "6":
+                printer = "Kate Ivanova";
+                break;
+            case "7":
+                printer = "Alexey Kilin";
+                break;
+            case "8":
+                printer = "Kostya Polurebrov";
+                break;
+            case "9":
+                printer = "Leyka Askerova";
+                break;
+            case "10":
+                printer = "Michael Sedyukov";
+                break;
+            case "11":
+                printer = "Irina Polushina";
+                break;
+            case "12":
+                printer = "Nina Puhareva";
+                break;
+
+        }    
+        
+    }
+
+    function handleExecutor(){
+        var name = document.getElementById("executor").value;    
+        switch(name) {
+            case "0":
+                executor = "";
+            case "1":
+                executor = "Alexey Kilin";
+                break;
+            case "2":
+                executor = "Anton Salamatov";
+                break;
+            case "3":
+                executor = "Anna Lebedeva";
+                break;
+            case "4":
+                executor = "Dima Zvarychenko";
+                break;     
+            case "5":
+                executor = "Kate Ivanova";
+                break;
+            case "6":
+                executor = "Leyka Askerova";
+                break;
+            case "7":
+                executor = "Michael Sedyukov";
+                break;
+            case "8":
+                executor = "Nina Puhareva";
+                break;
+        }    
+        
+    }
+
+    function navigateToPage(){
+        window.location.href = '../main.html';
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        handlePrepValue();
+        handleAmountValue();
+        handleExceed();
+        handleDesigner();
+        handlePrinter();
+        handleExecutor();
+    });
+
+
+    
+    </script>
+
+</body>
+</html>

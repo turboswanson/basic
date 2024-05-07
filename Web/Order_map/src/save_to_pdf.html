@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Input to PDF</title>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<h1>User Input to PDF</h1>
+
+<form id="userForm">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name"><br>
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email"><br><br>
+  <button type="button" onclick="saveToPDF()">Save to PDF</button>
+</form>
+
+<script>
+    function saveToPDF() {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+    
+      alert("Function is being called!"); // Add this line for debugging
+    
+      // Create a new PDF instance
+      const pdf = new window.jspdf.jsPDF();
+          
+      // Set properties for the PDF
+      pdf.setProperties({
+        title: "User Information PDF",
+        author: "Your Name",
+      });
+    
+      // Add content to the PDF
+      pdf.text(`Name: ${name}`, 10, 20);
+      pdf.text(`Email: ${email}`, 10, 30);
+    
+      // Save the PDF
+      pdf.save("user_information.pdf");
+    }
+</script>
+    
+</body>
+</html>

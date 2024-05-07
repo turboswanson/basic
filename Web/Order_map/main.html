@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Details</title>
+<link rel="stylesheet" href="style/main_style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+<script src="Roboto-Regular-normal.js"></script>
+</head>
+<body>
+
+    <div class="order_number_container">
+        <span class="label">Order Number :</span>
+        <span class="value"><input type="number" id="orderNumber" value=""></span>
+    </div>
+
+    <div class="date_container">
+        <span class="label">Date  :</span>
+        <input type="date" id="orderDate" class="value">
+    </div>  
+
+    <div class="due_date_container">
+        <span class="label">Due date:</span>
+        <input type="date" id="dueDate" class="value">
+    </div>
+    
+    <div class="customer_container">
+        <span class="label">Customer :</span>
+        <input type="text" id="customer" class="value">
+    </div>
+
+    <div class="discount_container">
+        <span class="label">Discount :</span>
+        <span class="value"><input type="number" id="Discount" value=""></span>
+    </div>
+
+    <div class="currency_container">
+        <span class="label">Currency rate:</span>
+        <span class="value"><input type="number" id="orderCurrency" value=""></span>
+    </div>
+    <div class="total_rub_container">
+        <span class="label">Total RUB:</span>
+        <span class="value" id="total_rub" value=""></span>
+    </div>
+
+    <div class="total_container">
+        <span class="label">Total USD:</span>
+        <span class="value" id="total_usd" value=""></span>
+    </div>
+
+    <div class="btn_container">
+        <button id="addButton">ADD</button>
+        <button id="saveButton" onclick="saveToPDF()">Save to PDF</button>
+    </div>
+
+</div>
+
+<script>
+    let date = 0;
+    let due_date = 0;
+    var number = 0;
+    var customer = 0;
+    var discount = 0;
+    var currencyValue = 0; 
+    
+    var totalRUB = 0;
+    var totalUSD = 0;
+    let type = 0;
+    var amount = 0;
+    var prep = 0;
+    var itemPrice = 0;
+    var exceed = 0;
+    let designer = 0;
+    let printer = 0;
+    let executor = 0;
+    
+    function handle_order_number(){
+        var numberInput = document.getElementById("orderNumber");
+
+        numberInput.addEventListener("input", function(event) {
+
+        number = event.target.value;
+        console.log(number);
+
+        localStorage.setItem('number',number);
+
+        });
+    }
+
+    function handleCurrencyValue() {
+        var currencyInput = document.getElementById("orderCurrency");
+        
+        currencyInput.addEventListener("input", function(event) {
+
+            currencyValue = event.target.value.trim();
+            localStorage.setItem('currency',currencyValue);
+          
+        });
+    }
+
+    function handleDiscount(){
+        var discountInput = document.getElementById("Discount");    
+        discountInput.addEventListener("input", function(event) {
+
+            discount = event.target.value;
+            localStorage.setItem('discount',discount);
+            handleTotalRubDisplay();
+        });
+    }
+
+    function handle_customer(){
+        var customerInput = document.getElementById("customer");    
+        customerInput.addEventListener("input", function(event) {
+
+            customer = event.target.value;
+            localStorage.setItem('customer',customer);
+        });        
+    }
+
+    function handleTotalRubDisplay(){
+        var totalRubDisplay = document.getElementById("total_rub");
+        totalRUB = totalRUB - totalRUB*(discount/100);
+        totalRubDisplay.textContent = totalRUB.toFixed(2) + " ₽";
+        handleTotal();
+    }
+
+
+    function handleTotal(){
+        var totalDisplay = document.getElementById("total_usd");
+        
+        if(totalRUB){
+            totalUSD = totalRUB/currencyValue;
+        }else{
+            totalUSD = 0;
+        }
+
+        totalDisplay.textContent = (totalUSD).toFixed(2) + " $";       
+    }
+
+    function handle_date(){
+        
+        var dateInput = document.getElementById("orderDate");    
+        dateInput.addEventListener("input", function(event) {
+
+            let tmp = event.target.value;
+            const parts = tmp.split('-'); 
+            date = `${parts[2]}/${parts[1]}/${parts[0]}`; 
+
+            localStorage.setItem('date',tmp);
+            localStorage.setItem('formatted_date',date);
+
+        });
+        
+    }
+
+    function handle_due_date(){
+        
+        var due_date_input = document.getElementById("dueDate");    
+        due_date_input.addEventListener("input", function(event) {
+
+            let tmp = event.target.value;
+            const parts = tmp.split('-'); 
+            due_date = `${parts[2]}/${parts[1]}/${parts[0]}`; 
+
+            localStorage.setItem('due_date',tmp);
+            localStorage.setItem('formatted_due_date',due_date);
+
+        });
+    }
+
+  
+    function saveToPDF() {
+        
+        var number = localStorage.getItem('number');
+        let date = localStorage.getItem('formatted_date');
+        let due_date = localStorage.getItem('formatted_due_date');
+        let customer = localStorage.getItem('customer');
+        var discount = localStorage.getItem('discount');
+        var currency = localStorage.getItem('currency');
+     
+        const pdf = new jspdf.jsPDF
+
+        pdf.setFont('Roboto-Regular','normal');
+        
+        pdf.setProperties({
+            title: "User Information PDF",
+            author: "Your Name",
+        });
+        
+        pdf.text(`Order number: ${number}`, 10, 20);
+        pdf.text(`Date: ${formatted_date}`, 10, 30);
+        pdf.text(`Due date: ${formatted_due_date}`, 10, 40);
+        pdf.text(`Customer: ${customer}`, 10, 50);
+        pdf.text(`Designer: ${designer}`, 10, 60);
+        pdf.text(`Printer: ${printer}`, 10, 70);
+        pdf.text(`Executor: ${executor}`, 10, 80);
+        pdf.text(`Print type: ${type}`,10,90);
+        pdf.text(`Amount: ${amount}`,10,100);
+        pdf.text(`Preparing: ${prep}`,10,110);
+        pdf.text(`ItemPrice: ${itemPrice}`,10,120);
+        pdf.text(`Discount: ${discount}`,10,130);
+        pdf.text(`Exceed: ${exceed}`,10,140);
+        pdf.text(`Designer: ${designer}`,10,150);
+        pdf.text(`Printer: ${printer}`,10,160);
+        pdf.text(`Executor: ${executor}`,10,170);
+        pdf.text(`Total Rub: ${totalRUB}`, 10, 180);
+        pdf.text(`Currency: ${currencyValue}`, 10, 190);
+        pdf.text(`Total USD: ${totalUSD}`, 10, 200);
+
+        pdf.save("user_information.pdf");
+        alert("It's been saved!");
+
+        remove_storage();
+    }
+
+    function remove_storage(){
+       localStorage.removeItem('type');
+       localStorage.removeItem('amount');
+       localStorage.removeItem('prep');
+       localStorage.removeItem('itemPrice');
+       localStorage.removeItem('exceed');
+       localStorage.removeItem('total'); 
+       localStorage.removeItem('designed'); 
+       localStorage.removeItem('printer'); 
+       localStorage.removeItem('executor');
+       number = 0;
+       date = 0;
+       formatted_date = 0;
+       formatted_due_date = 0;
+       customer = 0;
+       type = 0;
+       amount = 0;
+       prep = 0;
+       itemPrice = 0;
+       exceed = 0;
+       designer = 0;
+       printer = 0;
+       executor = 0;    
+    }
+          
+    document.getElementById("addButton").addEventListener("click", function() {
+        window.location.href = "src/specificator.html";
+               
+    });
+
+    function set_info(){
+        var num = localStorage.getItem('number');
+        let date = localStorage.getItem('date');
+        let due_date = localStorage.getItem('due_date');
+        let customer = localStorage.getItem('customer');
+        var discount = localStorage.getItem('discount');
+        var currency = localStorage.getItem('currency');
+
+        if (num) {
+            document.getElementById("orderNumber").value = num;
+        }
+
+        if (date) {
+            document.getElementById("orderDate").value = date;
+        }
+
+        if (due_date) {
+            document.getElementById("dueDate").value = due_date;
+        }
+
+        if (customer) {
+            document.getElementById("customer").value = customer;
+        }
+
+        if (discount) {
+            document.getElementById("Discount").value = discount;
+        }
+
+        if (currency) {
+            document.getElementById("orderCurrency").value = currency;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        totalRUB = localStorage.getItem('total');
+        type = localStorage.getItem('type');
+        amount = localStorage.getItem('amount');
+        prep = localStorage.getItem('prep');
+        itemPrice = localStorage.getItem('itemPrice');
+        exceed = localStorage.getItem('exceed');
+        designer = localStorage.getItem('designer');
+        printer = localStorage.getItem('printer');
+        executor = localStorage.getItem('executor');
+
+        handle_order_number();
+        handle_date();
+        handle_due_date();
+        handleDiscount();
+        handleCurrencyValue();
+        handle_customer();
+        handleTotalRubDisplay();
+                
+    });
+
+    window.onload = function() {
+        set_info();        
+    };
+
+</script>

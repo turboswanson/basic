@@ -1,0 +1,141 @@
+.order_number_container {
+    width: 600px;
+    margin: 50px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+    font-size:16px;
+}
+
+.date_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+.due_date_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+.customer_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+.customer_container input[type="text"] {
+    width: 80%; 
+    font-size:18px;
+    box-sizing: border-box;
+}
+
+.discount_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+.currency_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+.total_rub_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+.total_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+.value {
+    display: inline-block;
+}
+
+.value input {
+    width: 80px;
+}
+
+.btn_container {
+    width: 600px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+#addButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-left:200px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#addButton:hover {
+    background-color: green;
+}
+
+
+#saveButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-left:10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#saveButton:hover {
+    background-color: green;
+}

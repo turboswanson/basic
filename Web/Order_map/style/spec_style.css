@@ -1,0 +1,200 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.menu_container {
+    width: 600px;
+    margin: 50px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.designer_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.printer_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.executor_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.extra_menu_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.preparing_container {
+    width: 600px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.exceed_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+
+}
+
+.exceed_container input[type="number"] {
+    width: 80%; 
+    font-size:16px;
+    box-sizing: border-box;
+}
+
+.amount_container {
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+.amount_container input[type="number"] {
+    width: 80%; /* Set the width of the input field to 100% */
+    font-size:16px;
+    box-sizing: border-box; /* Include padding and border in the width */
+}
+
+.next_btn_container {
+    width: 600px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 16px;
+}
+
+
+.extra_menu_container label,
+.extra_menu_container input[type="checkbox"] {
+    display: inline-block;
+    vertical-align: middle; 
+    margin-right: 10px; 
+}
+
+.extra_menu_container label:first-child {
+    font-weight: bold; 
+}
+
+.extra_menu_container label:not(:first-child) {
+    font-weight: normal; 
+}
+
+
+
+.calc_btn_container {
+    width: 600px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.calc_btn_container button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.calc_btn_container button:hover {
+    background-color: darkblue;
+}
+
+#commentForm {
+    width: 600px; 
+    margin: 10px auto; 
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#commentInput {
+    width: 95%; 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none; 
+}
+
+#commentInput:focus {
+    outline: none; 
+    border-color: #007bff; 
+}
+
+#commentInput::placeholder {
+    color: #aaa; 
+}
+
+
+#prepDisplay {
+    margin-bottom: 10px;
+    font-weight: normal;
+}
