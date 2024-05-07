@@ -1,6 +1,59 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+.container {
+    display: flex;
+    height: 100%;
+}
+.left-side {
+    flex-grow: 1;
+    margin-left: 50px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.right-side {
+    width: 400px; /* Adjust as needed */
+    padding: 20px;
+    margin-top:50px;
+    margin-right: 100px;
+    box-sizing: border-box;
+}
+
+.table_container {
+    margin-top: 20px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+th {
+    background-color: #f2f2f2;
+}
+#itemBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-top:10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#itemBtn:hover {
+    background-color: green;
+}
+
 .order_number_container {
     width: 600px;
     margin: 50px auto;
+    margin-left: 50px;
     margin-bottom:10px;
     padding: 20px;
     background-color: #fff;
@@ -13,6 +66,7 @@
 .date_container {
     width: 600px;
     margin: 10px auto;
+    margin-left: 50px;
     margin-bottom:10px;
     padding: 20px;
     background-color: #fff;
@@ -24,6 +78,7 @@
 .due_date_container {
     width: 600px;
     margin: 10px auto;
+    margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
     background-color: #fff;
@@ -35,6 +90,7 @@
 .customer_container {
     width: 600px;
     margin: 10px auto;
+    margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
     background-color: #fff;
@@ -52,6 +108,7 @@
 .discount_container {
     width: 600px;
     margin: 10px auto;
+    margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
     background-color: #fff;
@@ -63,6 +120,7 @@
 .currency_container {
     width: 600px;
     margin: 10px auto;
+    margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
     background-color: #fff;
@@ -74,6 +132,7 @@
 .total_rub_container {
     width: 600px;
     margin: 10px auto;
+    margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
     background-color: #fff;
@@ -85,6 +144,7 @@
 .total_container {
     width: 600px;
     margin: 10px auto;
+    margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
     background-color: #fff;
@@ -104,11 +164,13 @@
 .btn_container {
     width: 600px;
     margin: 10px auto;
+    margin-left:50px;
     padding: 20px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+
 
 
 #addButton {

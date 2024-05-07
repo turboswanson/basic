@@ -113,6 +113,7 @@
     var designer = 0;
     var printer = 0;
     var executor = 0;
+    let comment = 0;
 
     function init(){
         print_type = 0;
@@ -178,6 +179,16 @@
             exceed = event.target.value.trim();
         });
         
+    }
+
+    function handle_comment() {
+        var commentInput = document.getElementById("commentInput");
+
+        commentInput.addEventListener("input", function(event) {
+            comment = event.target.value.trim();
+            console.log(comment);
+            localStorage.setItem('comment',comment);
+        });
     }
 
     function handleAmountValue() {
@@ -470,6 +481,7 @@
         handleDesigner();
         handlePrinter();
         handleExecutor();
+        handle_comment();
     });
 
 

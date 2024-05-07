@@ -13,53 +13,75 @@
 </head>
 <body>
 
-    <div class="order_number_container">
-        <span class="label">Order Number :</span>
-        <span class="value"><input type="number" id="orderNumber" value=""></span>
-    </div>
-
-    <div class="date_container">
-        <span class="label">Date  :</span>
-        <input type="date" id="orderDate" class="value">
-    </div>  
-
-    <div class="due_date_container">
-        <span class="label">Due date:</span>
-        <input type="date" id="dueDate" class="value">
-    </div>
+    <div class="container">
+        <div class="left-side">
+            <div class="order_number_container">
+                <span class="label">Order Number :</span>
+                <span class="value"><input type="number" id="orderNumber" value=""></span>
+            </div>
+        
+            <div class="date_container">
+                <span class="label">Date  :</span>
+                <input type="date" id="orderDate" class="value">
+            </div>  
+        
+            <div class="due_date_container">
+                <span class="label">Due date:</span>
+                <input type="date" id="dueDate" class="value">
+            </div>
+            
+            <div class="customer_container">
+                <span class="label">Customer :</span>
+                <input type="text" id="customer" class="value">
+            </div>
+        
+            <div class="discount_container">
+                <span class="label">Discount :</span>
+                <span class="value"><input type="number" id="Discount" value=""></span>
+            </div>
+        
+            <div class="currency_container">
+                <span class="label">Currency rate:</span>
+                <span class="value"><input type="number" id="orderCurrency" value=""></span>
+            </div>
+            <div class="total_rub_container">
+                <span class="label">Total RUB:</span>
+                <span class="value" id="total_rub" value=""></span>
+            </div>
+        
+            <div class="total_container">
+                <span class="label">Total USD:</span>
+                <span class="value" id="total_usd" value=""></span>
+            </div>
+        
+            <div class="btn_container">
+                <button id="addButton">ADD</button>
+                <button id="saveButton" onclick="saveToPDF()">Save to PDF</button>
+                <button id="clearButton" onclick="clean_storage();set_info()">Clear</button>
+            </div>
+        </div>
     
-    <div class="customer_container">
-        <span class="label">Customer :</span>
-        <input type="text" id="customer" class="value">
+        <div class="right-side">
+            <div class="table_container">
+                <table id="itemTable">
+                    <thead>
+                        <tr>
+                            <th>type</th>
+                            <th>comment</th>
+                            <th>amount</th>
+                            <th>total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table body will be populated dynamically -->
+                    </tbody>
+                </table>
+            
+                <button id="itemBtn" onclick="addItem()">Add Item</button>
+            </div>
+        </div>
     </div>
-
-    <div class="discount_container">
-        <span class="label">Discount :</span>
-        <span class="value"><input type="number" id="Discount" value=""></span>
-    </div>
-
-    <div class="currency_container">
-        <span class="label">Currency rate:</span>
-        <span class="value"><input type="number" id="orderCurrency" value=""></span>
-    </div>
-    <div class="total_rub_container">
-        <span class="label">Total RUB:</span>
-        <span class="value" id="total_rub" value=""></span>
-    </div>
-
-    <div class="total_container">
-        <span class="label">Total USD:</span>
-        <span class="value" id="total_usd" value=""></span>
-    </div>
-
-    <div class="btn_container">
-        <button id="addButton">ADD</button>
-        <button id="saveButton" onclick="saveToPDF()">Save to PDF</button>
-        <button id="clearButton" onclick="clean_storage();set_info()">Clear</button>
-
-    </div>
-
-</div>
+</body>
 
 <script>
     let date = 0;
@@ -80,7 +102,8 @@
     let designer = 0;
     let printer = 0;
     let executor = 0;
-    
+    let comment = 0;
+
     function init(){
         totalRUB = localStorage.getItem('total');
         type = localStorage.getItem('type');
@@ -97,6 +120,7 @@
         customer = localStorage.getItem('customer');
         discount = localStorage.getItem('discount');
         currencyValue = localStorage.getItem('currency');    
+        comment = localStorage.getItem('comment');
     }
 
     function handle_order_number(){
@@ -228,15 +252,16 @@
         pdf.text(`Printer: ${printer}`, 10, 70);
         pdf.text(`Executor: ${executor}`, 10, 80);
         pdf.text(`Print type: ${type}`,10,90);
-        pdf.text(`Amount: ${amount}`,10,100);
-        pdf.text(`Preparing: ${prep}`,10,110);
-        pdf.text(`ItemPrice: ${formattedItemPrice}`,10,120);
-        pdf.text(`Discount: ${discount}`,10,130);
-        pdf.text(`Exceed: ${exceed}`,10,140);
-        pdf.text(`Total Rub: ${formattedTotalRUB}`, 10, 150);
-        pdf.text(`Total Discount: ${formattedResult}`,10,160);
-        pdf.text(`Currency: ${currencyValue}`, 10, 170);
-        pdf.text(`Total USD: ${formattedTotalUSD}`, 10, 180);
+        pdf.text(`Comment: ${comment}`,10,100);
+        pdf.text(`Amount: ${amount}`,10,110);
+        pdf.text(`Preparing: ${prep}`,10,120);
+        pdf.text(`ItemPrice: ${formattedItemPrice}`,10,130);
+        pdf.text(`Discount: ${discount}`,10,140);
+        pdf.text(`Exceed: ${exceed}`,10,150);
+        pdf.text(`Total Rub: ${formattedTotalRUB}`, 10, 160);
+        pdf.text(`Total Discount: ${formattedResult}`,10,170);
+        pdf.text(`Currency: ${currencyValue}`, 10, 180);
+        pdf.text(`Total USD: ${formattedTotalUSD}`, 10, 190);
 
         pdf.save("user_information.pdf");
         alert("It's been saved!");
@@ -262,6 +287,7 @@
        localStorage.removeItem('customer');
        localStorage.removeItem('discount');
        localStorage.removeItem('currency');
+       localStorage.removeItem('comment');
        number = 0;
        date = 0;
        formatted_date = 0;
@@ -276,20 +302,52 @@
        printer = 0;
        executor = 0;
        result = 0;
+       comment = 0;
        
        window.location.reload();
 
     }
-          
-    document.getElementById("addButton").addEventListener("click", function() {
-        window.location.href = "src/specificator.html";
-               
-    });
 
+    function loadItems() {
+        var savedItems = localStorage.getItem('items');
+        
+        if (savedItems) {
+            var items = JSON.parse(savedItems);
+            items.forEach(function(item) {
+                addItemToTable(item.type, item.amount, item.total);
+            });
+        }
+    }
+
+    function addItemToTable(type, amount, total) {
+        var table = document.getElementById("itemTable").getElementsByTagName('tbody')[0];
+        var newRow = table.insertRow(table.rows.length);
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+        var cell4 = newRow.insertCell(3);
+        cell1.innerHTML = type;
+        cell3.innerHTML = amount;
+        cell4.innerHTML = total;
+    }
+
+    function addItem() {
+        var type = "bluePrint";
+        var amount = 10;
+        var total = 100;
+        addItemToTable(type, amount, total);
+
+        var savedItems = localStorage.getItem('items');
+        var items = savedItems ? JSON.parse(savedItems) : [];
+        items.push({ type: type, amount: amount, total: total });
+        localStorage.setItem('items', JSON.stringify(items));
+    }         
+    
     function set_info(){
        
         init();
-      
+
+        console.log(comment);
         if (number) {
             document.getElementById("orderNumber").value = number;
         }
@@ -317,6 +375,12 @@
         handleTotalRubDisplay();
     }
 
+    document.getElementById("addButton").addEventListener("click", function() {
+        window.location.href = "src/specificator.html";
+               
+    });
+
+
     document.addEventListener("DOMContentLoaded", function() {
      
         handle_order_number();
@@ -330,7 +394,8 @@
     });
 
     window.onload = function() {
-        set_info();        
+        set_info();
+        loadItems();        
     };
 
     window.onbeforeunload = function() {
