@@ -55,6 +55,8 @@
     <div class="btn_container">
         <button id="addButton">ADD</button>
         <button id="saveButton" onclick="saveToPDF()">Save to PDF</button>
+        <button id="clearButton" onclick="clean_storage();set_info()">Clear</button>
+
     </div>
 
 </div>
@@ -69,6 +71,7 @@
     
     var totalRUB = 0;
     var totalUSD = 0;
+    var result = 0;
     let type = 0;
     var amount = 0;
     var prep = 0;
@@ -78,13 +81,30 @@
     let printer = 0;
     let executor = 0;
     
+    function init(){
+        totalRUB = localStorage.getItem('total');
+        type = localStorage.getItem('type');
+        amount = localStorage.getItem('amount');
+        prep = localStorage.getItem('prep');
+        itemPrice = localStorage.getItem('itemPrice');
+        exceed = localStorage.getItem('exceed');
+        designer = localStorage.getItem('designer');
+        printer = localStorage.getItem('printer');
+        executor = localStorage.getItem('executor');
+        number = localStorage.getItem('number');
+        date = localStorage.getItem('date');
+        due_date = localStorage.getItem('due_date');
+        customer = localStorage.getItem('customer');
+        discount = localStorage.getItem('discount');
+        currencyValue = localStorage.getItem('currency');    
+    }
+
     function handle_order_number(){
         var numberInput = document.getElementById("orderNumber");
 
         numberInput.addEventListener("input", function(event) {
 
         number = event.target.value;
-        console.log(number);
 
         localStorage.setItem('number',number);
 
@@ -98,6 +118,7 @@
 
             currencyValue = event.target.value.trim();
             localStorage.setItem('currency',currencyValue);
+            handleTotal();
           
         });
     }
@@ -123,8 +144,9 @@
 
     function handleTotalRubDisplay(){
         var totalRubDisplay = document.getElementById("total_rub");
-        totalRUB = totalRUB - totalRUB*(discount/100);
-        totalRubDisplay.textContent = totalRUB.toFixed(2) + " ₽";
+        var x = discount/100;
+        result = totalRUB-totalRUB*x;
+        totalRubDisplay.textContent = result.toFixed(2) + " ₽";
         handleTotal();
     }
 
@@ -132,13 +154,13 @@
     function handleTotal(){
         var totalDisplay = document.getElementById("total_usd");
         
-        if(totalRUB){
-            totalUSD = totalRUB/currencyValue;
+        if(currencyValue){
+            totalUSD = result/currencyValue;
         }else{
             totalUSD = 0;
         }
 
-        totalDisplay.textContent = (totalUSD).toFixed(2) + " $";       
+        totalDisplay.textContent = totalUSD.toFixed(2) + " $";       
     }
 
     function handle_date(){
@@ -175,13 +197,19 @@
   
     function saveToPDF() {
         
-        var number = localStorage.getItem('number');
-        let date = localStorage.getItem('formatted_date');
-        let due_date = localStorage.getItem('formatted_due_date');
-        let customer = localStorage.getItem('customer');
-        var discount = localStorage.getItem('discount');
-        var currency = localStorage.getItem('currency');
-     
+        init();
+        date = localStorage.getItem('formatted_date');
+        due_date = localStorage.getItem('formatted_due_date');
+        
+        var numericItemPrice = parseFloat(itemPrice);
+        var formattedItemPrice = numericItemPrice.toFixed(2); 
+        var numericTotalUSD = parseFloat(totalUSD);
+        var formattedTotalUSD = numericTotalUSD.toFixed(2);
+        var numericTotalRUB = parseFloat(totalRUB);
+        var formattedTotalRUB = numericTotalRUB.toFixed(2);
+        var numericResult = parseFloat(result);
+        var formattedResult = numericResult.toFixed(2);
+
         const pdf = new jspdf.jsPDF
 
         pdf.setFont('Roboto-Regular','normal');
@@ -190,10 +218,11 @@
             title: "User Information PDF",
             author: "Your Name",
         });
+      
         
         pdf.text(`Order number: ${number}`, 10, 20);
-        pdf.text(`Date: ${formatted_date}`, 10, 30);
-        pdf.text(`Due date: ${formatted_due_date}`, 10, 40);
+        pdf.text(`Date: ${date}`, 10, 30);
+        pdf.text(`Due date: ${due_date}`, 10, 40);
         pdf.text(`Customer: ${customer}`, 10, 50);
         pdf.text(`Designer: ${designer}`, 10, 60);
         pdf.text(`Printer: ${printer}`, 10, 70);
@@ -201,23 +230,21 @@
         pdf.text(`Print type: ${type}`,10,90);
         pdf.text(`Amount: ${amount}`,10,100);
         pdf.text(`Preparing: ${prep}`,10,110);
-        pdf.text(`ItemPrice: ${itemPrice}`,10,120);
+        pdf.text(`ItemPrice: ${formattedItemPrice}`,10,120);
         pdf.text(`Discount: ${discount}`,10,130);
         pdf.text(`Exceed: ${exceed}`,10,140);
-        pdf.text(`Designer: ${designer}`,10,150);
-        pdf.text(`Printer: ${printer}`,10,160);
-        pdf.text(`Executor: ${executor}`,10,170);
-        pdf.text(`Total Rub: ${totalRUB}`, 10, 180);
-        pdf.text(`Currency: ${currencyValue}`, 10, 190);
-        pdf.text(`Total USD: ${totalUSD}`, 10, 200);
+        pdf.text(`Total Rub: ${formattedTotalRUB}`, 10, 150);
+        pdf.text(`Total Discount: ${formattedResult}`,10,160);
+        pdf.text(`Currency: ${currencyValue}`, 10, 170);
+        pdf.text(`Total USD: ${formattedTotalUSD}`, 10, 180);
 
         pdf.save("user_information.pdf");
         alert("It's been saved!");
 
-        remove_storage();
+        clean_storage();
     }
 
-    function remove_storage(){
+    function clean_storage(){
        localStorage.removeItem('type');
        localStorage.removeItem('amount');
        localStorage.removeItem('prep');
@@ -227,6 +254,14 @@
        localStorage.removeItem('designed'); 
        localStorage.removeItem('printer'); 
        localStorage.removeItem('executor');
+       localStorage.removeItem('number');
+       localStorage.removeItem('date');
+       localStorage.removeItem('due_date');
+       localStorage.removeItem('formatted_date');
+       localStorage.removeItem('formatted_due_date');
+       localStorage.removeItem('customer');
+       localStorage.removeItem('discount');
+       localStorage.removeItem('currency');
        number = 0;
        date = 0;
        formatted_date = 0;
@@ -239,7 +274,11 @@
        exceed = 0;
        designer = 0;
        printer = 0;
-       executor = 0;    
+       executor = 0;
+       result = 0;
+       
+       window.location.reload();
+
     }
           
     document.getElementById("addButton").addEventListener("click", function() {
@@ -248,15 +287,11 @@
     });
 
     function set_info(){
-        var num = localStorage.getItem('number');
-        let date = localStorage.getItem('date');
-        let due_date = localStorage.getItem('due_date');
-        let customer = localStorage.getItem('customer');
-        var discount = localStorage.getItem('discount');
-        var currency = localStorage.getItem('currency');
-
-        if (num) {
-            document.getElementById("orderNumber").value = num;
+       
+        init();
+      
+        if (number) {
+            document.getElementById("orderNumber").value = number;
         }
 
         if (date) {
@@ -275,22 +310,15 @@
             document.getElementById("Discount").value = discount;
         }
 
-        if (currency) {
-            document.getElementById("orderCurrency").value = currency;
+        if (currencyValue) {
+            document.getElementById("orderCurrency").value = currencyValue;
         }
+
+        handleTotalRubDisplay();
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        totalRUB = localStorage.getItem('total');
-        type = localStorage.getItem('type');
-        amount = localStorage.getItem('amount');
-        prep = localStorage.getItem('prep');
-        itemPrice = localStorage.getItem('itemPrice');
-        exceed = localStorage.getItem('exceed');
-        designer = localStorage.getItem('designer');
-        printer = localStorage.getItem('printer');
-        executor = localStorage.getItem('executor');
-
+     
         handle_order_number();
         handle_date();
         handle_due_date();
@@ -303,6 +331,10 @@
 
     window.onload = function() {
         set_info();        
+    };
+
+    window.onbeforeunload = function() {
+        // clean_storage();
     };
 
 </script>

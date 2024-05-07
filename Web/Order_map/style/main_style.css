@@ -115,7 +115,7 @@
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
-    margin-left:200px;
+    margin-left:150px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -137,5 +137,19 @@
 }
 
 #saveButton:hover {
+    background-color: green;
+}
+
+#clearButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-left:10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#clearButton:hover {
     background-color: green;
 }

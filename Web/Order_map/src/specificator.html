@@ -190,7 +190,7 @@
             if(amountValue != ""){
                 handleItemPrice();
             }else{
-                localStorage.removeItem('total');
+                // localStorage.removeItem('total');
               }
         });
      
@@ -312,7 +312,7 @@
        localStorage.setItem('itemPrice', itemPrice);
        localStorage.setItem('exceed', exceed);
        localStorage.setItem('total', total); 
-       localStorage.setItem('designed', designer); 
+       localStorage.setItem('designer', designer); 
        localStorage.setItem('printer', printer); 
        localStorage.setItem('executor', executor); 
     }
@@ -335,6 +335,7 @@
 
     function calculate() {
         handleTotalPrice();
+        handle_storage();
     }
 
     function clearAmountField() {
