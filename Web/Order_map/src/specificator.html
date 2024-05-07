@@ -98,10 +98,12 @@
 </form>
 
 <div class="calc_btn_container">
-    <button onclick="calculate();navigateToPage()">Done</button>
+    <button onclick="calculate();navigateToPage();">Done</button>
 </div>
 
+
 <script>
+
     var print_type = 0;
     var prepValue = 0;
     var amountValue = 0;
@@ -186,7 +188,6 @@
 
         commentInput.addEventListener("input", function(event) {
             comment = event.target.value.trim();
-            console.log(comment);
             localStorage.setItem('comment',comment);
         });
     }

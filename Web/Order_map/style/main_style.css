@@ -50,6 +50,20 @@ th {
     background-color: green;
 }
 
+#deleteItemBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-top:10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;    
+}
+
+#deleteItemBtn:hover {
+    background-color: green;
+}
+
 .order_number_container {
     width: 600px;
     margin: 50px auto;

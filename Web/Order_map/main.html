@@ -76,14 +76,17 @@
                         <!-- Table body will be populated dynamically -->
                     </tbody>
                 </table>
-            
+            <div class="table_button_container">
                 <button id="itemBtn" onclick="addItem()">Add Item</button>
+                <button id="deleteItemBtn" onclick="deleteLastItem()">Delete Item</button>
+            </div>    
             </div>
         </div>
     </div>
 </body>
 
 <script>
+    
     let date = 0;
     let due_date = 0;
     var number = 0;
@@ -91,11 +94,28 @@
     var discount = 0;
     var currencyValue = 0; 
     
+    
     var totalRUB = 0;
     var totalUSD = 0;
     var result = 0;
+
+    var index = localStorage.getItem('index');
+
+    if(index === null){
+        index = 0;
+    } else{
+        index = parseInt(index);
+    }
+
+    let type_array = [0];
+    var amount_array = [0];
+    let comment_array = [0];
+    var total_array = [0];
+
     let type = 0;
+    
     var amount = 0;
+
     var prep = 0;
     var itemPrice = 0;
     var exceed = 0;
@@ -104,10 +124,13 @@
     let executor = 0;
     let comment = 0;
 
+    
     function init(){
-        totalRUB = localStorage.getItem('total');
-        type = localStorage.getItem('type');
-        amount = localStorage.getItem('amount');
+        
+        // totalRUB = localStorage.getItem('total');
+        total_array[index] = localStorage.getItem('total');
+        type_array[index] = localStorage.getItem('type');
+        amount_array[index] = localStorage.getItem('amount');
         prep = localStorage.getItem('prep');
         itemPrice = localStorage.getItem('itemPrice');
         exceed = localStorage.getItem('exceed');
@@ -120,7 +143,13 @@
         customer = localStorage.getItem('customer');
         discount = localStorage.getItem('discount');
         currencyValue = localStorage.getItem('currency');    
-        comment = localStorage.getItem('comment');
+        comment_array[index] = localStorage.getItem('comment');
+
+        localStorage.setItem('total_array_' + index, total_array[index]);
+        localStorage.setItem('type_array_' + index, type_array[index]);
+        localStorage.setItem('amount_array_' + index, amount_array[index]);
+        localStorage.setItem('comment_array_' + index, comment_array[index]);
+       
     }
 
     function handle_order_number(){
@@ -220,53 +249,66 @@
 
   
     function saveToPDF() {
-        
-        init();
-        date = localStorage.getItem('formatted_date');
-        due_date = localStorage.getItem('formatted_due_date');
-        
-        var numericItemPrice = parseFloat(itemPrice);
-        var formattedItemPrice = numericItemPrice.toFixed(2); 
-        var numericTotalUSD = parseFloat(totalUSD);
-        var formattedTotalUSD = numericTotalUSD.toFixed(2);
-        var numericTotalRUB = parseFloat(totalRUB);
-        var formattedTotalRUB = numericTotalRUB.toFixed(2);
-        var numericResult = parseFloat(result);
-        var formattedResult = numericResult.toFixed(2);
+        for (var i = 0; i <= index; i++) {
+            var storedTotal = localStorage.getItem('total_array_' + i);
+            var storedType = localStorage.getItem('type_array_' + i);
+            var storedAmount = localStorage.getItem('amount_array_' + i);
+            var storedComment = localStorage.getItem('comment_array_' + i);
 
-        const pdf = new jspdf.jsPDF
+            console.log(storedTotal);
+            console.log(storedType);
+            console.log(storedAmount);
+            console.log(storedComment);
 
-        pdf.setFont('Roboto-Regular','normal');
+        }
+
+        // console.log(index);
+        // init();
+        // date = localStorage.getItem('formatted_date');
+        // due_date = localStorage.getItem('formatted_due_date');
         
-        pdf.setProperties({
-            title: "User Information PDF",
-            author: "Your Name",
-        });
+        // var numericItemPrice = parseFloat(itemPrice);
+        // var formattedItemPrice = numericItemPrice.toFixed(2); 
+        // var numericTotalUSD = parseFloat(totalUSD);
+        // var formattedTotalUSD = numericTotalUSD.toFixed(2);
+        // var numericTotalRUB = parseFloat(totalRUB);
+        // var formattedTotalRUB = numericTotalRUB.toFixed(2);
+        // var numericResult = parseFloat(result);
+        // var formattedResult = numericResult.toFixed(2);
+
+        // const pdf = new jspdf.jsPDF
+
+        // pdf.setFont('Roboto-Regular','normal');
+        
+        // pdf.setProperties({
+        //     title: "User Information PDF",
+        //     author: "Your Name",
+        // });
       
         
-        pdf.text(`Order number: ${number}`, 10, 20);
-        pdf.text(`Date: ${date}`, 10, 30);
-        pdf.text(`Due date: ${due_date}`, 10, 40);
-        pdf.text(`Customer: ${customer}`, 10, 50);
-        pdf.text(`Designer: ${designer}`, 10, 60);
-        pdf.text(`Printer: ${printer}`, 10, 70);
-        pdf.text(`Executor: ${executor}`, 10, 80);
-        pdf.text(`Print type: ${type}`,10,90);
-        pdf.text(`Comment: ${comment}`,10,100);
-        pdf.text(`Amount: ${amount}`,10,110);
-        pdf.text(`Preparing: ${prep}`,10,120);
-        pdf.text(`ItemPrice: ${formattedItemPrice}`,10,130);
-        pdf.text(`Discount: ${discount}`,10,140);
-        pdf.text(`Exceed: ${exceed}`,10,150);
-        pdf.text(`Total Rub: ${formattedTotalRUB}`, 10, 160);
-        pdf.text(`Total Discount: ${formattedResult}`,10,170);
-        pdf.text(`Currency: ${currencyValue}`, 10, 180);
-        pdf.text(`Total USD: ${formattedTotalUSD}`, 10, 190);
+        // pdf.text(`Order number: ${number}`, 10, 20);
+        // pdf.text(`Date: ${date}`, 10, 30);
+        // pdf.text(`Due date: ${due_date}`, 10, 40);
+        // pdf.text(`Customer: ${customer}`, 10, 50);
+        // pdf.text(`Designer: ${designer}`, 10, 60);
+        // pdf.text(`Printer: ${printer}`, 10, 70);
+        // pdf.text(`Executor: ${executor}`, 10, 80);
+        // pdf.text(`Print type: ${type}`,10,90);
+        // pdf.text(`Comment: ${comment}`,10,100);
+        // pdf.text(`Amount: ${amount}`,10,110);
+        // pdf.text(`Preparing: ${prep}`,10,120);
+        // pdf.text(`ItemPrice: ${formattedItemPrice}`,10,130);
+        // pdf.text(`Discount: ${discount}`,10,140);
+        // pdf.text(`Exceed: ${exceed}`,10,150);
+        // pdf.text(`Total Rub: ${formattedTotalRUB}`, 10, 160);
+        // pdf.text(`Total Discount: ${formattedResult}`,10,170);
+        // pdf.text(`Currency: ${currencyValue}`, 10, 180);
+        // pdf.text(`Total USD: ${formattedTotalUSD}`, 10, 190);
 
-        pdf.save("user_information.pdf");
-        alert("It's been saved!");
+        // pdf.save("user_information.pdf");
+        // alert("It's been saved!");
 
-        clean_storage();
+        // clean_storage();
     }
 
     function clean_storage(){
@@ -288,6 +330,16 @@
        localStorage.removeItem('discount');
        localStorage.removeItem('currency');
        localStorage.removeItem('comment');
+       localStorage.removeItem('items');
+       localStorage.removeItem('index');
+
+       for (var key in localStorage) {
+            if (key.startsWith('total_array_') || key.startsWith('type_array_') || 
+                key.startsWith('amount_array_') || key.startsWith('comment_array_')) {
+                    localStorage.removeItem(key);
+            }
+        }
+
        number = 0;
        date = 0;
        formatted_date = 0;
@@ -303,7 +355,7 @@
        executor = 0;
        result = 0;
        comment = 0;
-       
+      
        window.location.reload();
 
     }
@@ -319,7 +371,7 @@
         }
     }
 
-    function addItemToTable(type, amount, total) {
+    function addItemToTable(type,comment, amount, total) {
         var table = document.getElementById("itemTable").getElementsByTagName('tbody')[0];
         var newRow = table.insertRow(table.rows.length);
         var cell1 = newRow.insertCell(0);
@@ -327,27 +379,58 @@
         var cell3 = newRow.insertCell(2);
         var cell4 = newRow.insertCell(3);
         cell1.innerHTML = type;
+        cell2.innerHTML = comment;
         cell3.innerHTML = amount;
         cell4.innerHTML = total;
     }
 
     function addItem() {
-        var type = "bluePrint";
-        var amount = 10;
-        var total = 100;
-        addItemToTable(type, amount, total);
+        init();
+        
+        addItemToTable(type,comment, amount, totalRUB);
 
         var savedItems = localStorage.getItem('items');
         var items = savedItems ? JSON.parse(savedItems) : [];
-        items.push({ type: type, amount: amount, total: total });
+        items.push({ type: type,comment: comment, amount: amount, total: totalRUB });
         localStorage.setItem('items', JSON.stringify(items));
     }         
     
+    function deleteLastItem() {
+    var table = document.getElementById("itemTable").getElementsByTagName('tbody')[0];
+    var lastRowIndex = table.rows.length - 1; 
+    if (lastRowIndex >= 0) { 
+        table.deleteRow(lastRowIndex);
+        updateLocalStorage(); 
+    }
+}
+
+function updateLocalStorage() {
+    var table = document.getElementById("itemTable").getElementsByTagName('tbody')[0];
+    var items = [];
+    
+    for (var i = 0; i < table.rows.length; i++) {
+        var cells = table.rows[i].cells;
+        var type = cells[0].innerHTML;
+        var comment = cells[1].innerHTML;
+        var amount = cells[2].innerHTML;
+        var total = cells[3].innerHTML;
+        items.push({ type: type,comment: comment, amount: amount, total: total });
+    }
+
+    localStorage.setItem('items', JSON.stringify(items));
+}
+
     function set_info(){
-       
+        // console.log(index);
         init();
 
-        console.log(comment);
+      
+            
+
+        // if(totalRUB && amount && type) {
+        //     addItem();
+        // }
+
         if (number) {
             document.getElementById("orderNumber").value = number;
         }
@@ -376,7 +459,13 @@
     }
 
     document.getElementById("addButton").addEventListener("click", function() {
+        index++;
+
+        localStorage.setItem('index',index);
+
         window.location.href = "src/specificator.html";
+      
+        // window.open("src/specificator.html", "_blank");
                
     });
 
@@ -395,11 +484,21 @@
 
     window.onload = function() {
         set_info();
-        loadItems();        
+        // loadItems();        
     };
 
     window.onbeforeunload = function() {
         // clean_storage();
     };
+
+    function foo() {
+        alert("Function foo() is called.");
+    }
+
+    // window.addEventListener("message", function(event) {
+    //     if (event.data === "callAddItem") {
+    //         addItem();
+    //     }
+    // });
 
 </script>
