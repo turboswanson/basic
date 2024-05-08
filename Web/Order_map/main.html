@@ -34,6 +34,55 @@
                 <span class="label">Customer :</span>
                 <input type="text" id="customer" class="value">
             </div>
+
+            <div class="designer_container">
+                <label for="designer">Select designer:</label>
+                <select id="designer" onchange="handle_designer()">
+                    <option value="0"></option>
+                    <option value="1">Alexey Ivanov</option>
+                    <option value="2">Ekaterina Ivanova</option>
+                    <option value="3">Igor Kvetniy</option>
+                    <option value="4">Irina Kablukova</option>
+                    <option value="5">Nina Golovashova</option>
+                    <option value="6">Olga</option>
+                </select>
+            
+            </div>
+            
+            <div class="printer_container">
+                <label for="printer">Select printer:</label>
+                <select id="printer" onchange="handle_printer()">
+                    <option value="0"></option>
+                    <option value="1">Anton Salamatov</option>
+                    <option value="2">Anna Lebedeva</option>
+                    <option value="3">Dima Zvarychenko</option>
+                    <option value="4">Sergey Zhukov</option>
+                    <option value="5">Alexandr Zykov</option>
+                    <option value="6">Kate Ivanova</option>
+                    <option value="7">Alexey Kilin</option>
+                    <option value="8">Kostya Polurebrov</option>
+                    <option value="9">Leyka Askerova</option>
+                    <option value="10">Michael Sedyukov</option>
+                    <option value="11">Irina Polushina</option>
+                    <option value="12">Nina Puhareva</option>
+                </select>
+            </div>
+            
+            <div class="executor_container">
+                <label for="executor">Select executor:</label>
+                <select id="executor" onchange="handle_executor()">
+                    <option value="0"></option>
+                    <option value="1">Alexey Kilin</option>
+                    <option value="2">Anton Salamatov</option>
+                    <option value="3">Anna Lebedeva</option>
+                    <option value="4">Dima Zvarychenko</option>
+                    <option value="5">Kate Ivanova</option>
+                    <option value="6">Leyka Askerova</option>
+                    <option value="7">Michael Sedyukov</option>
+                    <option value="8">Nina Puhareva</option>
+                </select>
+            
+            </div>
         
             <div class="discount_container">
                 <span class="label">Discount :</span>
@@ -123,7 +172,7 @@
     let printer = 0;
     let executor = 0;
     let comment = 0;
-
+    let pageClosed = false;
     
     function init(){
         
@@ -134,13 +183,14 @@
         prep = localStorage.getItem('prep');
         itemPrice = localStorage.getItem('itemPrice');
         exceed = localStorage.getItem('exceed');
-        designer = localStorage.getItem('designer');
-        printer = localStorage.getItem('printer');
-        executor = localStorage.getItem('executor');
         number = localStorage.getItem('number');
         date = localStorage.getItem('date');
         due_date = localStorage.getItem('due_date');
         customer = localStorage.getItem('customer');
+        designer = localStorage.getItem('designer');
+        printer = localStorage.getItem('printer');
+        executor = localStorage.getItem('executor');
+
         discount = localStorage.getItem('discount');
         currencyValue = localStorage.getItem('currency');    
         comment_array[index] = localStorage.getItem('comment');
@@ -193,6 +243,120 @@
             customer = event.target.value;
             localStorage.setItem('customer',customer);
         });        
+    }
+
+    function handle_designer(){
+
+        var name = document.getElementById("designer").value;    
+
+        switch(name) {
+            case "0":
+                designer = "";
+            case "1":
+                designer = "Alexey Ivanov";
+                break;
+            case "2":
+                designer = "Ekaterina Ivanova";
+                break;
+            case "3":
+                designer = "Igor Kvetniy";
+                break;
+            case "4":
+                designer = "Irina Kablukova";
+                break;     
+            case "5":
+                designer = "Nina Golovashova";
+                break;
+            case "6":
+                designer = "Olga";
+                break;
+        }
+        
+        localStorage.setItem('designer',designer);
+        console.log(designer);
+    }
+
+    function handle_printer(){
+        var name = document.getElementById("printer").value;    
+        switch(name) {
+            case "0":
+                printer = ""; 
+            case "1":
+                printer = "Anton Salamatov";
+                break;
+            case "2":
+                printer = "Anna Lebedeva";
+                break;
+            case "3":
+                printer = "Dima Zvarychenko";
+                break;
+            case "4":
+                printer = "Sergey Zhukov";
+                break;     
+            case "5":
+                printer = "Alexandr Zykov";
+                break;
+            case "6":
+                printer = "Kate Ivanova";
+                break;
+            case "7":
+                printer = "Alexey Kilin";
+                break;
+            case "8":
+                printer = "Kostya Polurebrov";
+                break;
+            case "9":
+                printer = "Leyka Askerova";
+                break;
+            case "10":
+                printer = "Michael Sedyukov";
+                break;
+            case "11":
+                printer = "Irina Polushina";
+                break;
+            case "12":
+                printer = "Nina Puhareva";
+                break;
+
+        }    
+
+        localStorage.setItem('printer',printer);
+
+    }
+
+    function handle_executor(){
+        var name = document.getElementById("executor").value;    
+        switch(name) {
+            case "0":
+                executor = "";
+            case "1":
+                executor = "Alexey Kilin";
+                break;
+            case "2":
+                executor = "Anton Salamatov";
+                break;
+            case "3":
+                executor = "Anna Lebedeva";
+                break;
+            case "4":
+                executor = "Dima Zvarychenko";
+                break;     
+            case "5":
+                executor = "Kate Ivanova";
+                break;
+            case "6":
+                executor = "Leyka Askerova";
+                break;
+            case "7":
+                executor = "Michael Sedyukov";
+                break;
+            case "8":
+                executor = "Nina Puhareva";
+                break;
+        }    
+        
+        localStorage.setItem('executor',executor);
+
     }
 
     function handleTotalRubDisplay(){
@@ -312,6 +476,7 @@
     }
 
     function clean_storage(){
+        console.log("HUY!!!!");
        localStorage.removeItem('type');
        localStorage.removeItem('amount');
        localStorage.removeItem('prep');
@@ -432,9 +597,6 @@ function updateLocalStorage() {
     function set_info(){
         init();
 
-        
-        // loadItems(); 
-
         if (number) {
             document.getElementById("orderNumber").value = number;
         }
@@ -449,6 +611,18 @@ function updateLocalStorage() {
 
         if (customer) {
             document.getElementById("customer").value = customer;
+        }
+
+        if(designer) {
+            document.getElementById("designer").value = designer;
+        }
+
+        if(printer) {
+            document.getElementById("printer").value = printer;
+        }
+
+        if(executor) {
+            document.getElementById("executor").value = executor;
         }
 
         if (discount) {
@@ -482,28 +656,28 @@ function updateLocalStorage() {
         handleDiscount();
         handleCurrencyValue();
         handle_customer();
+        handle_designer();
+        handle_printer();
+        handle_executor();
         handleTotalRubDisplay();
                 
     });
 
     window.onload = function() {
         set_info();
+
+        const addItem_ = localStorage.getItem('addItem');
+    
+        if (addItem_ === 'true') {
+
+            addItem();
+            localStorage.removeItem('addItem');
+        }
+
         loadItems();
+
                 
     };
 
-    window.onbeforeunload = function() {
-        // clean_storage();
-    };
-
-    function foo() {
-        alert("Function foo() is called.");
-    }
-
-    // window.addEventListener("message", function(event) {
-    //     if (event.data === "callAddItem") {
-    //         addItem();
-    //     }
-    // });
 
 </script>

@@ -119,6 +119,99 @@ th {
     box-sizing: border-box;
 }
 
+.designer_container {
+    width: 600px;
+    margin-top: 10px;
+    margin-left:50px;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+select#designer {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+select#designer option {
+    font-size: 14px;
+    color: #333; 
+    background-color: #fff; 
+}
+
+select#designer option:checked {
+    background-color: #f0f0f0; 
+}
+
+.printer_container {
+    width: 600px;
+    margin-top: 10px;
+    margin-left:50px;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+    font-size: 16px;
+
+}
+
+select#printer {
+    padding: 5px;
+    margin-left:5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+select#printer option {
+    font-size: 14px;
+    color: #333; 
+    background-color: #fff; 
+}
+
+select#printer option:checked {
+    background-color: #f0f0f0; /* Adjust the background color of the selected option */
+}
+
+.executor_container {
+    width: 600px;
+    margin-top: 10px;
+    margin-left:50px;
+    margin-bottom:10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+    font-size: 16px;
+
+}
+
+select#executor {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+select#executor option {
+    font-size: 14px;
+    color: #333; 
+    background-color: #fff; 
+}
+
+select#executor option:checked {
+    background-color: #f0f0f0; /* Adjust the background color of the selected option */
+}
+
 .discount_container {
     width: 600px;
     margin: 10px auto;
