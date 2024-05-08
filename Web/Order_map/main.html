@@ -178,6 +178,7 @@
         
         // totalRUB = localStorage.getItem('total');
         total_array[index] = localStorage.getItem('total');
+        handleTotalRubDisplay();
         type_array[index] = localStorage.getItem('type');
         amount_array[index] = localStorage.getItem('amount');
         prep = localStorage.getItem('prep');
@@ -247,11 +248,13 @@
 
     function handle_designer(){
 
-        var name = document.getElementById("designer").value;    
 
+        var name = document.getElementById("designer").value;    
+        
         switch(name) {
             case "0":
                 designer = "";
+                break;
             case "1":
                 designer = "Alexey Ivanov";
                 break;
@@ -273,14 +276,14 @@
         }
         
         localStorage.setItem('designer',designer);
-        console.log(designer);
     }
 
     function handle_printer(){
         var name = document.getElementById("printer").value;    
         switch(name) {
             case "0":
-                printer = ""; 
+                printer = "";
+                break; 
             case "1":
                 printer = "Anton Salamatov";
                 break;
@@ -317,11 +320,10 @@
             case "12":
                 printer = "Nina Puhareva";
                 break;
-
+            
         }    
 
         localStorage.setItem('printer',printer);
-
     }
 
     function handle_executor(){
@@ -329,6 +331,7 @@
         switch(name) {
             case "0":
                 executor = "";
+                break;
             case "1":
                 executor = "Alexey Kilin";
                 break;
@@ -362,7 +365,15 @@
     function handleTotalRubDisplay(){
         var totalRubDisplay = document.getElementById("total_rub");
         var x = discount/100;
-        result = totalRUB-totalRUB*x;
+        var tmp = 0;
+        var storedTotal = 0;
+
+        for (var i = 1; i <= index; i++) {
+            stored = localStorage.getItem('total_array_' + i);
+            tmp += parseInt(stored);
+        }
+
+        result = tmp-tmp*x;
         totalRubDisplay.textContent = result.toFixed(2) + " ₽";
         handleTotal();
     }
@@ -476,14 +487,13 @@
     }
 
     function clean_storage(){
-        console.log("HUY!!!!");
        localStorage.removeItem('type');
        localStorage.removeItem('amount');
        localStorage.removeItem('prep');
        localStorage.removeItem('itemPrice');
        localStorage.removeItem('exceed');
        localStorage.removeItem('total'); 
-       localStorage.removeItem('designed'); 
+       localStorage.removeItem('designer'); 
        localStorage.removeItem('printer'); 
        localStorage.removeItem('executor');
        localStorage.removeItem('number');
@@ -592,11 +602,19 @@ function updateLocalStorage() {
     }
 
     localStorage.setItem('items', JSON.stringify(items));
+
+    localStorage.removeItem('total_array_' + index);
+    localStorage.removeItem('type_array_' + index);
+    localStorage.removeItem('amount_array_' + index);
+    localStorage.removeItem('comment_array_' + index);
+    
+    index--;
+
+    handleTotalRubDisplay();
 }
 
     function set_info(){
         init();
-
         if (number) {
             document.getElementById("orderNumber").value = number;
         }
@@ -633,7 +651,6 @@ function updateLocalStorage() {
             document.getElementById("orderCurrency").value = currencyValue;
         }
 
-        handleTotalRubDisplay();
     }
 
     document.getElementById("addButton").addEventListener("click", function() {
@@ -656,10 +673,7 @@ function updateLocalStorage() {
         handleDiscount();
         handleCurrencyValue();
         handle_customer();
-        handle_designer();
-        handle_printer();
-        handle_executor();
-        handleTotalRubDisplay();
+        
                 
     });
 
