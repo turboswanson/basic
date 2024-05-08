@@ -361,15 +361,18 @@
     }
 
     function loadItems() {
-        var savedItems = localStorage.getItem('items');
+    var savedItems = localStorage.getItem('items');
+    if (savedItems) {
+        var items = JSON.parse(savedItems);
+        var table = document.getElementById("itemTable").getElementsByTagName('tbody')[0];
         
-        if (savedItems) {
-            var items = JSON.parse(savedItems);
-            items.forEach(function(item) {
-                addItemToTable(item.type, item.amount, item.total);
-            });
-        }
+        table.innerHTML = '';
+
+        items.forEach(function(item) {
+            addItemToTable(item.type, item.comment, item.amount, item.total);
+        });
     }
+}
 
     function addItemToTable(type,comment, amount, total) {
         var table = document.getElementById("itemTable").getElementsByTagName('tbody')[0];
@@ -387,13 +390,19 @@
     function addItem() {
         init();
         
-        addItemToTable(type,comment, amount, totalRUB);
+        addItemToTable(type_array[index], comment_array[index], amount_array[index], total_array[index]);
 
         var savedItems = localStorage.getItem('items');
         var items = savedItems ? JSON.parse(savedItems) : [];
-        items.push({ type: type,comment: comment, amount: amount, total: totalRUB });
+        items.push({ 
+            type: type_array[index], 
+            comment: comment_array[index], 
+            amount: amount_array[index], 
+            total: total_array[index],
+        });
+
         localStorage.setItem('items', JSON.stringify(items));
-    }         
+    }      
     
     function deleteLastItem() {
     var table = document.getElementById("itemTable").getElementsByTagName('tbody')[0];
@@ -421,15 +430,10 @@ function updateLocalStorage() {
 }
 
     function set_info(){
-        // console.log(index);
         init();
 
-      
-            
-
-        // if(totalRUB && amount && type) {
-        //     addItem();
-        // }
+        
+        // loadItems(); 
 
         if (number) {
             document.getElementById("orderNumber").value = number;
@@ -484,7 +488,8 @@ function updateLocalStorage() {
 
     window.onload = function() {
         set_info();
-        // loadItems();        
+        loadItems();
+                
     };
 
     window.onbeforeunload = function() {
