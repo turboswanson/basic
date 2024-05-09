@@ -126,7 +126,6 @@
                     </tbody>
                 </table>
             <div class="table_button_container">
-                <button id="itemBtn" onclick="addItem()">Add Item</button>
                 <button id="deleteItemBtn" onclick="deleteLastItem()">Delete Item</button>
             </div>    
             </div>
@@ -366,7 +365,7 @@
         var totalRubDisplay = document.getElementById("total_rub");
         var x = discount/100;
         var tmp = 0;
-        var storedTotal = 0;
+        var stored = 0;
 
         for (var i = 1; i <= index; i++) {
             stored = localStorage.getItem('total_array_' + i);
@@ -424,63 +423,92 @@
 
   
     function saveToPDF() {
-        for (var i = 0; i <= index; i++) {
-            var storedTotal = localStorage.getItem('total_array_' + i);
-            var storedType = localStorage.getItem('type_array_' + i);
-            var storedAmount = localStorage.getItem('amount_array_' + i);
-            var storedComment = localStorage.getItem('comment_array_' + i);
+        // for (var i = 0; i <= index; i++) {
+        //     var storedTotal = localStorage.getItem('total_array_' + i);
+        //     var storedType = localStorage.getItem('type_array_' + i);
+        //     var storedAmount = localStorage.getItem('amount_array_' + i);
+        //     var storedComment = localStorage.getItem('comment_array_' + i);
 
-            console.log(storedTotal);
-            console.log(storedType);
-            console.log(storedAmount);
-            console.log(storedComment);
+        //     console.log(storedTotal);
+        //     console.log(storedType);
+        //     console.log(storedAmount);
+        //     console.log(storedComment);
 
-        }
+        // }
 
-        // console.log(index);
-        // init();
-        // date = localStorage.getItem('formatted_date');
-        // due_date = localStorage.getItem('formatted_due_date');
+        init();
+        date = localStorage.getItem('formatted_date');
+        due_date = localStorage.getItem('formatted_due_date');
+        
+        var tmp = 0;
+        var stored = 0;    
         
         // var numericItemPrice = parseFloat(itemPrice);
         // var formattedItemPrice = numericItemPrice.toFixed(2); 
-        // var numericTotalUSD = parseFloat(totalUSD);
-        // var formattedTotalUSD = numericTotalUSD.toFixed(2);
+        var numericTotalUSD = parseFloat(totalUSD);
+        var formattedTotalUSD = numericTotalUSD.toFixed(2);
         // var numericTotalRUB = parseFloat(totalRUB);
         // var formattedTotalRUB = numericTotalRUB.toFixed(2);
-        // var numericResult = parseFloat(result);
-        // var formattedResult = numericResult.toFixed(2);
+        var numericResult = parseFloat(result);
+        var formattedResult = numericResult.toFixed(2);
 
-        // const pdf = new jspdf.jsPDF
+        const pdf = new jspdf.jsPDF
 
-        // pdf.setFont('Roboto-Regular','normal');
+        pdf.setFont('Roboto-Regular','normal');
         
-        // pdf.setProperties({
-        //     title: "User Information PDF",
-        //     author: "Your Name",
-        // });
-      
+        pdf.setProperties({
+            title: "User Information PDF",
+            author: "Your Name",
+        });
         
-        // pdf.text(`Order number: ${number}`, 10, 20);
-        // pdf.text(`Date: ${date}`, 10, 30);
-        // pdf.text(`Due date: ${due_date}`, 10, 40);
-        // pdf.text(`Customer: ${customer}`, 10, 50);
-        // pdf.text(`Designer: ${designer}`, 10, 60);
-        // pdf.text(`Printer: ${printer}`, 10, 70);
-        // pdf.text(`Executor: ${executor}`, 10, 80);
-        // pdf.text(`Print type: ${type}`,10,90);
-        // pdf.text(`Comment: ${comment}`,10,100);
-        // pdf.text(`Amount: ${amount}`,10,110);
-        // pdf.text(`Preparing: ${prep}`,10,120);
-        // pdf.text(`ItemPrice: ${formattedItemPrice}`,10,130);
-        // pdf.text(`Discount: ${discount}`,10,140);
-        // pdf.text(`Exceed: ${exceed}`,10,150);
-        // pdf.text(`Total Rub: ${formattedTotalRUB}`, 10, 160);
-        // pdf.text(`Total Discount: ${formattedResult}`,10,170);
-        // pdf.text(`Currency: ${currencyValue}`, 10, 180);
-        // pdf.text(`Total USD: ${formattedTotalUSD}`, 10, 190);
+        pdf.setFontSize(14);
+        
+        pdf.text(`Order number: ${number}`, 10, 20);
+        pdf.text(`Date: ${date}`, 10, 30);
+        pdf.text(`Due date: ${due_date}`, 10, 40);
+        pdf.text(`Customer: ${customer}`, 10, 50);
+        pdf.text(`Designer: ${designer}`, 10, 60);
+        pdf.text(`Printer: ${printer}`, 10, 70);
+        pdf.text(`Executor: ${executor}`, 10, 80);
+        
+        var pos = 100;
 
-        // pdf.save("user_information.pdf");
+        pdf.setFontSize(12);
+
+        for (var i = 1; i <= index; i++) {
+
+            pdf.text(`#  ${i}`,10,pos);
+
+            stored = localStorage.getItem('type_array_' + i);
+            pdf.text(`Print type: ${stored}`,10,pos+10);
+            
+            stored = localStorage.getItem('amount_array_'+i);
+            pdf.text(`Amount: ${stored}`,10,pos+20);
+
+            stored = localStorage.getItem('comment_array_'+i);
+            pdf.text(`Comment: ${stored}`,10,pos+30);
+
+            stored = localStorage.getItem('total_array_'+i);
+            pdf.text(`Price: ${stored}`,10,pos+40);
+
+            pos += 60;
+
+            if(pos > 250) {
+                console.log("it's called");
+                pdf.addPage();
+                pos = 20;
+            }
+        }
+        
+        pdf.setFontSize(16);
+
+        pdf.text(`Discount: ${discount}`,10,pos+10);
+        // pdf.text(`Total Rub: ${formattedTotalRUB}`, 10, 140);
+        pdf.text(`Total RUB: ${formattedResult}`,10,pos+20);
+        // pdf.text(`Currency: ${currencyValue}`, 10, 160);
+        pdf.text(`Total USD: ${formattedTotalUSD}`, 10, pos+30);
+
+        pdf.save("user_information.pdf");
         // alert("It's been saved!");
 
         // clean_storage();
