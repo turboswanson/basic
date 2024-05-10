@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #000000;
 }
 
 .menu_container {
@@ -8,8 +8,8 @@ body {
     margin: 50px auto;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
@@ -48,8 +48,8 @@ body {
     margin: 10px auto;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
@@ -57,8 +57,8 @@ body {
     width: 600px;
     margin: 10px auto;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
@@ -71,8 +71,8 @@ body {
     margin: 10px auto;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
 
@@ -89,24 +89,28 @@ body {
     margin: 10px auto;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
 }
 
 .amount_container input[type="number"] {
-    width: 80%; /* Set the width of the input field to 100% */
+    width: 80%; 
     font-size:16px;
-    box-sizing: border-box; /* Include padding and border in the width */
+    box-sizing: border-box;
+    background-color: #f8efef;
+    border-radius: 5px;
+    border-width: thin;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .next_btn_container {
     width: 600px;
     margin: 10px auto;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
@@ -121,7 +125,9 @@ select {
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    background-color: #fff;
+    background-color: #f8efef;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-size: 16px;
 }
 
@@ -147,13 +153,13 @@ select {
     width: 600px;
     margin: 10px auto;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .calc_btn_container button {
-    background-color: #007bff;
+    background-color: #4CAF50;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -164,15 +170,15 @@ select {
 }
 
 .calc_btn_container button:hover {
-    background-color: darkblue;
+    background-color: green;
 }
 
 #commentForm {
     width: 600px; 
     margin: 10px auto; 
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
@@ -180,6 +186,8 @@ select {
     width: 95%; 
     padding: 10px;
     border: 1px solid #ccc;
+    background-color: #f8efef;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     border-radius: 5px;
     resize: none; 
 }

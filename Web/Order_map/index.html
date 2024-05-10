@@ -10,9 +10,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
 <script src="Roboto-Regular-normal.js"></script>
+<style>
+    body {
+        background-image: url('./style/bcg.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
 </head>
 <body>
-
+    
     <div class="container">
         <div class="left-side">
             <div class="order_number_container">
@@ -502,7 +509,7 @@
         
         pdf.setFontSize(16);
 
-        pdf.text(`Discount: ${discount}`,10,pos+10);
+        pdf.text(`Discount: ${discount} %`,10,pos+10);
         // pdf.text(`Total Rub: ${formattedTotalRUB}`, 10, 140);
         pdf.text(`Total RUB: ${formattedResult}`,10,pos+20);
         // pdf.text(`Currency: ${currencyValue}`, 10, 160);

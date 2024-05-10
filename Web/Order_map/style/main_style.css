@@ -1,23 +1,28 @@
+
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
+       
 }
+
 .container {
     display: flex;
     height: 100%;
+    font-family:'times';    
 }
 .left-side {
     flex-grow: 1;
-    margin-left: 50px;
-    padding: 20px;
+    margin-top:0px;
+    margin-left: 200px;
+    padding: 10px;
     box-sizing: border-box;
 }
 .right-side {
-    width: 400px; /* Adjust as needed */
-    padding: 20px;
-    margin-top:50px;
-    margin-right: 100px;
+    width: 600px; 
+    padding: 10px;
+    margin-top:30px;
+    margin-right: 200px;
     box-sizing: border-box;
 }
 
@@ -30,24 +35,14 @@ table {
 }
 th, td {
     border: 1px solid #dddddd;
-    text-align: left;
+    border-radius:5px;
+    text-align:center;
     padding: 8px;
+    background-color: #f8efef;    
+
 }
 th {
-    background-color: #f2f2f2;
-}
-#itemBtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    margin-top:10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#itemBtn:hover {
-    background-color: green;
+    background-color: #f8efef;    
 }
 
 #deleteItemBtn {
@@ -70,11 +65,17 @@ th {
     margin-left: 50px;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
     font-size:16px;
+    border-radius:10px;
+    background-color: #f8efef;
+}
+
+.order_number_container input {
+    border-radius: 5px;
+    border-width: thin;
+    background-color: #f8efef;    
 }
 
 .date_container {
@@ -83,10 +84,10 @@ th {
     margin-left: 50px;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
+    background-color: #f8efef;
 }
 
 .due_date_container {
@@ -95,10 +96,10 @@ th {
     margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
+    background-color: #f8efef;
 }
 
 .customer_container {
@@ -107,8 +108,8 @@ th {
     margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
 }
@@ -117,6 +118,9 @@ th {
     width: 80%; 
     font-size:18px;
     box-sizing: border-box;
+    background-color: #f8efef;
+    border-width: thin;
+    border-radius: 5px;
 }
 
 .designer_container {
@@ -125,8 +129,8 @@ th {
     margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
     font-size: 16px;
@@ -137,12 +141,12 @@ select#designer {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+    background-color: #f8efef;
+
 }
 
 select#designer option {
     font-size: 14px;
-    color: #333; 
-    background-color: #fff; 
 }
 
 select#designer option:checked {
@@ -155,8 +159,8 @@ select#designer option:checked {
     margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
     font-size: 16px;
@@ -169,16 +173,17 @@ select#printer {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+    background-color: #f8efef;
+
 }
 
 select#printer option {
     font-size: 14px;
     color: #333; 
-    background-color: #fff; 
 }
 
 select#printer option:checked {
-    background-color: #f0f0f0; /* Adjust the background color of the selected option */
+    background-color: #f0f0f0; 
 }
 
 .executor_container {
@@ -187,8 +192,8 @@ select#printer option:checked {
     margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
     font-size: 16px;
@@ -200,6 +205,8 @@ select#executor {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+    background-color: #f8efef;
+
 }
 
 select#executor option {
@@ -209,7 +216,7 @@ select#executor option {
 }
 
 select#executor option:checked {
-    background-color: #f0f0f0; /* Adjust the background color of the selected option */
+    background-color: #f0f0f0; 
 }
 
 .discount_container {
@@ -218,10 +225,17 @@ select#executor option:checked {
     margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
+}
+
+.discount_container input {
+    background-color: #f8efef;
+    border-radius: 5px;
+    border-width: thin;
+
 }
 
 .currency_container {
@@ -230,10 +244,17 @@ select#executor option:checked {
     margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
+}
+
+.currency_container input {
+    background-color: #f8efef;
+    border-radius: 5px;
+    border-width: thin;
+
 }
 
 .total_rub_container {
@@ -242,8 +263,8 @@ select#executor option:checked {
     margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
 }
@@ -254,8 +275,8 @@ select#executor option:checked {
     margin-left:50px;
     margin-bottom:10px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
 }
@@ -273,8 +294,8 @@ select#executor option:checked {
     margin: 10px auto;
     margin-left:50px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #f8efef;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
