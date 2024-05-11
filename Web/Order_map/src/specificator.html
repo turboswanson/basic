@@ -16,13 +16,13 @@
 <body>
 
 <div class="menu_container">
-    <label for="printOptions">Select UV Print Option:</label>
+    <label for="printOptions">Тип:</label>
     <select id="printOptions" onchange="handlePrepValue()">
-        <option value="UV-print A">UV-print A</option>
-        <option value="UV-print B">UV-print B</option>
-        <option value="UV-print C">UV-print C</option>
-        <option value="UV-print Notebook">UV-print Notebook</option>
-        <option value="Round UV print">Round UV print</option>
+        <option value="UV-print A">UV-печать A</option>
+        <option value="UV-print B">UV-печать B</option>
+        <option value="UV-print C">UV-печать C</option>
+        <option value="UV-print Notebook">UV-печать Ежедневники</option>
+        <option value="Round UV print">Круговая UV печать</option>
     </select>
 
 </div>
@@ -33,20 +33,20 @@
 </div>
 
 <div class="extra_menu_container">
-    <label>Select Extra Options:</label>
+    <label>Дополнительные опции:</label>
     <input type="checkbox" id="primerCheckbox" value="Primers" onchange="handleExtraOptions()">
-    <label for="primerCheckbox">Primers</label>
+    <label for="primerCheckbox">Праймирование</label>
     <input type="checkbox" id="varnishCheckbox" value="Varnish" onchange="handleExtraOptions()">
-    <label for="varnishCheckbox">Varnish</label>
+    <label for="varnishCheckbox">Лак</label>
 </div>
 
 <div class="exceed_container">
-    <span class="label"> Add area :</span>
-    <span class="value"><input type="number" id="Exceed" placeholder="Amount in square sm"value=""></span>
+    <span class="label"> Площадь сверх нормы :</span>
+    <span class="value"><input type="number" id="Exceed" placeholder="Количество в см2"value=""></span>
 </div>
 
 <div class="amount_container">
-    <span class="label">Amount :</span>
+    <span class="label">Количество :</span>
     <span class="value"><input type="number" id="Amount" value=""></span>
 </div>
 
@@ -100,12 +100,12 @@
 </div> -->
 
 <form id="commentForm">
-    <label for="commentInput">Comment:</label><br>
+    <label for="commentInput">Комментарий:</label><br>
     <textarea id="commentInput" name="comment" rows="4" cols="50" placeholder="Write your comment here..."></textarea><br>
 </form>
 
 <div class="calc_btn_container">
-    <button onclick="calculate();triggerAddItem()">Done</button>
+    <button onclick="calculate();triggerAddItem()">Готово</button>
 </div>
 
 
@@ -151,34 +151,34 @@
 
         switch(selectedOption) {
             case "UV-print A":
-                print_type = "UV-print A";
+                print_type = "UV-печать A";
                 prepValue = 800;
                 exceedContainer.style.display = "none";
                 break;
             case "UV-print B":
-                print_type = "UV-print B";
+                print_type = "UV-печать B";
                 prepValue = 900;
                 exceedContainer.style.display = "none";
                 break;
             case "UV-print C":
-                print_type = "UV-print C";
+                print_type = "UV-печать C";
                 prepValue = 1000;
                 exceedContainer.style.display = "none";
                 break;
             case "UV-print Notebook":
-                print_type = "UV-print Notebook";
+                print_type = "UV-печать Ежедневники";
                 prepValue = 1200;
                 exceedContainer.style.display = "none";
                 break;
             case "Round UV print":
-                print_type = "Round UV print";
+                print_type = "Круговая UV печать";
                 prepValue = 1500;
                 exceedContainer.style.display = "block";
                 is_round = 1;
                 break;
             }
 
-        prepDisplay.innerHTML = "<span class='bold-text'>Preparing : </span> " + prepValue;
+        prepDisplay.innerHTML = "<span class='bold-text'>Подготовительные работы : </span> " + prepValue;
     }
 
     function handleExceed(){

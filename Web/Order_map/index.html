@@ -24,97 +24,97 @@
     <div class="container">
         <div class="left-side">
             <div class="order_number_container">
-                <span class="label">Order Number :</span>
+                <span class="label">Номер заказа :</span>
                 <span class="value"><input type="number" id="orderNumber" value=""></span>
             </div>
         
             <div class="date_container">
-                <span class="label">Date  :</span>
+                <span class="label">Дата  :</span>
                 <input type="date" id="orderDate" class="value">
             </div>  
         
             <div class="due_date_container">
-                <span class="label">Due date:</span>
+                <span class="label">Дата исполнения:</span>
                 <input type="date" id="dueDate" class="value">
             </div>
             
             <div class="customer_container">
-                <span class="label">Customer :</span>
+                <span class="label">Заказчик :</span>
                 <input type="text" id="customer" class="value">
             </div>
 
             <div class="designer_container">
-                <label for="designer">Select designer:</label>
+                <label for="designer">Дизайнер:</label>
                 <select id="designer" onchange="handle_designer()">
                     <option value="0"></option>
-                    <option value="1">Alexey Ivanov</option>
-                    <option value="2">Ekaterina Ivanova</option>
-                    <option value="3">Igor Kvetniy</option>
-                    <option value="4">Irina Kablukova</option>
-                    <option value="5">Nina Golovashova</option>
-                    <option value="6">Olga</option>
+                    <option value="1">Алексей Иванов</option>
+                    <option value="2">Екатерина Иванова</option>
+                    <option value="3">Игорь Кветный</option>
+                    <option value="4">Ирина Каблукова</option>
+                    <option value="5">Нина Головашова</option>
+                    <option value="6">Ольга</option>
                 </select>
             
             </div>
             
             <div class="printer_container">
-                <label for="printer">Select printer:</label>
+                <label for="printer">Печатник:</label>
                 <select id="printer" onchange="handle_printer()">
                     <option value="0"></option>
-                    <option value="1">Anton Salamatov</option>
-                    <option value="2">Anna Lebedeva</option>
-                    <option value="3">Dima Zvarychenko</option>
-                    <option value="4">Sergey Zhukov</option>
-                    <option value="5">Alexandr Zykov</option>
-                    <option value="6">Kate Ivanova</option>
-                    <option value="7">Alexey Kilin</option>
-                    <option value="8">Kostya Polurebrov</option>
-                    <option value="9">Leyka Askerova</option>
-                    <option value="10">Michael Sedyukov</option>
-                    <option value="11">Irina Polushina</option>
-                    <option value="12">Nina Puhareva</option>
+                    <option value="1">Антон Саламатов</option>
+                    <option value="2">Анна Лебедева</option>
+                    <option value="3">Дима Зварыченко</option>
+                    <option value="4">Сергей Жуков</option>
+                    <option value="5">Александр Зыков</option>
+                    <option value="6">Катя Иванова</option>
+                    <option value="7">Алексей Килин</option>
+                    <option value="8">Костя Полуребров</option>
+                    <option value="9">Лейка Аскерова</option>
+                    <option value="10">Михаил Седюков</option>
+                    <option value="11">Ирина Полушина</option>
+                    <option value="12">Нина Пухарева</option>
                 </select>
             </div>
             
             <div class="executor_container">
-                <label for="executor">Select executor:</label>
+                <label for="executor">Исполнитель:</label>
                 <select id="executor" onchange="handle_executor()">
                     <option value="0"></option>
-                    <option value="1">Alexey Kilin</option>
-                    <option value="2">Anton Salamatov</option>
-                    <option value="3">Anna Lebedeva</option>
-                    <option value="4">Dima Zvarychenko</option>
-                    <option value="5">Kate Ivanova</option>
-                    <option value="6">Leyka Askerova</option>
-                    <option value="7">Michael Sedyukov</option>
-                    <option value="8">Nina Puhareva</option>
+                    <option value="1">Алексей Килин</option>
+                    <option value="2">Антон Саламатов</option>
+                    <option value="3">Анна Лебедева</option>
+                    <option value="4">Дима Зварыченко</option>
+                    <option value="5">Катя Иванова</option>
+                    <option value="6">Лейка Аскерова</option>
+                    <option value="7">Михаил Седюков</option>
+                    <option value="8">Нина Пухарева</option>
                 </select>
             
             </div>
         
             <div class="discount_container">
-                <span class="label">Discount :</span>
+                <span class="label">Скидка :</span>
                 <span class="value"><input type="number" id="Discount" value=""></span>
             </div>
         
             <div class="currency_container">
-                <span class="label">Currency rate:</span>
+                <span class="label">Курс RUB/USD:</span>
                 <span class="value"><input type="number" id="orderCurrency" value=""></span>
             </div>
             <div class="total_rub_container">
-                <span class="label">Total RUB:</span>
+                <span class="label">Итого RUB:</span>
                 <span class="value" id="total_rub" value=""></span>
             </div>
         
             <div class="total_container">
-                <span class="label">Total USD:</span>
+                <span class="label">Итого USD:</span>
                 <span class="value" id="total_usd" value=""></span>
             </div>
         
             <div class="btn_container">
-                <button id="addButton">ADD</button>
-                <button id="saveButton" onclick="saveToPDF()">Save to PDF</button>
-                <button id="clearButton" onclick="clean_storage();set_info()">Clear</button>
+                <button id="addButton">Добавить</button>
+                <button id="saveButton" onclick="saveToPDF()">Сохранить</button>
+                <button id="clearButton" onclick="clean_storage();set_info()">Очистить</button>
             </div>
         </div>
     
@@ -123,10 +123,10 @@
                 <table id="itemTable">
                     <thead>
                         <tr>
-                            <th>type</th>
-                            <th>comment</th>
-                            <th>amount</th>
-                            <th>total</th>
+                            <th>тип</th>
+                            <th>коммент</th>
+                            <th>количество</th>
+                            <th>итого</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -134,7 +134,7 @@
                     </tbody>
                 </table>
             <div class="table_button_container">
-                <button id="deleteItemBtn" onclick="deleteLastItem()">Delete Item</button>
+                <button id="deleteItemBtn" onclick="deleteLastItem()">Удалить</button>
             </div>    
             </div>
         </div>
@@ -269,22 +269,22 @@
                 designer = "";
                 break;
             case "1":
-                designer = "Alexey Ivanov";
+                designer = "Алексей Иванов";
                 break;
             case "2":
-                designer = "Ekaterina Ivanova";
+                designer = "Екатерина Иванова";
                 break;
             case "3":
-                designer = "Igor Kvetniy";
+                designer = "Игорь Кветный";
                 break;
             case "4":
-                designer = "Irina Kablukova";
+                designer = "Ирина Каблукова";
                 break;     
             case "5":
-                designer = "Nina Golovashova";
+                designer = "Нина Головашова";
                 break;
             case "6":
-                designer = "Olga";
+                designer = "Ольга";
                 break;
         }
         
@@ -298,40 +298,40 @@
                 printer = "";
                 break; 
             case "1":
-                printer = "Anton Salamatov";
+                printer = "Антон Саламатов";
                 break;
             case "2":
-                printer = "Anna Lebedeva";
+                printer = "Анна Лебедева";
                 break;
             case "3":
-                printer = "Dima Zvarychenko";
+                printer = "Дима Зварыченко";
                 break;
             case "4":
-                printer = "Sergey Zhukov";
+                printer = "Сергей Жуков";
                 break;     
             case "5":
-                printer = "Alexandr Zykov";
+                printer = "Александр Зыков";
                 break;
             case "6":
-                printer = "Kate Ivanova";
+                printer = "Катя Иванова";
                 break;
             case "7":
-                printer = "Alexey Kilin";
+                printer = "Алексей Килин";
                 break;
             case "8":
-                printer = "Kostya Polurebrov";
+                printer = "Костя Полуребров";
                 break;
             case "9":
-                printer = "Leyka Askerova";
+                printer = "Лейка Аскерова";
                 break;
             case "10":
-                printer = "Michael Sedyukov";
+                printer = "Михаил Седюков";
                 break;
             case "11":
-                printer = "Irina Polushina";
+                printer = "Ирина Полушина";
                 break;
             case "12":
-                printer = "Nina Puhareva";
+                printer = "Нина Пухарева";
                 break;
             
         }    
@@ -346,28 +346,28 @@
                 executor = "";
                 break;
             case "1":
-                executor = "Alexey Kilin";
+                executor = "Алексей Килин";
                 break;
             case "2":
-                executor = "Anton Salamatov";
+                executor = "Антон Саламатов";
                 break;
             case "3":
-                executor = "Anna Lebedeva";
+                executor = "Анна Лебедева";
                 break;
             case "4":
-                executor = "Dima Zvarychenko";
+                executor = "Дима Зварыченко";
                 break;     
             case "5":
-                executor = "Kate Ivanova";
+                executor = "Катя Иванова";
                 break;
             case "6":
-                executor = "Leyka Askerova";
+                executor = "Лейка Аскерова";
                 break;
             case "7":
-                executor = "Michael Sedyukov";
+                executor = "Михаил Седюков";
                 break;
             case "8":
-                executor = "Nina Puhareva";
+                executor = "Нина Пухарева";
                 break;
         }    
         
@@ -477,7 +477,7 @@
         
         pdf.setFontSize(16);
         
-        pdf.text(`ORDER SUMMARY`,10,10);
+        pdf.text(`Заказ`,10,10);
 
         pdf.setFontSize(14);
 
@@ -493,13 +493,13 @@
         pdf.line(5, 62, 150, 62);
         pdf.line(5, 72, 150, 72);
 
-        pdf.text(`Order number: ${number}`, 10, 20);
-        pdf.text(`Date: ${date}`, 10, 30);
-        pdf.text(`Due date: ${due_date}`, 10, 40);
-        pdf.text(`Customer: ${customer}`, 10, 50);
-        pdf.text(`Designer: ${designer}`, 10, 60);
-        pdf.text(`Printer: ${printer}`, 10, 70);
-        pdf.text(`Executor: ${executor}`, 10, 80);
+        pdf.text(`Номер заказа: ${number}`, 10, 20);
+        pdf.text(`Дата: ${date}`, 10, 30);
+        pdf.text(`Дата исполнения: ${due_date}`, 10, 40);
+        pdf.text(`Заказчик: ${customer}`, 10, 50);
+        pdf.text(`Дизайнер: ${designer}`, 10, 60);
+        pdf.text(`Печатник: ${printer}`, 10, 70);
+        pdf.text(`Исполнитель: ${executor}`, 10, 80);
 
         var pos = 100;
 
@@ -515,22 +515,22 @@
             pdf.line(150, pos+42, 150, pos+2);
 
             stored = localStorage.getItem('type_array_' + i);
-            pdf.text(`Print type: ${stored}`,10,pos+10);
+            pdf.text(`Тип печати: ${stored}`,10,pos+10);
 
             pdf.line(5, pos+12, 150, pos+12);
             
             stored = localStorage.getItem('amount_array_'+i);
-            pdf.text(`Amount: ${stored}`,10,pos+20);
+            pdf.text(`Количество: ${stored}`,10,pos+20);
 
             pdf.line(5, pos+22, 150, pos+22);
 
             stored = localStorage.getItem('comment_array_'+i);
-            pdf.text(`Comment: ${stored}`,10,pos+30);
+            pdf.text(`Комментарий: ${stored}`,10,pos+30);
 
             pdf.line(5, pos+32, 150, pos+32);
 
             stored = localStorage.getItem('total_array_'+i);
-            pdf.text(`Price: ${stored}`,10,pos+40);
+            pdf.text(`Стоимость: ${stored}`,10,pos+40);
 
 
             pos += 50;
@@ -550,21 +550,21 @@
         pdf.line(5, pos+32, 150, pos+32);
         pdf.line(150, pos+32, 150, pos+2);
 
-        pdf.text(`Discount: ${discount} %`,10,pos+10);
+        pdf.text(`Скидка: ${discount} %`,10,pos+10);
         // pdf.text(`Total Rub: ${formattedTotalRUB}`, 10, 140);
         pdf.line(5, pos+12, 150, pos+12);
 
-        pdf.text(`Total RUB: ${formattedResult}`,10,pos+20);
+        pdf.text(`Итого RUB: ${formattedResult}`,10,pos+20);
         pdf.line(5, pos+22, 150, pos+22);
 
         // pdf.text(`Currency: ${currencyValue}`, 10, 160);
-        pdf.text(`Total USD: ${formattedTotalUSD}`, 10, pos+30);
+        pdf.text(`Итого USD: ${formattedTotalUSD}`, 10, pos+30);
         pdf.line(5, pos+32, 150, pos+32);
 
         pdf.save("order_summary.pdf");
         // alert("It's been saved!");
 
-        clean_storage();
+        // clean_storage();
     }
 
     function clean_storage(){
