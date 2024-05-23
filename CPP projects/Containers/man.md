@@ -74,3 +74,105 @@ while(iss >> num ){
 
 using namespace std; // scope operator 
 using value_type = T; // alias
+
+# Move semantics
+
+std::move is using with different signatures because it's a template:
+    
+    std::vector<int> v1 {1,2,3};
+    std::vector<int> v2 {std::move(v1)}; makes rvalue reference(&&) from lvalue v1
+    it's using template <class T> constexpr typename std::remove_reference<T>::type&& move(T&& t) noexcept signature
+
+    std::vector<int> v3 {4,5,6};
+    std::move(v1.begin(),v1.end(),v3.begin()); 
+    template <class InputIt> move_iterator<InputIt> move(InputIt it) noexcept signature
+
+# lvalue/rvalue
+
+expression categories
+
+void foo(int& num){ // expects lvalue
+
+}
+
+void function(int&& num){} // expects rvalue reference
+
+int main(){
+    int a = 10;
+    foo(a);
+    foo(10);// wrong, works only if foo has (const int& num) signature
+    function(std::move(a));
+}
+
+# void front() const 
+
+does not modify the state of the object
+
+# noexcept
+
+it's a method specifier
+
+# Args 
+
+template parameter pack   
+
+
+
+# Inheritance // Virtual methods and polymorphism
+
+template <typename T>
+class Shape {
+public:
+  virtual T get_square() = 0;
+  virtual T get_perimeter() = 0;
+};
+
+template<typename T>
+class Rectangle : public Shape<T> {
+public:
+  Rectangle(T width,T height) : a(width), b(height) {}
+  T get_square() override {
+    return a*b;
+  }
+
+  T get_perimeter() override {
+    return 2*(a+b);
+  }
+
+private:
+  T a,b;
+};
+
+template<typename T>
+class Circle : public Shape<T> {
+public:
+  Circle() : radius(0) {}
+  Circle(T num) : radius(num) {}
+  
+  T get_square() override {
+    return 3,14*radius*radius;
+  }
+
+  T get_perimeter() override{
+    return 2*3,14*radius;
+  }
+
+
+private:
+  T radius;
+};
+
+
+int main(){ 
+
+Rectangle<double> r(2,3);
+Circle<int> c(5);
+
+std::cout << r.get_perimeter() << std:: endl;
+std::cout << r.get_square() << std:: endl;
+std::cout << c.get_perimeter() << std:: endl;
+std::cout << c.get_square() << std:: endl;
+return 0;
+  
+}
+
