@@ -1,7 +1,6 @@
-#include "tests.hpp"
-#include "../stack/s21_stack.tpp"
-#include "../vector/s21_vector.tpp"
 #include <stack>
+
+#include "test_main.hpp"
 
 TEST(StackTest, Constructor_Default) {
   s21::stack<double> our_stack;
@@ -30,7 +29,7 @@ TEST(StackTest, Constructor_Copy) {
 }
 
 TEST(StackTest, Operator_Copy) {
-  s21::stack<int> our_stack_int {1, 2, 3};
+  s21::stack<int> our_stack_int{1, 2, 3};
   std::stack<int> std_stack_int;
   std_stack_int.push(1);
   std_stack_int.push(2);
@@ -68,12 +67,12 @@ TEST(StackTest, Operator_Move) {
 }
 
 TEST(StackTest, Top) {
-  s21::stack<int> our_stack_int {1, 2, 3};
+  s21::stack<int> our_stack_int{1, 2, 3};
   std::stack<int> std_stack_int;
   std_stack_int.push(1);
   std_stack_int.push(2);
   std_stack_int.push(3);
-  s21::stack<double> our_stack_double {1.1f, 2.1f, 3.1f};
+  s21::stack<double> our_stack_double{1.1f, 2.1f, 3.1f};
   std::stack<double> std_stack_double;
   std_stack_double.push(1.1f);
   std_stack_double.push(2.1f);
@@ -223,7 +222,7 @@ TEST(StackTest, Pop_2) {
   std::initializer_list<int> il1;
 
   s21::stack<int> s21_stack{il1};
-  
+
   EXPECT_ANY_THROW(s21_stack.pop(););
 }
 
@@ -338,7 +337,7 @@ TEST(Stack, InsertManyFront_01) {
 TEST(Stack, InsertManyFront_02) {
   s21::stack<int> our_stack_int;
   our_stack_int.insert_many_front(1, 2, 3);
-  
+
   EXPECT_EQ(our_stack_int.top(), 3);
   our_stack_int.pop();
 
@@ -347,5 +346,4 @@ TEST(Stack, InsertManyFront_02) {
 
   EXPECT_EQ(our_stack_int.top(), 1);
   our_stack_int.pop();
-
 }

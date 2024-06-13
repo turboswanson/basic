@@ -1,357 +1,421 @@
-#include "tests.hpp"
-#include "../map/s21_map.tpp"
 #include <map>
 
-TEST(mapConstructorTest, DefaultConstructor) {
-  s21::map<int, std::string> m;
-  EXPECT_EQ(m.size(), 0);
-  EXPECT_TRUE(m.empty());
-}
+#include "test_main.hpp"
 
-TEST(mapConstructorTest, InitializerListConstructor_01) {
-  s21::map<int, std::string> m{{1, "one"}, {2, "two"}, {3, "three"}};
-  EXPECT_EQ(m.size(), 3);
-  EXPECT_FALSE(m.empty());
-  EXPECT_EQ(m.at(1), "one");
-  EXPECT_EQ(m.at(2), "two");
-  EXPECT_EQ(m.at(3), "three");
-}
-
-TEST(mapConstructorTest, InitializerListConstructor_02) {
-  s21::map<int, int> m{{1, 111}, {2, 222}, {3, 333}};
-  EXPECT_EQ(m.size(), 3);
-  EXPECT_FALSE(m.empty());
-  EXPECT_EQ(m.at(1), 111);
-  EXPECT_EQ(m.at(2), 222);
-  EXPECT_EQ(m.at(3), 333);
-}
-
-TEST(mapConstructorTest, InitializerListConstructor_03) {
-  s21::map<double, double> m{{1.11111, 2.22222}, {3.33333, 4.44444}, {5.55555, 6.66666}};
-  EXPECT_EQ(m.size(), 3);
-  EXPECT_FALSE(m.empty());
-  EXPECT_EQ(m.at(1.11111), 2.22222);
-  EXPECT_EQ(m.at(3.33333), 4.44444);
-  EXPECT_EQ(m.at(5.55555), 6.66666);
-}
-
-TEST(mapConstructorTest, InitializerListConstructor_04) {
-  s21::map<double, char> m{{1.11111, 'a'}, {3.33333, 'b'}, {5.55555, 'c'}};
-  EXPECT_EQ(m.size(), 3);
-  EXPECT_FALSE(m.empty());
-  EXPECT_EQ(m.at(1.11111), 'a');
-  EXPECT_EQ(m.at(3.33333), 'b');
-  EXPECT_EQ(m.at(5.55555), 'c');
-}
-
-TEST(mapConstructorTest, CopyConstructor) {
-  s21::map<int, std::string> m{{1, "one"}, {2, "two"}, {3, "three"}};
-  s21::map<int, std::string> copy_m(m);
-  EXPECT_EQ(copy_m.size(), 3);
-  EXPECT_EQ(copy_m.at(1), "one");
-  EXPECT_EQ(copy_m.at(2), "two");
-  EXPECT_EQ(copy_m.at(3), "three");
-}
-
-// TEST(mapTest, Clear) {
-//   s21::map<int, int> my_map;
-//   std::map<int, int> orig_map;
-//   my_map.clear();
-//   orig_map.clear();
-//   EXPECT_EQ(my_map.empty(), orig_map.empty());
-//   my_map.insert(std::make_pair(1, 1));
-//   orig_map.insert(std::make_pair(1, 1));
-//   EXPECT_EQ(my_map.empty(), orig_map.empty());
-//   my_map.clear();
-//   orig_map.clear();
-//   EXPECT_EQ(my_map.empty(), orig_map.empty());
-// }
-
-TEST(mapTest, Capacity) {
-  s21::map<char, std::string> my_map;
-  std::map<char, std::string> orig_map;
-  EXPECT_TRUE(my_map.empty() == orig_map.empty());
-  my_map.insert('z', "wow");
-  EXPECT_FALSE(my_map.empty() == orig_map.empty());
-  EXPECT_EQ(my_map.size(), 1);
-}
-
-TEST(mapTest, InsertKeyValue) {
-  s21::map<int, std::string> map;
-  map.insert(1, "one");
-  EXPECT_EQ(map.size(), 1);
-  EXPECT_EQ(map.contains(1), true);
-  EXPECT_EQ(map[1], "one");
-
-  map.insert(2, "two");
-  EXPECT_EQ(map.size(), 2);
-  EXPECT_EQ(map.contains(1), true);
-  EXPECT_EQ(map[1], "one");
-  EXPECT_EQ(map.contains(2), true);
-  EXPECT_EQ(map[2], "two");
-
-  map.insert(3, "three");
-  EXPECT_EQ(map.size(), 3);
-  EXPECT_EQ(map.contains(1), true);
-  EXPECT_EQ(map[1], "one");
-  EXPECT_EQ(map.contains(2), true);
-  EXPECT_EQ(map[2], "two");
-  EXPECT_EQ(map.contains(3), true);
-  EXPECT_EQ(map[3], "three");
-
-}
-
-TEST(mapTest, InsertPair) {
-  s21::map<int, std::string> map;
-  map.insert(std::make_pair(1, "one"));
-  EXPECT_EQ(map.size(), 1);
-  EXPECT_EQ(map.contains(1), true);
-  EXPECT_EQ(map[1], "one");
-
-  map.insert(std::make_pair(2, "two"));
-  EXPECT_EQ(map.size(), 2);
-  EXPECT_EQ(map.contains(1), true);
-  EXPECT_EQ(map[1], "one");
-  EXPECT_EQ(map.contains(2), true);
-  EXPECT_EQ(map[2], "two");
-
-  map.insert(std::make_pair(3, "three"));
-  EXPECT_EQ(map.size(), 3);
-  EXPECT_EQ(map.contains(1), true);
-  EXPECT_EQ(map[1], "one");
-  EXPECT_EQ(map.contains(2), true);
-  EXPECT_EQ(map[2], "two");
-  EXPECT_EQ(map.contains(3), true);
-  EXPECT_EQ(map[3], "three");
-}
-
-TEST(mapTest, Insert_01) {
-  s21::map<int, char> my_map;
-  std::map<int, char> orig_map;
-  my_map.insert(1, 'a');
-  my_map.insert(2, 'a');
-  my_map.insert(3, 'a');
-  orig_map.insert(std::make_pair(1, 'a'));
-  orig_map.insert(std::make_pair(2, 'a'));
-  orig_map.insert(std::make_pair(3, 'a'));
-
-  auto my_it = my_map.begin();
-  auto orig_it = orig_map.begin();
-  for (; my_it != my_map.end(); ++my_it, ++orig_it) {
-    EXPECT_TRUE((*my_it).first == (*orig_it).first);
-    EXPECT_TRUE((*my_it).second == (*orig_it).second);
+TEST(iterator, iterating_funcs_1) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  int arr[] = {1, 2, 3, 4};
+  int i = 0;
+  for (auto it : a) {
+    ASSERT_EQ(it.first, arr[i]);
+    ASSERT_EQ(it.second, arr[i++] + 1);
   }
-
-  auto pr1 = my_map.insert_or_assign(1, 'b');
-  auto i = orig_map.begin();
-  EXPECT_TRUE((*pr1.first).first == (*i).first);
-  EXPECT_FALSE((*pr1.first).second == (*i).second);
+  a.clear();
 }
 
-TEST(mapTest, Insert_02) {
-  s21::map<int, char> my_map;
-  std::map<int, char> orig_map;
-  my_map.insert(1, 'a');
-  my_map.insert(2, 'a');
-  my_map.insert(3, 'a');
-  orig_map.insert(std::make_pair(1, 'a'));
-  orig_map.insert(std::make_pair(2, 'a'));
-  orig_map.insert(std::make_pair(3, 'a'));
-
-  auto my_it = my_map.begin();
-  auto orig_it = orig_map.begin();
-  for (; my_it != my_map.end(); ++my_it, ++orig_it) {
-    EXPECT_TRUE((*my_it).first == (*orig_it).first);
-    EXPECT_TRUE((*my_it).second == (*orig_it).second);
+TEST(iterator, iterating_funcs_2) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  int arr[] = {1, 2, 3, 4};
+  int i = 0;
+  for (auto it = a.begin(); it != a.end(); ++it) {
+    EXPECT_TRUE(it->first == arr[i]);
+    EXPECT_EQ(it->second, arr[i++] + 1);
   }
-
+  a.clear();
 }
 
-TEST(mapTest, Insert_03) {
-  s21::map<int, char> my_map;
-  std::map<int, char> orig_map;
-  my_map.insert(std::make_pair(1, 'a'));
-  my_map.insert(std::make_pair(2, 'a'));
-  my_map.insert(std::make_pair(3, 'a'));
-  orig_map.insert(std::make_pair(1, 'a'));
-  orig_map.insert(std::make_pair(2, 'a'));
-  orig_map.insert(std::make_pair(3, 'a'));
+TEST(iterator, iterating_funcs_3) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  auto it = a.find(3);
+  ASSERT_TRUE(it->first == 3);
+  ASSERT_EQ(it->second, 4);
+  a.clear();
+}
 
-  auto my_it = my_map.begin();
-  auto orig_it = orig_map.begin();
-  for (; my_it != my_map.end(); ++my_it, ++orig_it) {
-    EXPECT_TRUE((*my_it).first == (*orig_it).first);
-    EXPECT_TRUE((*my_it).second == (*orig_it).second);
+TEST(iterator, iterating_funcs_4) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  ASSERT_FALSE(a.begin() == a.end());
+  ASSERT_TRUE(a.begin() != a.end());
+  a.clear();
+}
+
+TEST(iterator, iterating_funcs_5) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  auto it = a.find(3);
+  auto it_1 = *it;
+  ASSERT_EQ(it_1.first, 3);
+  ASSERT_EQ(it_1.second, 4);
+  a.clear();
+}
+
+TEST(iterator, iterating_funcs_6) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  auto it = a.find(3);
+  it->second = -4;
+  ASSERT_EQ(a.find(3)->second, -4);
+  a.clear();
+}
+
+TEST(iterator, iterating_funcs_7) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  auto it = a.find(3);
+  --it;
+  ASSERT_TRUE(it->first == 2);
+}
+
+TEST(iterator, iterating_funcs_8) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5),
+                          std::pair<int, int>(5, 6), std::pair<int, int>(6, 7)};
+  auto it = a.find(6);
+  int res = 6;
+  a.print_map();
+  for (; it != a.begin(); --it) {
+    ASSERT_TRUE(it->first == res);
+    ASSERT_TRUE(it->second == res + 1);
+    --res;
   }
-
 }
 
-
-TEST(mapTest, InsertOrAssign) {
-  s21::map<int, std::string> map;
-  auto [it1, inserted1] = map.insert_or_assign(1, "one");
-  EXPECT_TRUE(inserted1);
-//   EXPECT_EQ(it1->first, 1);
-  EXPECT_EQ(it1->second, "one");
-
-  auto [it2, inserted2] = map.insert_or_assign(1, "NEW_ONE");
-  EXPECT_FALSE(inserted2);
-//   EXPECT_EQ(it2->first, 1);
-  EXPECT_EQ(it2->second, "NEW_ONE");
-
-  map.insert_or_assign(2, "two");
-  map.insert_or_assign(3, "three");
-  map.insert_or_assign(4, "four");
-  map.insert_or_assign(5, "five");
-
-  EXPECT_EQ(map.size(), 5);
-  EXPECT_EQ(map[1], "NEW_ONE");
-  EXPECT_EQ(map[2], "two");
-  EXPECT_EQ(map[3], "three");
-  EXPECT_EQ(map[4], "four");
-  EXPECT_EQ(map[5], "five");
+TEST(const_iterator, iterating_funcs_2) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  int arr[] = {1, 2, 3, 4};
+  int i = 0;
+  for (auto it = a.cbegin(); it != a.cend(); ++it) {
+    ASSERT_TRUE(it->first == arr[i]);
+    ASSERT_TRUE(it->second == arr[i++] + 1);
+  }
+  a.clear();
 }
 
-TEST(mapTest, AtAndOperatorBrackets) {
-  s21::map<int, std::string> map = {{1, "one"}, {2, "two"}, {3, "three"}};
-
-  EXPECT_EQ(map.at(1), "one");
-  EXPECT_EQ(map[2], "two");
-  EXPECT_THROW(map.at(4), std::out_of_range);
-  map[4] = "four";
-  EXPECT_EQ(map[4], "four");
-  map[2] = "TWO";
-  EXPECT_EQ(map[2], "TWO");
+TEST(const_iterator, iterating_funcs_4) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  ASSERT_FALSE(a.cbegin() == a.cend());
+  ASSERT_TRUE(a.cbegin() != a.cend());
+  a.clear();
 }
 
-TEST(map, MapOperator) {
-  s21::map<char, std::string> my_map = {
-      {'a', "Arise"}, {'b', "Begin"}, {'c', "Common"}};
-  std::map<char, std::string> orig_map = {
-      {'a', "Arise"}, {'b', "Begin"}, {'c', "Common"}};
-  my_map['a'] = "Anything";
-  orig_map['a'] = "Anything";
-  orig_map['b'] = "Bore";
-  EXPECT_TRUE(my_map['a'] == orig_map['a']);
-  EXPECT_FALSE(my_map['b'] == orig_map['b']);
-  EXPECT_TRUE(my_map['c'] == orig_map['c']);
+TEST(const_iterator, iterating_funcs_5) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  auto it = a.cbegin();
+  auto it_1 = *it;
+  ASSERT_EQ(it_1.first, 1);
+  ASSERT_EQ(it_1.second, 2);
+  a.clear();
 }
 
-TEST(mapTest, MapAtOperator) {
-  s21::map<char, std::string> my_map = {
-      {'a', "Angel"}, {'b', "Box"}, {'c', "Car"}};
-  std::map<char, std::string> orig_map = {
-      {'a', "Angel"}, {'b', "Box"}, {'c', "Car"}};
-  my_map.at('a') = "Amount";
-  orig_map.at('a') = "Amount";
-  orig_map.at('b') = "Black";
-  EXPECT_TRUE(my_map['a'] == orig_map['a']);
-  EXPECT_FALSE(my_map['b'] == orig_map['b']);
-  EXPECT_TRUE(my_map['c'] == orig_map['c']);
+TEST(const_iterator, iterating_funcs_6) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  auto it = a.cbegin();
+  ++it;
+  --it;
+  ASSERT_TRUE(it->first == 1);
 }
 
-TEST(mapTest, MapAtOperatorException) {
-  s21::map<char, std::string> my_map = {
-      {'a', "Auto"}, {'b', "Big"}, {'c', "Call"}};
-  EXPECT_THROW(my_map.at('g') = "Repair", std::out_of_range);
+TEST(const_iterator, iterating_funcs_7) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5),
+                          std::pair<int, int>(5, 6), std::pair<int, int>(6, 7)};
+  auto it = a.cbegin();
+  for (int i = 0; i < 5; ++i) ++it;
+  int res = 6;
+  for (; it != a.cbegin(); --it) {
+    ASSERT_TRUE(it->first == res);
+    ASSERT_TRUE(it->second == res + 1);
+    --res;
+  }
 }
 
-TEST(mapTest, EmptyAndSize) {
-  s21::map<int, char> empty_map;
-  s21::map<int, char> map = {{1, 'a'}, {2, 'b'}, {3, 'c'}};
-
-  EXPECT_TRUE(empty_map.empty());
-  EXPECT_EQ(empty_map.size(), 0);
-
-  EXPECT_FALSE(map.empty());
-  EXPECT_EQ(map.size(), 3);
+TEST(Map_init, init_1) {
+  s21::map<int, double> a;
+  ASSERT_EQ(a.size(), 0);
 }
 
-// TEST(mapTest, Erase) {
-//   s21::map<int, std::string> map;
-
-//   map.insert({1, "one"});
-//   map.insert({2, "two"});
-//   map.insert({3, "three"});
-//   map.insert({4, "four"});
-
-//   auto it1 = map.begin();
-//   map.erase(it1);
-//   EXPECT_EQ(map.size(), 3);
-//   EXPECT_FALSE(map.contains(1));
-// }
-
-// TEST(mapTest, MapErase_02) {
-//   s21::map<int, char> my_map = {{1, 'x'}, {2, 'b'}, {3, 'z'}, {4, 'y'}};
-//   std::map<int, char> orig_map = {{1, 'x'}, {2, 'b'}, {3, 'z'}, {4, 'y'}};
-//   EXPECT_EQ(my_map.size(), orig_map.size());
-//   my_map.erase(my_map.begin());
-//   orig_map.erase(orig_map.begin());
-//   EXPECT_EQ(my_map.size(), orig_map.size());
-//   auto my_it = my_map.begin();
-//   auto orig_it = orig_map.begin();
-//   for (; my_it != my_map.end(); ++my_it, ++orig_it) {
-//     EXPECT_TRUE((*my_it).first == (*orig_it).first);
-//     EXPECT_TRUE((*my_it).second == (*orig_it).second);
-//   }
-// }
-
-TEST(mapTest, Swap_01) {
-  s21::map<int, std::string> map1;
-  map1.insert({1, "one"});
-  map1.insert({2, "two"});
-
-  s21::map<int, std::string> map2;
-  map2.insert({3, "three"});
-  map2.insert({4, "four"});
-
-  map1.swap(map2);
-
-  EXPECT_EQ(map1.size(), 2);
-  EXPECT_TRUE(map1.contains(3));
-  EXPECT_TRUE(map1.contains(4));
-
-  EXPECT_EQ(map2.size(), 2);
-  EXPECT_TRUE(map2.contains(1));
-  EXPECT_TRUE(map2.contains(2));
+TEST(Map_init, init_2) {
+  s21::map<int, double> a = {std::pair<int, double>(1, 1.5),
+                             std::pair<int, double>(2, 2.5),
+                             std::pair<int, double>(3, 3.5)};
+  ASSERT_EQ(a.size(), 3);
 }
 
-// TEST(mapTest, Swap_02) {
-//   s21::map<int, int> my_map = {{1, 1}};
-//   s21::map<int, int> my_swap_map = {{3, 3}, {4, 4}};
-
-//   my_map.swap(my_swap_map);
-//   EXPECT_EQ(my_map.size(), 2);
-//   EXPECT_EQ(my_swap_map.size(), 1);
-//   auto x = (*(my_map.begin())).first;
-//   auto y = (*(my_swap_map.begin())).first;
-//   EXPECT_EQ(x, 3);
-//   EXPECT_EQ(y, 1);
-// }
-
-TEST(mapTest, Merge_01) {
-  s21::map<int, std::string> map1;
-  map1.insert({1, "one"});
-  map1.insert({2, "two"});
-
-  s21::map<int, std::string> map2;
-  map2.insert({3, "three"});
-  map2.insert({4, "four"});
-
-  map1.merge(map2);
-
-  EXPECT_EQ(map1.size(), 4);
-  EXPECT_TRUE(map1.contains(1));
-  EXPECT_TRUE(map1.contains(2));
-  EXPECT_TRUE(map1.contains(3));
-  EXPECT_TRUE(map1.contains(4));
+TEST(Map_init, init_3) {
+  s21::map<int, double> a = {std::pair<int, double>(1, 1.5),
+                             std::pair<int, double>(2, 2.5),
+                             std::pair<int, double>(3, 3.5)};
+  s21::map<int, double> b(a);
+  ASSERT_EQ(b.size(), 3);
 }
 
-TEST(mapTest, Contains) {
-  s21::map<int, std::string> map;
+TEST(Map_init, init_4) {
+  std::vector<s21::map<int, double>> res;
+  res.push_back(s21::map<int, double>());
+  ASSERT_EQ(res[0].size(), 0);
+}
 
-  map.insert({1, "one"});
-  map.insert({2, "two"});
-  EXPECT_TRUE(map.contains(2));
-  EXPECT_FALSE(map.contains(3));
+TEST(Map_init, init_5) {
+  // s21::map<int, double> a = {std::pair<int, double>(1, 1.5), std::pair<int,
+  // double>(2, 2.5), std::pair<int, double>(3, 3.5)};
+
+  s21::map<int, double> b;
+  b = s21::map<int, double>();
+  ASSERT_EQ(b.size(), 0);
+}
+
+TEST(Map_func, at_1) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  ASSERT_EQ(a.at(3), 4);
+}
+
+TEST(Map_func, at_2) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  a.at(3) = -2;
+  ASSERT_EQ(a.at(3), -2);
+}
+
+TEST(Map_func, at_3) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  ASSERT_THROW(a.at(-2), std::out_of_range);
+}
+
+TEST(Map_func, operator_1) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  ASSERT_EQ(a[3], 4);
+}
+
+TEST(Map_func, operator_2) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  a[3] = -2;
+  ASSERT_EQ(a[3], -2);
+}
+
+TEST(Map_func, operator_3) {
+  s21::map<int, int> a;
+  a[3] = -2;
+  ASSERT_TRUE(a.contains(3));
+  ASSERT_EQ(a[3], -2);
+}
+
+TEST(Map_func, empty_1) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  ASSERT_FALSE(a.empty());
+}
+
+TEST(Map_func, empty_2) {
+  s21::map<int, int> a;
+  ASSERT_TRUE(a.empty());
+}
+
+TEST(Map_func, empty_3) {
+  s21::map<int, int> a = {std::pair<int, int>(1, 2), std::pair<int, int>(2, 3),
+                          std::pair<int, int>(3, 4), std::pair<int, int>(4, 5)};
+  a.clear();
+  ASSERT_TRUE(a.empty());
+}
+
+TEST(Map_func, insert_1) {
+  s21::map<int, int> a;
+  for (int i = 0; i < 10; ++i) {
+    auto it = a.insert(std::pair<int, int>(i, i + 1));
+    ASSERT_TRUE(it.second);
+    ASSERT_TRUE(it.first != nullptr);
+    ASSERT_TRUE(it.first->first == i);
+    ASSERT_EQ(it.first->second, i + 1);
+  }
+}
+
+TEST(Map_func, insert_2) {
+  s21::map<int, int> a;
+  for (int i = 0; i < 10; ++i) {
+    auto it = a.insert(i, i + 1);
+    ASSERT_TRUE(it.second);
+    ASSERT_TRUE(it.first != nullptr);
+    ASSERT_TRUE(it.first->first == i);
+    ASSERT_EQ(it.first->second, i + 1);
+  }
+}
+
+TEST(Map_func, swap) {
+  s21::map<std::string, int> a = {std::pair<std::string, int>("a", 1),
+                                  std::pair<std::string, int>("b", 2),
+                                  std::pair<std::string, int>("c", 3)};
+  s21::map<std::string, int> b = {std::pair<std::string, int>("d", 4),
+                                  std::pair<std::string, int>("e", 5)};
+  a.swap(b);
+  ASSERT_EQ(a.size(), 2);
+  ASSERT_EQ(b.size(), 3);
+  ASSERT_TRUE(a.contains("d"));
+  ASSERT_TRUE(a.contains("e"));
+  ASSERT_TRUE(b.contains("a"));
+  ASSERT_TRUE(b.contains("b"));
+  ASSERT_TRUE(b.contains("c"));
+}
+
+TEST(Map_func, erase_1) {
+  s21::map<std::string, int> a = {std::pair<std::string, int>("a", 1),
+                                  std::pair<std::string, int>("b", 2),
+                                  std::pair<std::string, int>("c", 3)};
+  auto it = a.find("b");
+  a.erase(it);
+  ASSERT_FALSE(a.contains("b"));
+  ASSERT_EQ(a.size(), 2);
+}
+
+TEST(Map_func, erase_2) {
+  s21::map<std::string, int> a = {std::pair<std::string, int>("a", 1),
+                                  std::pair<std::string, int>("b", 2),
+                                  std::pair<std::string, int>("c", 3)};
+  a.erase("b");
+  ASSERT_FALSE(a.contains("b"));
+  ASSERT_EQ(a.size(), 2);
+}
+
+TEST(Map_func, erase_3) {
+  s21::map<int, int> a;
+  for (int i = 0; i < 10; ++i) a.insert(std::pair<int, int>(i, i + 1));
+  ASSERT_EQ(a.size(), 10);
+  ASSERT_TRUE(a.contains(0));
+  a.erase(0);
+  ASSERT_FALSE(a.contains(0));
+  ASSERT_EQ(a.size(), 9);
+}
+
+TEST(Map_func, erase_4) {
+  s21::map<int, int> a;
+  for (int i = 0; i < 10; ++i) a.insert(std::pair<int, int>(i, i + 1));
+  ASSERT_EQ(a.size(), 10);
+  ASSERT_TRUE(a.contains(2));
+  a.erase(2);
+  ASSERT_FALSE(a.contains(2));
+  ASSERT_EQ(a.size(), 9);
+}
+
+TEST(Map_func, erase_5) {
+  s21::map<int, int> a;
+  for (int i = 0; i < 10; ++i) a.insert(std::pair<int, int>(i, i + 1));
+  ASSERT_EQ(a.size(), 10);
+  ASSERT_TRUE(a.contains(1));
+  a.erase(1);
+  ASSERT_FALSE(a.contains(1));
+  ASSERT_EQ(a.size(), 9);
+}
+
+TEST(Map_func, erase_6) {
+  s21::map<int, int> a;
+  for (int i = 0; i < 10; ++i) a.insert(std::pair<int, int>(i, i + 1));
+  ASSERT_EQ(a.size(), 10);
+  ASSERT_TRUE(a.contains(4));
+  a.erase(4);
+  ASSERT_FALSE(a.contains(4));
+  ASSERT_EQ(a.size(), 9);
+}
+
+TEST(Map_func, erase_7) {
+  s21::map<int, int> a;
+  for (int i = 0; i < 10; ++i) a.insert(std::pair<int, int>(i, i + 1));
+  ASSERT_EQ(a.size(), 10);
+  ASSERT_TRUE(a.contains(7));
+  a.erase(7);
+  ASSERT_FALSE(a.contains(7));
+  ASSERT_EQ(a.size(), 9);
+}
+
+TEST(Map_func, erase_8) {
+  s21::map<int, int> a;
+  for (int i = 0; i < 10; ++i) a.insert(std::pair<int, int>(i, i + 1));
+  ASSERT_EQ(a.size(), 10);
+  ASSERT_TRUE(a.contains(9));
+  a.erase(9);
+  ASSERT_FALSE(a.contains(9));
+  ASSERT_EQ(a.size(), 9);
+}
+
+TEST(Map_func, erase_9) {
+  s21::map<int, int> a;
+  for (int i = 0; i < 10; ++i) a.insert(std::pair<int, int>(i, i + 1));
+  ASSERT_EQ(a.size(), 10);
+  ASSERT_TRUE(a.contains(3));
+  a.erase(3);
+  ASSERT_FALSE(a.contains(3));
+  ASSERT_EQ(a.size(), 9);
+}
+
+TEST(Map_func, erase_10) {
+  s21::map<int, int> a;
+  for (int i = 9; i >= 0; --i) a.insert(std::pair<int, int>(i, i + 1));
+  ASSERT_EQ(a.size(), 10);
+  ASSERT_TRUE(a.contains(3));
+  a.erase(3);
+  ASSERT_FALSE(a.contains(3));
+  ASSERT_EQ(a.size(), 9);
+}
+
+TEST(Map_func, erase_11) {
+  s21::map<int, int> a;
+  for (int i = 9; i >= 0; --i) a.insert(std::pair<int, int>(i, i + 1));
+  a.insert(10, 11);
+  a.insert(15, 16);
+  a.insert(14, 15);
+  ASSERT_EQ(a.size(), 13);
+  ASSERT_TRUE(a.contains(9));
+  a.erase(9);
+  ASSERT_FALSE(a.contains(9));
+  ASSERT_EQ(a.size(), 12);
+}
+
+TEST(Map_func, erase_12) {
+  s21::map<int, int> a;
+  for (int i = 10; i < 70; i += 10) a.insert(std::pair<int, int>(i, i + 1));
+  a.insert(35, 36);
+  ASSERT_EQ(a.size(), 7);
+  ASSERT_TRUE(a.contains(60));
+  a.erase(50);
+  a.erase(60);
+  ASSERT_FALSE(a.contains(60));
+  ASSERT_EQ(a.size(), 5);
+}
+
+TEST(Map_func, erase_13) {
+  s21::map<int, int> a;
+  for (int i = 10; i < 140; i += 10) a.insert(std::pair<int, int>(i, i + 1));
+  a.insert(95, 96);
+  a.insert(97, 98);
+  a.insert(85, 86);
+  ASSERT_EQ(a.size(), 16);
+  ASSERT_TRUE(a.contains(120));
+  a.erase(110);
+  a.erase(130);
+  a.erase(120);
+  ASSERT_FALSE(a.contains(120));
+  ASSERT_EQ(a.size(), 13);
+}
+
+TEST(Map_func, insert_or_assign_1) {
+  s21::map<int, int> a;
+  a.insert_or_assign(2, 2);
+  ASSERT_EQ(a.find(2)->second, 2);
+  a.insert_or_assign(2, 10);
+  ASSERT_EQ(a.size(), 1);
+  ASSERT_EQ(a.find(2)->second, 10);
+}
+
+TEST(Map_func, at_error_1) {
+  s21::map<int, int> a;
+  ASSERT_THROW(a.at(3), std::out_of_range);
 }

@@ -1,6 +1,6 @@
-#include "tests.hpp"
-#include "../vector/s21_vector.tpp"
 #include <vector>
+
+#include "test_main.hpp"
 
 TEST(VectorTest, Constructor_default) {
   s21::vector<int> s21_v;
@@ -19,8 +19,8 @@ TEST(VectorTest, Constructor_n) {
   EXPECT_EQ(s21_v.empty(), std_v.empty());
 }
 
-TEST(VectorTest,Constructor_throw) {
-    EXPECT_ANY_THROW (s21::vector<double> v(-1));
+TEST(VectorTest, Constructor_throw) {
+  EXPECT_ANY_THROW(s21::vector<double> v(-1));
 }
 
 TEST(VectorTest, Constructor_initializer_list_1) {
@@ -36,20 +36,19 @@ TEST(VectorTest, Constructor_initializer_list_1) {
   EXPECT_EQ(s21_v.at(4), std_v.at(4));
 }
 
-TEST(VectorTest,Constructor_initializer_list_throw) {
-    s21::vector<int> s21_v{2, 3, 5, 7, 1};
-  
-    EXPECT_THROW(s21_v.at(s21_v.size()),std::out_of_range);
+TEST(VectorTest, Constructor_initializer_list_throw) {
+  s21::vector<int> s21_v{2, 3, 5, 7, 1};
+
+  EXPECT_THROW(s21_v.at(s21_v.size()), std::out_of_range);
 }
 
-TEST(VectorTest,Constructor_initializer_list_2){
-  s21::vector<std::string> our_stack_string {"abc", "def", "ghf"};
-  std::vector<std::string> std_stack_string {"abc", "def", "ghf"};
+TEST(VectorTest, Constructor_initializer_list_2) {
+  s21::vector<std::string> our_stack_string{"abc", "def", "ghf"};
+  std::vector<std::string> std_stack_string{"abc", "def", "ghf"};
 
-  for(auto i = 0; i < std_stack_string.size();i++){
-    EXPECT_EQ(our_stack_string.at(i),std_stack_string.at(i));
+  for (size_t i = 0; i < std_stack_string.size(); i++) {
+    EXPECT_EQ(our_stack_string.at(i), std_stack_string.at(i));
   }
-  
 }
 
 TEST(VectorTest, Constructor_initializer_list_3) {
@@ -103,9 +102,9 @@ TEST(VectorTest, Constructor_copy_2) {
 
 TEST(VectorTest, Constructor_move_1) {
   s21::vector<double> s21_v{2.2222, 3.3333, 5.555, 7.7777, 1.111111};
-  s21::vector<double> tmp(s21_v);  
+  s21::vector<double> tmp(s21_v);
   s21::vector<double> s21_move(std::move(s21_v));
-  
+
   EXPECT_EQ(s21_v.size(), 0);
   EXPECT_EQ(s21_v.capacity(), 0);
   EXPECT_EQ(s21_v.empty(), true);
@@ -118,16 +117,16 @@ TEST(VectorTest, Constructor_move_1) {
   EXPECT_DOUBLE_EQ(s21_move.at(1), tmp.at(1));
   EXPECT_DOUBLE_EQ(s21_move.at(2), tmp.at(2));
   EXPECT_DOUBLE_EQ(s21_move.at(3), tmp.at(3));
-  EXPECT_DOUBLE_EQ(s21_move.at(4),tmp.at(4));
-    
+  EXPECT_DOUBLE_EQ(s21_move.at(4), tmp.at(4));
 }
 
 TEST(VectorTest, Constructor_move_asignment) {
   s21::vector<double> s21_v{2.2222, 3.3333, 5.555, 7.7777, 1.111111};
-  s21::vector<double> tmp(s21_v);  
+  s21::vector<double> tmp(s21_v);
   s21::vector<double> s21_move;
-  s21_move = std::move(s21_v); // perform an asignment operation not the initialization 
-  
+  s21_move = std::move(
+      s21_v);  // perform an asignment operation not the initialization
+
   EXPECT_EQ(s21_v.size(), 0);
   EXPECT_EQ(s21_v.capacity(), 0);
   EXPECT_EQ(s21_v.empty(), true);
@@ -140,8 +139,7 @@ TEST(VectorTest, Constructor_move_asignment) {
   EXPECT_DOUBLE_EQ(s21_move.at(1), tmp.at(1));
   EXPECT_DOUBLE_EQ(s21_move.at(2), tmp.at(2));
   EXPECT_DOUBLE_EQ(s21_move.at(3), tmp.at(3));
-  EXPECT_DOUBLE_EQ(s21_move.at(4),tmp.at(4));
-    
+  EXPECT_DOUBLE_EQ(s21_move.at(4), tmp.at(4));
 }
 
 TEST(VectorTest, Destructor) {
@@ -202,7 +200,6 @@ TEST(VectorTest, Element_operator_sq_brackets) {
   EXPECT_EQ(s21_v[4], std_v[4]);
 }
 
-
 TEST(VectorTest, Element_operator_square_brackets) {
   s21::vector<int> s21_v{1, 2, 3};
   std::vector<int> std_v{1, 2, 3};
@@ -214,7 +211,6 @@ TEST(VectorTest, Element_operator_square_brackets) {
 TEST(VectorTest, Element_sq_brackets_throw) {
   s21::vector<int> s21_v;
   EXPECT_ANY_THROW(s21_v[1]);
-
 }
 
 TEST(VectorTest, Element_operator_square_brackets_throw_1) {
@@ -234,25 +230,25 @@ TEST(VectorTest, Element_data) {
   EXPECT_EQ(*s21_v.data(), *std_v.data());
 }
 
-TEST(VectorTest,max_size_test_1){
-  s21::vector<int>s21_v;
-  std::vector<int>std_v;
+TEST(VectorTest, max_size_test_1) {
+  s21::vector<int> s21_v;
+  std::vector<int> std_v;
 
-  EXPECT_DOUBLE_EQ(s21_v.max_size(),std_v.max_size());
+  EXPECT_DOUBLE_EQ(s21_v.max_size(), std_v.max_size());
 }
 
-TEST(VectorTest,max_size_test_2){
-  s21::vector<double>s21_v;
-  std::vector<double>std_v;
+TEST(VectorTest, max_size_test_2) {
+  s21::vector<double> s21_v;
+  std::vector<double> std_v;
 
-  EXPECT_DOUBLE_EQ(s21_v.max_size(),std_v.max_size());
+  EXPECT_DOUBLE_EQ(s21_v.max_size(), std_v.max_size());
 }
 
-TEST(VectorTest,max_size_test_3){
-  s21::vector<char>s21_v;
-  std::vector<char>std_v;
+TEST(VectorTest, max_size_test_3) {
+  s21::vector<char> s21_v;
+  std::vector<char> std_v;
 
-  EXPECT_DOUBLE_EQ(s21_v.max_size(),std_v.max_size());
+  EXPECT_DOUBLE_EQ(s21_v.max_size(), std_v.max_size());
 }
 
 TEST(VectorTest, Element_front) {
@@ -293,7 +289,6 @@ TEST(VectorTest, Capacity_empty_2) {
   EXPECT_EQ(s21_v.empty(), std_v.empty());
 }
 
-
 TEST(VectorTest, Capacity_size_1) {
   s21::vector<int> s21_v;
   std::vector<int> std_v;
@@ -323,22 +318,20 @@ TEST(VectorTest, Capacity_capacity_2) {
 }
 
 TEST(VectorTest, Capacity_reserve_1) {
-  std::vector<int> std_v(5,2);
-  s21::vector<int> s21_v{2,2,2,2,2};
-  
+  std::vector<int> std_v(5, 2);
+  s21::vector<int> s21_v{2, 2, 2, 2, 2};
 
   std_v.reserve(20);
   s21_v.reserve(20);
 
-  EXPECT_EQ(std_v.capacity(),s21_v.capacity());
-  EXPECT_EQ(std_v.size(),s21_v.size());
+  EXPECT_EQ(std_v.capacity(), s21_v.capacity());
+  EXPECT_EQ(std_v.size(), s21_v.size());
 
-  for(int i = 0; i < std_v.size(); i++){
+  for (size_t i = 0; i < std_v.size(); i++) {
     // std::cout << std_v[i] << " " << s21_v[i] << std::endl;
 
-    EXPECT_EQ(std_v[i],s21_v[i]);  
+    EXPECT_EQ(std_v[i], s21_v[i]);
   }
- 
 }
 
 TEST(VectorTest, Capacity_reserve_2) {
@@ -401,7 +394,6 @@ TEST(VectorTest, Modifiers_clear_2) {
 
   EXPECT_EQ(s21_v.size(), std_v.size());
 }
-
 
 TEST(VectorTest, Modifiers_swap_1) {
   s21::vector<int> s21_v;
@@ -470,13 +462,12 @@ TEST(VectorTest, Modifiers_swap_4) {
   EXPECT_EQ(s21_v_copy.capacity(), std_v_copy.capacity());
 }
 
-TEST(VectorTest, Iterators){
-  s21::vector<double> s21_v{1,2,3,4};
+TEST(VectorTest, Iterators) {
+  s21::vector<double> s21_v{1, 2, 3, 4};
   s21::vector<double>::iterator iter_begin = s21_v.begin();
   s21::vector<double>::iterator iter_end = s21_v.end();
-  EXPECT_EQ(*iter_begin,1);
-  EXPECT_EQ(*(iter_end-1),4);
-
+  EXPECT_EQ(*iter_begin, 1);
+  EXPECT_EQ(*(iter_end - 1), 4);
 }
 
 TEST(VectorTest, Insert_01) {
@@ -485,26 +476,24 @@ TEST(VectorTest, Insert_01) {
 
   auto s21_it = s21_v.insert(s21_v.begin(), 1);
   auto std_it = std_v.insert(std_v.begin(), 1);
-  
-  EXPECT_EQ(s21_v.size(),std_v.size());
-  EXPECT_EQ(s21_v.capacity(),std_v.capacity());
+
+  EXPECT_EQ(s21_v.size(), std_v.size());
+  EXPECT_EQ(s21_v.capacity(), std_v.capacity());
   EXPECT_EQ(*s21_v.data(), *std_v.data());
   EXPECT_EQ(*s21_it, *std_it);
-
 }
 
 TEST(VectorTest, Insert_02) {
   s21::vector<double> s21_v = {2, 3, 4};
   std::vector<double> std_v = {2, 3, 4};
 
-  auto s21_it = s21_v.insert(s21_v.end()-2, 1);
-  auto std_it = std_v.insert(std_v.end()-2, 1);
-  
-  EXPECT_EQ(s21_v.size(),std_v.size());
-  EXPECT_EQ(s21_v.capacity(),std_v.capacity());
+  auto s21_it = s21_v.insert(s21_v.end() - 2, 1);
+  auto std_it = std_v.insert(std_v.end() - 2, 1);
+
+  EXPECT_EQ(s21_v.size(), std_v.size());
+  EXPECT_EQ(s21_v.capacity(), std_v.capacity());
   EXPECT_EQ(*s21_v.data(), *std_v.data());
   EXPECT_EQ(*s21_it, *std_it);
-
 }
 
 TEST(VectorTest, Insert_03) {
@@ -513,12 +502,11 @@ TEST(VectorTest, Insert_03) {
 
   auto s21_it = s21_v.insert(s21_v.end(), 1);
   auto std_it = std_v.insert(std_v.end(), 1);
-  
-  EXPECT_EQ(s21_v.size(),std_v.size());
-  EXPECT_EQ(s21_v.capacity(),std_v.capacity());
+
+  EXPECT_EQ(s21_v.size(), std_v.size());
+  EXPECT_EQ(s21_v.capacity(), std_v.capacity());
   EXPECT_EQ(*s21_v.data(), *std_v.data());
   EXPECT_EQ(*s21_it, *std_it);
-
 }
 
 TEST(VectorTest, Insert_04) {
@@ -527,12 +515,11 @@ TEST(VectorTest, Insert_04) {
 
   auto s21_it = s21_v.insert(s21_v.end(), 1);
   auto std_it = std_v.insert(std_v.end(), 1);
-  
-  EXPECT_EQ(s21_v.size(),std_v.size());
-  EXPECT_EQ(s21_v.capacity(),std_v.capacity());
+
+  EXPECT_EQ(s21_v.size(), std_v.size());
+  EXPECT_EQ(s21_v.capacity(), std_v.capacity());
   EXPECT_EQ(*s21_v.data(), *std_v.data());
   EXPECT_EQ(*s21_it, *std_it);
-
 }
 
 TEST(VectorTest, Insert_05) {
@@ -541,12 +528,11 @@ TEST(VectorTest, Insert_05) {
 
   auto s21_it = s21_v.insert(s21_v.end(), 1);
   auto std_it = std_v.insert(std_v.end(), 1);
-  
-  EXPECT_EQ(s21_v.size(),std_v.size());
-  EXPECT_EQ(s21_v.capacity(),std_v.capacity());
+
+  EXPECT_EQ(s21_v.size(), std_v.size());
+  EXPECT_EQ(s21_v.capacity(), std_v.capacity());
   EXPECT_EQ(*s21_v.data(), *std_v.data());
   EXPECT_EQ(*s21_it, *std_it);
-
 }
 
 TEST(VectorTest, Insert_06) {
@@ -555,96 +541,89 @@ TEST(VectorTest, Insert_06) {
 
   auto s21_it = s21_v.insert(s21_v.begin(), 1);
   auto std_it = std_v.insert(std_v.begin(), 1);
-  
-  EXPECT_EQ(s21_v.size(),std_v.size());
-  EXPECT_EQ(s21_v.capacity(),std_v.capacity());
+
+  EXPECT_EQ(s21_v.size(), std_v.size());
+  EXPECT_EQ(s21_v.capacity(), std_v.capacity());
   EXPECT_EQ(*s21_v.data(), *std_v.data());
   EXPECT_EQ(*s21_it, *std_it);
-
 }
 
 TEST(VectorTest, Insert_07) {
-
-  s21::vector<double> s21_v{1,2,3,4,5};
+  s21::vector<double> s21_v{1, 2, 3, 4, 5};
 
   auto s21_it_1 = s21_v.begin();
 
-  s21_v.insert(s21_it_1+1,777);
+  s21_v.insert(s21_it_1 + 1, 777);
 
   auto s21_it_2 = s21_v.begin();
 
-  s21_v.insert(s21_it_2+1,888);
+  s21_v.insert(s21_it_2 + 1, 888);
 
   auto s21_it_3 = s21_v.begin();
 
-  s21_v.insert(s21_it_3+1,999);
+  s21_v.insert(s21_it_3 + 1, 999);
 
   auto s21_it_4 = s21_v.begin();
 
-  s21_v.insert(s21_it_4+1,000);
+  s21_v.insert(s21_it_4 + 1, 000);
 
   auto s21_it_5 = s21_v.begin();
 
-  s21_v.insert(s21_it_5+1,111);
+  s21_v.insert(s21_it_5 + 1, 111);
 
   auto s21_it_6 = s21_v.begin();
 
-  s21_v.insert(s21_it_6+1,222);
+  s21_v.insert(s21_it_6 + 1, 222);
 
-  std::vector<double> std_v{1,2,3,4,5};
+  std::vector<double> std_v{1, 2, 3, 4, 5};
 
   auto std_it_1 = std_v.begin();
 
-  std_v.insert(std_it_1+1,777);
+  std_v.insert(std_it_1 + 1, 777);
 
   auto std_it_2 = std_v.begin();
 
-  std_v.insert(std_it_2+1,888);
+  std_v.insert(std_it_2 + 1, 888);
 
   auto std_it_3 = std_v.begin();
 
-  std_v.insert(std_it_3+1,999);
+  std_v.insert(std_it_3 + 1, 999);
 
   auto std_it_4 = std_v.begin();
 
-  std_v.insert(std_it_4+1,000);
+  std_v.insert(std_it_4 + 1, 000);
 
   auto std_it_5 = std_v.begin();
 
-  std_v.insert(std_it_5+1,111);
+  std_v.insert(std_it_5 + 1, 111);
 
   auto std_it_6 = std_v.begin();
 
-  std_v.insert(std_it_6+1,222);
+  std_v.insert(std_it_6 + 1, 222);
 
-  EXPECT_EQ(s21_v.size(),std_v.size());
-  EXPECT_EQ(s21_v.capacity(),std_v.capacity());
+  EXPECT_EQ(s21_v.size(), std_v.size());
+  EXPECT_EQ(s21_v.capacity(), std_v.capacity());
 
-  for(int i = 0; i < s21_v.size();i++){
-    EXPECT_EQ(s21_v.at(i),std_v.at(i));
+  for (size_t i = 0; i < s21_v.size(); i++) {
+    EXPECT_EQ(s21_v.at(i), std_v.at(i));
   }
-  
-
 }
 
 TEST(VectorTest, Insert_Throw_01) {
   s21::vector<int> s21_v = {2, 3, 4};
   std::vector<int> std_v = {2, 3, 4};
-  auto s21_it = s21_v.begin()-1;
-    
-  EXPECT_ANY_THROW( s21_v.insert(s21_it, 1));
+  auto s21_it = s21_v.begin() - 1;
 
+  EXPECT_ANY_THROW(s21_v.insert(s21_it, 1));
 }
 
 TEST(VectorTest, Insert_Throw_02) {
   s21::vector<int> s21_v = {2, 3, 4};
   std::vector<int> std_v = {2, 3, 4};
-  auto s21_it = s21_v.begin()+s21_v.capacity()+1;
-    
-  EXPECT_ANY_THROW( s21_v.insert(s21_it, 1));
+  auto s21_it = s21_v.begin() + s21_v.capacity() + 1;
 
+  EXPECT_ANY_THROW(s21_v.insert(s21_it, 1));
 }
-
 
 TEST(VectorTest, Erase_Beginning) {
   s21::vector<int> v = {1, 2, 3, 4};
@@ -668,8 +647,7 @@ TEST(VectorTest, Erase_End) {
 }
 
 TEST(VectorTest, Erase_01) {
-
-  s21::vector<double> s21_v{1,2,3,4,5};
+  s21::vector<double> s21_v{1, 2, 3, 4, 5};
 
   auto s21_it_1 = s21_v.begin();
 
@@ -677,8 +655,7 @@ TEST(VectorTest, Erase_01) {
   s21_v.erase(s21_it_1);
   s21_v.erase(s21_it_1);
 
-  
-  std::vector<double> std_v{1,2,3,4,5};
+  std::vector<double> std_v{1, 2, 3, 4, 5};
 
   auto std_it_1 = std_v.begin();
 
@@ -686,46 +663,42 @@ TEST(VectorTest, Erase_01) {
   std_v.erase(std_it_1);
   std_v.erase(std_it_1);
 
-  
-  EXPECT_EQ(s21_v.size(),std_v.size());
-  EXPECT_EQ(s21_v.capacity(),std_v.capacity());
+  EXPECT_EQ(s21_v.size(), std_v.size());
+  EXPECT_EQ(s21_v.capacity(), std_v.capacity());
 
-  for(int i = 0; i < s21_v.size();i++){
-    EXPECT_EQ(s21_v.at(i),std_v.at(i));
+  for (size_t i = 0; i < s21_v.size(); i++) {
+    EXPECT_EQ(s21_v.at(i), std_v.at(i));
   }
 }
 
 TEST(VectorTest, Erase_02) {
+  s21::vector<double> s21_v{1, 2, 3, 4, 5};
 
-  s21::vector<double> s21_v{1,2,3,4,5};
-
-  auto s21_it_1 = s21_v.end()-1;
+  auto s21_it_1 = s21_v.end() - 1;
   s21_v.erase(s21_it_1);
 
-  auto s21_it_2 = s21_v.end()-1;
+  auto s21_it_2 = s21_v.end() - 1;
 
   s21_v.erase(s21_it_2);
 
-  auto s21_it_3 = s21_v.end()-1;
+  auto s21_it_3 = s21_v.end() - 1;
 
   s21_v.erase(s21_it_3);
 
-  
-  std::vector<double> std_v{1,2,3,4,5};
+  std::vector<double> std_v{1, 2, 3, 4, 5};
 
-  auto std_it_1 = std_v.end()-1;
+  auto std_it_1 = std_v.end() - 1;
   std_v.erase(std_it_1);
-  auto std_it_2 = std_v.end()-1;
+  auto std_it_2 = std_v.end() - 1;
   std_v.erase(std_it_2);
-  auto std_it_3 = std_v.end()-1;
+  auto std_it_3 = std_v.end() - 1;
   std_v.erase(std_it_3);
 
-  
-  EXPECT_EQ(s21_v.size(),std_v.size());
-  EXPECT_EQ(s21_v.capacity(),std_v.capacity());
+  EXPECT_EQ(s21_v.size(), std_v.size());
+  EXPECT_EQ(s21_v.capacity(), std_v.capacity());
 
-  for(int i = 0; i < s21_v.size();i++){
-    EXPECT_EQ(s21_v.at(i),std_v.at(i));
+  for (size_t i = 0; i < s21_v.size(); i++) {
+    EXPECT_EQ(s21_v.at(i), std_v.at(i));
   }
 }
 
@@ -806,7 +779,6 @@ TEST(VectorTest, Modifiers_push_back_3) {
 
   EXPECT_EQ(s21_v.size(), std_v.capacity());
   EXPECT_EQ(s21_v.size(), std_v.capacity());
-  
 }
 
 TEST(VectorTest, Modifiers_push_back_4) {
@@ -830,38 +802,35 @@ TEST(VectorTest, Modifiers_push_back_4) {
 
   EXPECT_EQ(s21_v.size(), std_v.capacity());
   EXPECT_EQ(s21_v.size(), std_v.capacity());
-  
 }
 
 TEST(VectorTest, Modifiers_pop_back_1) {
-  std::vector<double> v1{1.1,2.2,3.3,4.4,5.5};
-  s21::vector<double> v2{1.1,2.2,3.3,4.4,5.5};
-  
-  for(auto i = 0; i < v2.size(); i++){
+  std::vector<double> v1{1.1, 2.2, 3.3, 4.4, 5.5};
+  s21::vector<double> v2{1.1, 2.2, 3.3, 4.4, 5.5};
+
+  for (size_t i = 0; i < v2.size(); i++) {
     v1.pop_back();
-    v2.pop_back();  
+    v2.pop_back();
   }
 
   EXPECT_EQ(v1.empty(), v2.empty());
   EXPECT_EQ(v1.capacity(), v2.capacity());
   EXPECT_EQ(v1.size(), v2.size());
-
 }
 
 TEST(VectorTest, Modifiers_pop_back_2) {
-  std::vector<double> v1{1.1111,2.2222,3.33333,4.44444,5.55555};
-  s21::vector<double> v2{1.1111,2.2222,3.33333,4.44444,5.55555};
-  
+  std::vector<double> v1{1.1111, 2.2222, 3.33333, 4.44444, 5.55555};
+  s21::vector<double> v2{1.1111, 2.2222, 3.33333, 4.44444, 5.55555};
+
   v1.pop_back();
-  v2.pop_back();  
+  v2.pop_back();
 
   EXPECT_EQ(v1.size(), v2.size());
   EXPECT_EQ(v1.capacity(), v2.capacity());
 
-  for(auto i = 0; i < v2.size();i++){
-    EXPECT_EQ(v1.at(i),v2.at(i));  
+  for (size_t i = 0; i < v2.size(); i++) {
+    EXPECT_EQ(v1.at(i), v2.at(i));
   }
-
 }
 
 TEST(VectorTest, DefaultConstructor_EmptyVector) {
@@ -1304,7 +1273,6 @@ TEST(VectorTest, InsertMany_01) {
   EXPECT_EQ(vec[6], 7);
   EXPECT_EQ(vec[7], 8);
   EXPECT_EQ(*res, 4);
-
 }
 
 TEST(VectorTest, InsertMany_02) {
@@ -1319,8 +1287,6 @@ TEST(VectorTest, InsertMany_02) {
   EXPECT_EQ(vec[1], 5);
   EXPECT_EQ(vec[2], 6);
   EXPECT_EQ(*res, 4);
-
-
 }
 
 TEST(VectorTest, InsertMany_03) {
@@ -1340,7 +1306,6 @@ TEST(VectorTest, InsertMany_03) {
   EXPECT_EQ(vec[6], 5);
   EXPECT_EQ(vec[7], 6);
   EXPECT_EQ(*res, 4);
-
 }
 
 TEST(VectorTest, InsertManyBack_01) {

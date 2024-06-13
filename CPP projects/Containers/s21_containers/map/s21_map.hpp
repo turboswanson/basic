@@ -1,13 +1,12 @@
-#ifndef S21_MAP
-#define S21_MAP
+#pragma once
 
 #include <iostream>
 
-#define AAA std::cout << "\n\nHERE\n\n";
+#include "../vector/s21_vector.hpp"
 
 namespace s21 {
 
-template <class Key, class T> 
+template <class Key, class T>
 class map {
   class Node;
 
@@ -16,28 +15,29 @@ class map {
   class MapConstIterator;
   using key_type = Key;
   using mapped_type = T;
-  using value_type = std::pair<key_type, mapped_type>;
+  using value_type = std::pair<const key_type, mapped_type>;
   using reference = value_type&;
   using const_reference = const value_type&;
   using size_type = size_t;
   using iterator = MapIterator;
   using const_iterator = MapConstIterator;
 
-private:
+ private:
   class Node {
     friend class map;
     Node* left;
     Node* right;
     Node* parrent;
     bool is_red;
-    Node(key_type key, mapped_type mapped);
+    Node(Key key, bool is_red);
     Node(key_type key, mapped_type mapped, bool is_red);
     Node(key_type key);
-    Node(key_type key, bool is_red);
+    Node(value_type value, bool is_red);
+    ~Node() { delete value; }
+    value_type* operator->() { return &(this->value); }
 
    public:
-    key_type first;
-    mapped_type second;
+    value_type* value;
   };
 
  private:
@@ -51,7 +51,7 @@ private:
     MapIterator get_next_iterator(Node* it);
     MapIterator get_prev_iterator(MapIterator& it);
     Node* get_next_node(Node* it);
-    Node* get_prev_it(Node* it);
+    Node* get_prev_node(Node* it);
     Node* get_min_it(Node* node);
     Node* get_max_it(Node* node);
     std::pair<const Key, T>& get_this_node(Node* node);
@@ -61,12 +61,16 @@ private:
     MapIterator(Node* node);
 
    public:
+    MapIterator() { it_node = nullptr; };
+
     MapIterator& operator++();
     MapIterator& operator--();
     bool operator==(const MapIterator& other);
+    bool operator==(void*) { return it_node == nullptr; };
     bool operator!=(const MapIterator& other);
-    std::pair<const Key, T&>* operator->();
-    std::pair<const Key, T&>& operator*();
+    bool operator!=(void*) { return it_node != nullptr; };
+    std::pair<const Key, T>* operator->();
+    std::pair<const Key, T>& operator*();
   };
 
   class MapConstIterator {
@@ -76,14 +80,18 @@ private:
     Node* get_prev_it_const(Node* it) const;
     Node* get_min_it_const(Node* node) const;
     Node* get_max_it_const(Node* node) const;
+    MapConstIterator(Node* node);
+
    public:
     friend class map;
-    MapConstIterator(Node* node);
     MapConstIterator& operator++();
-    MapConstIterator& operator--() const;
+    MapConstIterator& operator--();
     bool operator==(const MapConstIterator& other);
+    bool operator==(void*) { return const_it_node == nullptr; };
     bool operator!=(const MapConstIterator& other);
-    Node* operator->();
+    bool operator!=(void*) { return const_it_node != nullptr; };
+    std::pair<const Key, T>& operator*() const;
+    std::pair<const Key, T>* operator->() const;
   };
 
   map();
@@ -108,9 +116,8 @@ private:
 
   std::pair<iterator, bool> insert(const value_type& value) {
     iterator it = insert_fix(value.first);
-    it.it_node->second = value.second;
-    if(it == nullptr)
-        return std::pair<iterator, bool>(it, false);
+    it.it_node->value->second = value.second;
+    if (it == nullptr) return std::pair<iterator, bool>(it, false);
     return std::pair<iterator, bool>(it, true);
   }
 
@@ -120,13 +127,24 @@ private:
   void erase(Key key);
   void swap(map& other);
   void merge(map& other) {
-    for (auto it = other.begin(); it != other.end(); ++it)
-      insert(it->first, it->second);
+    iterator iter = nullptr;
+    for (auto it = other.begin(); it != other.end(); ++it) {
+      iter = insert_fix(it->first);
+      iter.it_node.value->second = it->second;
+    }
   }
 
   void print_map();
   bool contains(const Key& key);
   iterator find(const Key& key);
+  template <typename... Args>
+  s21::vector<std::pair<iterator, bool>> insert_many(Args&&... args) {
+    s21::vector<std::pair<iterator, bool>> result;
+    for (const auto& arg : {args...}) {
+      result.push_back(insert(arg));
+    }
+    return result;
+  }
 
  private:
   iterator get_min_pair(Node* node);
@@ -152,9 +170,9 @@ private:
   void right_rotate(Node* node);
   void left_rotate(Node* node);
   void balance_map(Node* node);
-  void balance_after_delete(Node* node);
   void delete_black_node_without_childs(Node* node);
 };
-}  // namespace s21
 
-#endif
+#include "s21_map.tpp"
+
+}  // namespace s21

@@ -1,0 +1,6 @@
+#include "./s21_containers/list/s21_list.hpp"
+#include "./s21_containers/map/s21_map.hpp"
+#include "./s21_containers/queue/s21_queue.hpp"
+#include "./s21_containers/set/s21_set.hpp"
+#include "./s21_containers/stack/s21_stack.hpp"
+#include "./s21_containers/vector/s21_vector.hpp"

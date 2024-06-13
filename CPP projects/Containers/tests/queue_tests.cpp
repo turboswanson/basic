@@ -1,7 +1,6 @@
-#include "tests.hpp"
-#include "../queue/s21_queue.tpp"
-#include "../vector/s21_vector.tpp"
 #include <queue>
+
+#include "test_main.hpp"
 
 template <typename T>
 static bool compare_queues(s21::queue<T> s21_queue, std::queue<T> std_queue) {
@@ -343,7 +342,7 @@ TEST(Queue, InsertManyBack_01) {
 }
 
 TEST(Queue, InsertManyBack_02) {
-  s21::queue<int> our_queue_int{1,2,3};
+  s21::queue<int> our_queue_int{1, 2, 3};
   our_queue_int.insert_many_back(4, 5, 6);
   EXPECT_EQ(our_queue_int.front(), 1);
   EXPECT_EQ(our_queue_int.back(), 6);

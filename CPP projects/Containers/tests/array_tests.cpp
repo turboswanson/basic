@@ -1,6 +1,6 @@
-#include "tests.hpp"
-#include "../array/s21_array.tpp"
 #include <array>
+
+#include "test_main.hpp"
 
 TEST(ArrayTest, DefaultConstructor) {
   s21::array<int, 5> arr;
@@ -11,7 +11,7 @@ TEST(ArrayTest, DefaultConstructor) {
   }
 }
 
-TEST(ArrayTest, InitListConstructor) {
+TEST(ArrayTest, InitListConstructor_01) {
   s21::array<int, 5> arr = {1, 2, 3, 4, 5};
 
   EXPECT_EQ(arr.size(), 5);
@@ -19,6 +19,12 @@ TEST(ArrayTest, InitListConstructor) {
   for (size_t i = 0; i < arr.size(); ++i) {
     EXPECT_EQ(arr[i], static_cast<int>(i) + 1);
   }
+}
+
+TEST(ArrayTest, InitListConstructor_02) {
+  s21::array<int, 3> arr;
+  std::initializer_list list = {1, 2, 3, 4, 5};
+  EXPECT_ANY_THROW(arr = list);
 }
 
 TEST(ArrayTest, CopyConstructor) {
