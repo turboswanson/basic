@@ -1,0 +1,9 @@
+/home/mitchelk/Downloads/SentryTest/sentry-native/install/lib/cmake/sentry/sentry_crashpad-targets.cmake
+/home/mitchelk/Downloads/SentryTest/sentry-native/install/lib/cmake/sentry/sentry_crashpad-targets-relwithdebinfo.cmake
+/home/mitchelk/Downloads/SentryTest/sentry-native/install/lib/libsentry.so
+/home/mitchelk/Downloads/SentryTest/sentry-native/install/include/sentry.h
+/home/mitchelk/Downloads/SentryTest/sentry-native/install/lib/cmake/sentry/sentry-targets.cmake
+/home/mitchelk/Downloads/SentryTest/sentry-native/install/lib/cmake/sentry/sentry-targets-relwithdebinfo.cmake
+/home/mitchelk/Downloads/SentryTest/sentry-native/install/lib/cmake/sentry/sentry-config.cmake
+/home/mitchelk/Downloads/SentryTest/sentry-native/install/lib/cmake/sentry/sentry-config-version.cmake
+/home/mitchelk/Downloads/SentryTest/sentry-native/install/bin/crashpad_handler

@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../external/crashpad/util/misc/arm64_pac_bti.S
+
+../external/crashpad/util/misc/elf_note_types.h
+
+/home/mitchelk/Downloads/SentryTest/sentry-native/external/crashpad/client/crashpad_info_note.S
+util/misc/elf_note_types.h
+/home/mitchelk/Downloads/SentryTest/sentry-native/external/crashpad/client/util/misc/elf_note_types.h
+util/misc/arm64_pac_bti.S
+/home/mitchelk/Downloads/SentryTest/sentry-native/external/crashpad/client/util/misc/arm64_pac_bti.S
+
