@@ -1,1 +1,0 @@
-/usr/bin/cc -O3 -g -DNDEBUG CMakeFiles/sentry_example.dir/examples/example.c.o -o sentry_example  -Wl,-rpath,/home/mitchelk/Downloads/SentryTest/sentry-native/build libsentry.so 

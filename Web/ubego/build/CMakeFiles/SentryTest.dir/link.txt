@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/SentryTest.dir/main.cpp.o CMakeFiles/SentryTest.dir/sentry_logger.cpp.o -o SentryTest  /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.15.3 /usr/lib/x86_64-linux-gnu/libQt5Network.so.5.15.3 -L./sentry-native/install/lib -lsentry /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5.15.3 /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.15.3 

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcrashpad_tools.a CMakeFiles/crashpad_tools.dir/tool_support.cc.o
-/usr/bin/ranlib libcrashpad_tools.a

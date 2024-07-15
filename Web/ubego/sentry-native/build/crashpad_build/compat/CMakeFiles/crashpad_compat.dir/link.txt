@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcrashpad_compat.a CMakeFiles/crashpad_compat.dir/linux/sys/mman_memfd_create.cc.o
-/usr/bin/ranlib libcrashpad_compat.a

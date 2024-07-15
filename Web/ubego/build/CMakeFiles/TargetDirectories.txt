@@ -1,3 +1,0 @@
-/home/mitchelk/Downloads/ubego/build/CMakeFiles/SentryTest.dir
-/home/mitchelk/Downloads/ubego/build/CMakeFiles/edit_cache.dir
-/home/mitchelk/Downloads/ubego/build/CMakeFiles/rebuild_cache.dir
