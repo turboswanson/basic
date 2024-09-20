@@ -8,7 +8,7 @@ int main(int argc,char *argv[]){
 
     QApplication app(argc,argv);
     myClass obj;
-    QVector<QString> errors = {"nickname","phone","email"};
+    QVector<QString> errors = {"никнейм","телефон","email"};
     
     int num = 3;
 
@@ -17,7 +17,22 @@ int main(int argc,char *argv[]){
         obj.errorProcessing(errors.at(i));
     }
 
-    obj.getErrorsList();
+    QString result = "Ошибка регистрации. Неверный ";
+
+    for(size_t i = 0; i < obj.getListSize();i++)
+    {
+        result += obj.getItem(i);
+
+        if(obj.getListSize() > 1 && i < obj.getListSize()-1)
+        {
+            result += ", ";
+        }
+
+        if(i == obj.getListSize()-1) result += "." ;   
+    }
+
+    qCritical() << obj.getListSize();    
+
 
     return 0;
 }

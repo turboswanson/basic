@@ -1,14 +1,24 @@
 #include "header.h"
 #include <iostream>
+#include <QDebug>
 
 
 void myClass::errorProcessing(const QString error_)
 {
-    this->list << error_;
+    this->list_.append(error_);
 }
 
-void myClass::getErrorsList()
+bool myClass::check(const QString item)
 {
-    for(auto i : this->list)
-        std::cout << i.toStdString() << std::endl;
+    return this->list_.contains(item);
+}
+
+size_t myClass::getListSize()
+{
+    return this->list_.size();
+}
+
+QString myClass::getItem(size_t index)
+{
+    return this->list_.at(index);
 }

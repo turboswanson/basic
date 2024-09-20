@@ -6,8 +6,10 @@ class myClass
 {
 public:
     void errorProcessing(const QString error_);
-    void getErrorsList();
+    bool check(const QString item);
+    size_t getListSize();
+    QString getItem(size_t index);
 private:
-    QVector<QString> list;
+    QStringList list_;
 
 };
