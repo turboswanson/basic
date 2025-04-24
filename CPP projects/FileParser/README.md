@@ -13,7 +13,7 @@ This app works with **UTF-8 line-based files**, including:
 - `.json`, `.xml`, `.yaml`, `.yml`
 - And other similar plain text formats
 
-> ✅ Successfully tested with files up to **20,000 lines**.
+> ✅ Successfully tested with files up to **50,000 lines**.
 
 ---
 
@@ -222,26 +222,22 @@ and signal
 }
 ```
 
+## 📱 Platform
 
-
-
-📱 Platform
 Built With: Qt 6.8.1, QML, C++
 
 Target: Android (APK via Qt for Android)
-
-Architecture: MVC-like pattern using QAbstractListModel for histogram data
 
 Testing
 ✅ Verified with:
 
 .txt, .log, .csv, .json, .xml
 
-Files up to 15,000 lines
+Files up to 50000 lines
 
 Cancelling midway and restarting successfully
 
-License
+## License
 This project is open-source under the MIT License.
 
 
