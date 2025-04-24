@@ -1,6 +1,6 @@
 # Word Frequency Analyzer (Android Qt App)
 
-**Word Frequency Analyzer** is an Android application built using **Qt 6.8.1/QML and C++** that allows users to read, analyze, and visualize the **15 most repeated words** from line-based, text-encoded files. It displays the results as a dynamic histogram and offers responsive UI controls for smooth interaction and real-time progress.
+**Word Frequency Analyzer** is an Android application built using **Qt 6.8.1/QML and C++** that allows users to read, analyze, and visualize the **15 most repeated words** from line-based, text-encoded files. It displays the results as a dynamic **histogram** and offers responsive UI controls for smooth interaction and real-time progress.
 
 ---
 
@@ -13,7 +13,7 @@ This app works with **UTF-8 line-based files**, including:
 - `.json`, `.xml`, `.yaml`, `.yml`
 - And other similar plain text formats
 
-> ✅ Successfully tested with files up to **15,000 lines**.
+> ✅ Successfully tested with files up to **20,000 lines**.
 
 ---
 
@@ -46,7 +46,7 @@ This app works with **UTF-8 line-based files**, including:
 
 - Shows **15 horizontal bars** representing word frequency
 - Each bar includes:
-  - Word inside the bar
+  - Found word inside the bar
   - Frequency count on the right
 - Bars sorted by descending word count
 
@@ -64,63 +64,166 @@ This app works with **UTF-8 line-based files**, including:
 
 ## ⚙️ Code Highlights
 
-### Model Reset (QML-triggered & C++-emitted)
+The application architecture is based on the MVC (Model-View-Controller) pattern and
+QAbstractListModel , consisting of:
+- **Model**: `WordModelCount` (handles data logic)
+- **View**: `AppView` (handles UI presentation)
+- **Controller**: `FileProcessor` (manages interactions between Model and View)
 
-```cpp
-void WordCountModel::cleanModel() {
-    beginResetModel();
-    _wordCounts.clear();
-    endResetModel();
-    emit countChanged();
-}
-
-```
-
-Called via:
-
-```cpp
-Signal from FileProcessor (processingHasCancelled)
-```
-Called via:
-
-
-Signal from FileProcessor (processingHasCancelled)
-
-Directly from QML's Open button
-
-Cancellation Handling
-
-```cpp
-if (this->_cancelRequested) {
-    emit processingHasCancelled();
-    return;
-}
-```
-File Processing Core
+### File Processing Core
 
 ```cpp
 
-QTextStream stream(&file);
-stream.setEncoding(QStringConverter::Utf8);
-while (!stream.atEnd()) {
-    if (_cancelRequested) {
-        emit processingHasCancelled();
-        return;
+void FileProcessor::fileProcessing(QFile &file) {
+  int totalLines = 0;
+  {
+    // Create a stream to count the total number of lines in the file
+    QTextStream counterStream(&file);
+    counterStream.setEncoding(QStringConverter::Utf8);
+
+    while (!counterStream.atEnd()) {
+      counterStream.readLine(); // Read a line
+      ++totalLines;             // Increment line counter
+    }
+  }
+
+  file.seek(0); // Return to the beginning of the file for main processing
+
+  // Main reading stream
+  QTextStream stream(&file);
+  stream.setEncoding(QStringConverter::Utf8);
+
+  int currentLine = 0; // Current line counter
+  while (!stream.atEnd()) {
+
+    // Check: if cancellation was requested - stop processing
+    if (this->_cancelRequested) {
+      emit processingHasCancelled(); // Cancellation signal
+      this->_isProcessing = false;   // Reset processing flag
+      return;
     }
 
-    QString line = stream.readLine();
-    auto matches = _wordRegex.globalMatch(line);
+    QString line = stream.readLine(); // Read a line from the file
+
+    // Find matches by regular expression in the line
+    auto matches = this->_wordRegex.globalMatch(line);
+
     while (matches.hasNext()) {
-        auto match = matches.next();
-        QString word = match.captured().toLower().trimmed();
-        if (!_stopWords.contains(word)) {
-            _matchesCounting[word]++;
-        }
+      auto match = matches.next();
+      QString word = match.captured().toLower().trimmed(); // Convert to lowercase and remove spaces
+
+      // Skip stop words
+      if (!this->_stopWords.contains(word)) {
+        this->_matchesCounting[word]++; // Increment counter (value) for the found word (key)
+      }
     }
 
-    emit progressChanged(static_cast<double>(currentLine + 1) / totalLines);
+    // Update progress bar
+    if (currentLine % updateInterval == 0 || currentLine == totalLines - 1) {
+      emit progressChanged(static_cast<double>(currentLine + 1) / totalLines); // Progress update signal
+    }
+
+    ++currentLine; // Move to the next line
+  }
 }
 ```
+
+### File processing cancelation
+
+- Called by View with button **Cancel** pressing
+
+```qml
+ Button {
+          id: cancelButton
+          anchors.centerIn: parent
+          text: "Cancel"
+          font.pixelSize: buttonFontSize
+
+          onClicked: {
+                      fileProcessor.cancelFileProcessing()
+                      isProcessing = false
+                      hasOpened = false
+                      status = "Ready to open the file"
+                      }
+        }
+```
+```cpp
+  void FileProcessor::cancelFileProcessing() {
+    {
+      this->_cancelRequested = true;
+      this->_isProcessing = false;
+      emit processingHasCancelled();
+    }
+  }
+```                    
+#### File processing exceptions words
+
+```
+  "a", "an", "and", "are", "as", "at", "be", "been", "but",
+        "by", "for", "from", "has", "have", "if", "in", "is", "it",
+        "of", "on", "or", "that", "the", "to", "was", "were", "with",
+
+        "в", "во", "на", "по", "при", "у", "к", "из", "из-за", "от", "до", "за",
+        "и", "но", "а", "не", "что", "как", "же", "ли", "т.д"
+```
+
+
+### Model Updating
+
+- Called by:
+
+``` cpp
+    void fileProcessed(QVector<QPair<QString,int>> wordCounts);
+```
+
+and signal
+
+```cpp
+    &FileProcessor::processingHasCancelled
+```
+
+```cpp
+  void WordCountModel::setWordCount(const QVector<QPair<QString, int>> &data) {
+  beginResetModel();
+  this->_wordCounts = data;
+  endResetModel();
+
+  emit countChanged(); // notifying View about changes
+}
+```
+
+### Model Reset
+
+- Called by View with button **Open** pressing
+
+``` qml
+
+    Button {
+              id: openButton
+              anchors.centerIn: parent
+              text: "Open File"
+              font.pixelSize: buttonFontSize
+              enabled: !isProcessing
+
+              onClicked: {
+                          wordModel.cleanModel()
+                          fileDialog.open()
+                        }
+          }
+```
+
+```cpp
+    void WordCountModel::cleanModel() {
+        beginResetModel();
+        this->_wordCounts.clear();
+        endResetModel();
+
+        emit countChanged(); // notifying View
+}
+```
+
+
+
 
 📱 Platform
 Built With: Qt 6.8.1, QML, C++

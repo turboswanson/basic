@@ -11,7 +11,6 @@ ApplicationWindow {
     signal fileHasChosen(string filePath)
     signal startFileProcessing
 
-    // signal cancelFileProcessing()
     property real progressIndex: 0
     property bool isProcessing: false
     property bool hasOpened: false

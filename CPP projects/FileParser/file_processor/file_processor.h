@@ -22,7 +22,6 @@ private:
     void clearData();
 signals:
     void fileProcessed(QVector<QPair<QString,int>> wordCounts);
-    // void openingError (QString message);
     void processingHasCancelled();
     void progressChanged(double progress);
 private:

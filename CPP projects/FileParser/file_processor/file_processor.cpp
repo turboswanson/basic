@@ -76,11 +76,10 @@ void FileProcessor::resultSorting() {
 
   this->_result = this->_result.mid(0, wordsLimit);
 
-  emit fileProcessed(this->_result);
+  
 }
 
 void FileProcessor::startFileProcessing() {
-  qDebug() << "startFileProcessing() thread:" << QThread::currentThread();
   this->_cancelRequested = false;
 
   if (this->_isProcessing) {
@@ -101,6 +100,8 @@ void FileProcessor::startFileProcessing() {
   this->fileProcessing(file);
 
   this->resultSorting();
+
+  emit fileProcessed(this->_result);
 
   file.close();
 }
