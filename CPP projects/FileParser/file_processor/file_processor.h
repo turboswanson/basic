@@ -17,7 +17,7 @@ public slots:
     Q_INVOKABLE void cancelFileProcessing();
 private:
     bool fileOpening(QFile& file);
-    void fileProcessing(QFile& file);
+    bool fileProcessing(QFile& file);
     void resultSorting();
     void clearData();
 signals:

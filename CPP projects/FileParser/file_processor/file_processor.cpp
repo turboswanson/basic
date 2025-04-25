@@ -18,7 +18,7 @@ bool FileProcessor::fileOpening(QFile &file) {
   return true;
 }
 
-void FileProcessor::fileProcessing(QFile &file) {
+bool FileProcessor::fileProcessing(QFile &file) {
   int totalLines = 0;
   {
     QTextStream counterStream(&file);
@@ -40,7 +40,7 @@ void FileProcessor::fileProcessing(QFile &file) {
     if (this->_cancelRequested) {
       emit processingHasCancelled();
       this->_isProcessing = false;
-      return;
+      return false;
     }
 
     QString line = stream.readLine();
@@ -61,6 +61,8 @@ void FileProcessor::fileProcessing(QFile &file) {
 
     ++currentLine;
   }
+
+  return true;
 }
 
 void FileProcessor::resultSorting() {
@@ -97,7 +99,7 @@ void FileProcessor::startFileProcessing() {
     return;
   }
 
-  this->fileProcessing(file);
+  if(!this->fileProcessing(file)) return;
 
   this->resultSorting();
 
