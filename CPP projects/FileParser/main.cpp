@@ -15,14 +15,12 @@ void signalHandler(FileProcessor *processor, WordCountModel &model, QThread *thr
                      [&model,thread](const QVector<QPair<QString,int>>& data)
     {
         model.setWordCount(data);
-        // thread->quit();
     });
 
     QObject::connect(processor, &FileProcessor::processingHasCancelled, connectionContextObject,
                      [&model,thread]()
     {
         model.cleanModel();
-        // thread->quit();
     });
 
 
@@ -62,7 +60,6 @@ int main(int argc, char *argv[])
     QObject::connect(&app, &QCoreApplication::aboutToQuit, thread, &QThread::quit);
     QObject::connect(root, SIGNAL(fileHasChosen(QString)), processor,SLOT(setFilePath(QString)));
     QObject::connect(root, SIGNAL(startFileProcessing()), processor,SLOT(startFileProcessing()));
-    // QObject::connect(root, SIGNAL(cancelFileProcessing()), processor,SLOT(cancelFileProcessing()));
     QObject::connect(processor, &FileProcessor::progressChanged, root, [=](double value) {
         QMetaObject::invokeMethod(root, "updateProgress", Q_ARG(QVariant, value));
     });
