@@ -3,29 +3,7 @@
 #include <QQmlContext>
 #include "word_count_model/word_count_model.h"
 #include "file_processor/file_processor.h"
-
-void signalHandler(FileProcessor *processor, WordCountModel &model, QThread *thread)
-{
-    QObject *connectionContextObject = new QObject;
-
-    QObject::connect(thread, &QThread::finished, processor, &QObject::deleteLater);
-    QObject::connect(thread, &QThread::finished, thread, &QObject::deleteLater);
-
-    QObject::connect(processor, &FileProcessor::fileProcessed, connectionContextObject,
-                     [&model,thread](const QVector<QPair<QString,int>>& data)
-    {
-        model.setWordCount(data);
-    });
-
-    QObject::connect(processor, &FileProcessor::processingHasCancelled, connectionContextObject,
-                     [&model,thread]()
-    {
-        model.cleanModel();
-    });
-
-
-
-}
+#include <QThread>
 
 int main(int argc, char *argv[])
 {
@@ -35,39 +13,61 @@ int main(int argc, char *argv[])
     WordCountModel model;
 
     FileProcessor *processor = new FileProcessor;
-    QThread *thread = new QThread;
+    QThread *processorThread = new QThread;
 
+    processor->moveToThread(processorThread);
+    thread->start();
+    
+    // QObject::connect(app,&QCoreApplication::aboutToQuit,processorThread, &QThread::quit);
+    QObject::connect(app,&QCoreApplication::aboutToQuit,[=]()
+    {
+        if(processorThread->isRunning())
+        {
+            processorThread->quit();    
+            processorThread->wait(500);
+        }
+        processorThread->deleteLater();
+        processor->deleteLater();
+    }
+    // QObject::connect(processorThread, &QThread::finished, processorThread, &QObject::deleteLater);
+    // QObject::connect(processorThread, &QThread::finished, processor, &QObject::deleteLater);
+
+    QObject::connect(processor, &FileProcessor::fileProcessed, model,
+                     [&model](const QVector<QPair<QString,int>>& data)
+    {
+        model.setWordCount(data);
+    });
+
+    QObject::connect(processor, &FileProcessor::processingHasCancelled, model,
+                     [&model]()
+    {
+        model.cleanModel();
+    });
+    
     engine.rootContext()->setContextProperty("wordModel", &model);
     engine.rootContext()->setContextProperty("fileProcessor", processor);
-
-    processor->moveToThread(thread);
-
-    signalHandler(processor,model,thread);
-
-    QObject::connect(&app, &QCoreApplication::aboutToQuit, thread, &QThread::quit);
-
+    
     engine.load(QUrl(QStringLiteral("qrc:/appView.qml")));
-
-    auto roots = engine.rootObjects();
+    
+    auto roots = engine.rootObjects(); // HARDCODED
 
     if (roots.isEmpty()) {
         qDebug() << "Engine root Error!!!!";
         return -1;
     }
 
-    auto *root = roots.first();
+    auto *root = roots.first(); // Hardcode. Need more flexible decision
 
-    QObject::connect(&app, &QCoreApplication::aboutToQuit, thread, &QThread::quit);
-    QObject::connect(root, SIGNAL(fileHasChosen(QString)), processor,SLOT(setFilePath(QString)));
-    QObject::connect(root, SIGNAL(startFileProcessing()), processor,SLOT(startFileProcessing()));
+    
     QObject::connect(processor, &FileProcessor::progressChanged, root, [=](double value) {
         QMetaObject::invokeMethod(root, "updateProgress", Q_ARG(QVariant, value));
     });
+    
+    
 
-    qDebug() << "main1 thread:" << QThread::currentThread();
-
-    thread->start();
-    qDebug() << "main2 thread:" << QThread::currentThread();
+    QObject::connect(root, SIGNAL(fileHasChosen(QString)), processor,SLOT(setFilePath(QString))); // USE Q_INVOKABLE instead. REMOVE
+    QObject::connect(root, SIGNAL(startFileProcessing()), processor,SLOT(startFileProcessing())); // // Use Q_INVOKABLE instead. REMOVE
+    
 
     return app.exec();
 }
